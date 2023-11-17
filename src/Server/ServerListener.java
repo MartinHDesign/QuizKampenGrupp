@@ -22,8 +22,11 @@ public class ServerListener {
 
                GameStateWriter gameStateWriter = new GameStateWriter(player1,player2);
 
-               ServerSideGame gamePlayer1 = new ServerSideGame(player1, gameStateWriter);
-               ServerSideGame gamePlayer2 = new ServerSideGame(player2, gameStateWriter);
+               ServerProtocol player1Protocol = new ServerProtocol(gameStateWriter);
+               ServerProtocol player2Protocol = new ServerProtocol(gameStateWriter);
+
+               ServerSideGame gamePlayer1 = new ServerSideGame(player1, gameStateWriter,player1Protocol);
+               ServerSideGame gamePlayer2 = new ServerSideGame(player2, gameStateWriter, player2Protocol);
 
                gamePlayer1.setOpponentPlayer(gamePlayer2);
                gamePlayer2.setOpponentPlayer(gamePlayer1);
