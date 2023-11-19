@@ -1,5 +1,7 @@
 package Server;
 
+import Server.DataBase.Player;
+
 import java.io.IOException;
 
 public class ServerProtocol {
@@ -11,8 +13,6 @@ public class ServerProtocol {
 
     private int numberOfPlayerAnswers;
 
-    private int playerScore;
-
     private int STATE = NEWGAME;
 
     public ServerProtocol(GameStateWriter gameStateWriter) {
@@ -21,17 +21,20 @@ public class ServerProtocol {
 
 
     //En liten minimetod som väntar med att köra den riktiga koden tills båda spelare har svarat
-    public synchronized void playerResponses(boolean correctAnswerFromClient) throws IOException {
+    public synchronized void playerResponses(boolean correctAnswerFromClient, Player player) throws IOException {
+        if (correctAnswerFromClient) {
+        player.gainOnePoint();
+        }
         numberOfPlayerAnswers++;
         if (numberOfPlayerAnswers == 2) {
-            gameProcess(correctAnswerFromClient);
+            gameProcess(correctAnswerFromClient, player);
             numberOfPlayerAnswers = 0;
         }
     }
 
 
 
-    public void gameProcess(boolean correctAnswerFromClient) throws IOException {
+    public void gameProcess(boolean correctAnswerFromClient, Player player) throws IOException {
         if (numberOfQuestionsAnswered == 2) {
             STATE = SHOWENDOFROUND;
         }
@@ -49,7 +52,7 @@ public class ServerProtocol {
 
             case 2 -> {
                 if (correctAnswerFromClient) {
-                    playerScore++;
+                    player.gainOnePoint();
                 }
                 this.numberOfQuestionsAnswered++;
                 gameStateWriter.sendOpponentAnswer();
