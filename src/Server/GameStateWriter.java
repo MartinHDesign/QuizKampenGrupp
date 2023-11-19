@@ -10,27 +10,21 @@ import java.util.List;
 
 public class GameStateWriter {
 
-    Socket player1Socket;
-    Socket player2Socket;
-
+    ObjectOutputStream outputStreamToPlayer1;
+    ObjectOutputStream outputStreamToPlayer2;
     Player player1;
     Player player2;
-
     private final HistoryDAO historyQuestions = new HistoryDAO();
 
-    public GameStateWriter(Socket player1Socket, Socket player2Socket, Player player1, Player player2) {
-        this.player1Socket = player1Socket;
-        this.player2Socket = player2Socket;
+    public GameStateWriter(Socket player1Socket, Socket player2Socket, Player player1, Player player2) throws IOException {
+        this.outputStreamToPlayer1 = new ObjectOutputStream(player1Socket.getOutputStream());
+        this.outputStreamToPlayer2 = new ObjectOutputStream(player2Socket.getOutputStream());
         this.player1 = player1;
         this.player2 = player2;
     }
 
     public void chooseCategory(int player) throws IOException {
 
-
-        if (player == 1) {
-
-        }
         // send categories to client 2
 
     }
