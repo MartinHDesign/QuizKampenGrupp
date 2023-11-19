@@ -1,5 +1,7 @@
 package Server;
 
+import Server.DataBase.Player;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,12 +17,15 @@ public class ServerListener {
 
            while (true) {
 
-               Socket player1 = serverSocket.accept();
+               Socket player1Socket = serverSocket.accept();
                System.out.println("Player 1 connected");
-               Socket player2 = serverSocket.accept();
+               Socket player2Socket = serverSocket.accept();
                System.out.println("Player 2 connected");
 
-               GameStateWriter gameStateWriter = new GameStateWriter(player1,player2);
+               Player player1 = new Player();
+               Player player2 = new Player();
+
+               GameStateWriter gameStateWriter = new GameStateWriter(player1Socket,player2Socket);
 
                ServerProtocol player1Protocol = new ServerProtocol(gameStateWriter);
                ServerProtocol player2Protocol = new ServerProtocol(gameStateWriter);
@@ -28,18 +33,18 @@ public class ServerListener {
                ServerSideGame gamePlayer1 = new ServerSideGame(player1, gameStateWriter,player1Protocol);
                ServerSideGame gamePlayer2 = new ServerSideGame(player2, gameStateWriter, player2Protocol);
 
-               gamePlayer1.setOpponentPlayer(gamePlayer2);
-               gamePlayer2.setOpponentPlayer(gamePlayer1);
+               gamePlayer1.setOpponentPlayer(player2);
+               gamePlayer2.setOpponentPlayer(player1);
 
            }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-
         }
+
+
     }
 
     public static void main(String[] args) {
-
+        new ServerListener();
     }
 }

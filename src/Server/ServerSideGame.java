@@ -1,5 +1,7 @@
 package Server;
 
+import Server.DataBase.Player;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -7,16 +9,19 @@ import java.net.UnknownHostException;
 
 public class ServerSideGame extends Thread{
 
-    ServerSideGame opponentPlayer;
+    Player opponentPlayer;
+
+    private final Player player;
 
     ServerProtocol protocol;
 
-    public ServerSideGame(Socket player, GameStateWriter gameStateWriter, ServerProtocol protocol) {
+    public ServerSideGame(Player player, GameStateWriter gameStateWriter, ServerProtocol protocol) {
         this.protocol = protocol;
+        this.player = player;
 
     }
 
-    public void setOpponentPlayer(ServerSideGame opponentPlayer) {
+    public void setOpponentPlayer(Player opponentPlayer) {
         this.opponentPlayer = opponentPlayer;
     }
 
@@ -29,7 +34,7 @@ public class ServerSideGame extends Thread{
          {
              boolean clientAnswer = (boolean) objectsFromClient.readObject();
 
-             protocol.playerResponses(clientAnswer);
+             protocol.playerResponses(clientAnswer,this.player);
 
 
         } catch (UnknownHostException e) {
