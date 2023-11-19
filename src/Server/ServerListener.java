@@ -24,16 +24,21 @@ public class ServerListener {
                Player player1 = new Player();
                Player player2 = new Player();
 
-               GameStateWriter gameStateWriter = new GameStateWriter(player1Socket,player2Socket);
+               GameStateWriter gameStateWriter = new GameStateWriter(player1Socket,player2Socket, player1, player2);
 
-               ServerProtocol player1Protocol = new ServerProtocol(gameStateWriter);
-               ServerProtocol player2Protocol = new ServerProtocol(gameStateWriter);
+               ServerProtocol protocol = new ServerProtocol(gameStateWriter);
 
-               ServerSideGame gamePlayer1 = new ServerSideGame(player1, gameStateWriter,player1Protocol);
-               ServerSideGame gamePlayer2 = new ServerSideGame(player2, gameStateWriter, player2Protocol);
 
-               gamePlayer1.setOpponentPlayer(player2);
-               gamePlayer2.setOpponentPlayer(player1);
+               ServerSideGame gameServer1 = new ServerSideGame(player1,player1Socket, gameStateWriter,protocol);
+               ServerSideGame gameServer2 = new ServerSideGame(player2,player2Socket, gameStateWriter, protocol);
+
+               gameServer1.setOpponentPlayer(player2);
+               gameServer2.setOpponentPlayer(player1);
+
+               gameServer1.start();
+               System.out.println("Thread 1 started");
+               gameServer2.start();
+               System.out.println("Thread 2 started");
 
            }
         } catch (IOException e) {

@@ -1,6 +1,8 @@
 package Server.DataBase.HistoryQuestions;
 
-public class HistoryAnswer {
+import java.io.Serializable;
+
+public class HistoryAnswer implements Serializable {
 
     private String answerText;
     private boolean isCorrect;

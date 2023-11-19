@@ -1,8 +1,9 @@
 package Server.DataBase.HistoryQuestions;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class HistoryQuestion {
+public class HistoryQuestion implements Serializable {
 
     private String question;
     private List<HistoryAnswer> answers;

@@ -2,12 +2,13 @@ package Server;
 
 import Server.DataBase.Player;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class ServerSideGame extends Thread{
+public class ServerSideGame extends Thread {
 
     Player opponentPlayer;
 
@@ -15,9 +16,13 @@ public class ServerSideGame extends Thread{
 
     ServerProtocol protocol;
 
-    public ServerSideGame(Player player, GameStateWriter gameStateWriter, ServerProtocol protocol) {
+    Socket playerSocket;
+
+    public ServerSideGame(Player player, Socket playerSocket, GameStateWriter gameStateWriter, ServerProtocol protocol) {
         this.protocol = protocol;
         this.player = player;
+        this.playerSocket = playerSocket;
+
 
     }
 
@@ -26,29 +31,26 @@ public class ServerSideGame extends Thread{
     }
 
     public void run() {
-        int port = 6666;
-        String IP = "127.0.0.1";
 
-        try(Socket socketToClient = new Socket(IP,port);
-            ObjectInputStream objectsFromClient = new ObjectInputStream(socketToClient.getInputStream()))
-         {
-             Object clientAnswer = objectsFromClient.readObject();
-
-             if (clientAnswer instanceof Boolean) {
-
-                 protocol.playerResponses((boolean)clientAnswer,this.player);
-             }
+        try {
+            ObjectInputStream objectsFromClient = new ObjectInputStream(playerSocket.getInputStream());
+            System.out.println("Socket bound");
 
 
+            while (true) {
+                Object clientAnswer = objectsFromClient.readObject();
+                System.out.println("Object received");
 
-
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
+                if (clientAnswer instanceof Boolean) {
+                    protocol.playerResponses((boolean) clientAnswer, this.player);
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
+
+
