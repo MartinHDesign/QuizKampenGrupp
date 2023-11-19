@@ -13,8 +13,6 @@ public class ServerProtocol {
 
     private int numberOfPlayerAnswers;
 
-    private int playerScore;
-
     private int STATE = NEWGAME;
 
     public ServerProtocol(GameStateWriter gameStateWriter) {
@@ -24,6 +22,9 @@ public class ServerProtocol {
 
     //En liten minimetod som väntar med att köra den riktiga koden tills båda spelare har svarat
     public synchronized void playerResponses(boolean correctAnswerFromClient, Player player) throws IOException {
+        if (correctAnswerFromClient) {
+        player.gainOnePoint();
+        }
         numberOfPlayerAnswers++;
         if (numberOfPlayerAnswers == 2) {
             gameProcess(correctAnswerFromClient, player);

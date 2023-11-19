@@ -32,9 +32,14 @@ public class ServerSideGame extends Thread{
         try(Socket socketToClient = new Socket(IP,port);
             ObjectInputStream objectsFromClient = new ObjectInputStream(socketToClient.getInputStream()))
          {
-             boolean clientAnswer = (boolean) objectsFromClient.readObject();
+             Object clientAnswer = objectsFromClient.readObject();
 
-             protocol.playerResponses(clientAnswer,this.player);
+             if (clientAnswer instanceof Boolean) {
+
+                 protocol.playerResponses((boolean)clientAnswer,this.player);
+             }
+
+
 
 
         } catch (UnknownHostException e) {

@@ -11,10 +11,9 @@ public class ServerListener {
     public ServerListener() {
         int port = 6666;
 
-
+        ServerSocket serverSocket = null;
         try {
-           ServerSocket serverSocket = new ServerSocket(port);
-
+            serverSocket = new ServerSocket(port);
            while (true) {
 
                Socket player1Socket = serverSocket.accept();
@@ -39,12 +38,20 @@ public class ServerListener {
            }
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
 
     }
 
     public static void main(String[] args) {
-        new ServerListener();
+        ServerListener listener = new ServerListener();
     }
 }

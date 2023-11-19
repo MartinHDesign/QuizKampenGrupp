@@ -1,5 +1,7 @@
 package Server;
 
+import Server.DataBase.HistoryDAO;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -12,6 +14,8 @@ public class GameStateWriter {
 
     int player1Score;
     int player2Score;
+
+    private final HistoryDAO historyQuestions = new HistoryDAO();
 
     public GameStateWriter(Socket player1Socket, Socket player2Socket) {
         this.player1Socket = player1Socket;
@@ -33,7 +37,7 @@ public class GameStateWriter {
     public void sendQuestions() throws IOException {
         try (ObjectOutputStream player1Stream = new ObjectOutputStream(player1Socket.getOutputStream());
         ObjectOutputStream player2Stream = new ObjectOutputStream(player1Socket.getOutputStream())){
-            //send questions
+            player2Stream.writeObject(historyQuestions.getHistoryQuestion().get(1));
         }
     }
 
