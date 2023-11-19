@@ -4,13 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginPanel extends JPanel {
-    JLabel welcomeImage = new JLabel("Här kommer det vara en bild med text som tex \n" +
-            " Welcome to Quizkampen. Enter user name:");
-    JTextField enterUsername = new JTextField();
-    JButton login = new JButton("Login");
-    JPanel southPanel = new JPanel();
 
-    public LoginPanel(){
+    private JLabel welcomeImage = new JLabel("Här kommer det vara en bild med text som tex \n" +
+            " Welcome to Quizkampen. Enter user name:");
+    private JTextField enterUsername = new JTextField();
+    private JButton login = new JButton("Login");
+    private JPanel southPanel = new JPanel();
+    MasterFrame masterFrame;
+
+    public LoginPanel(MasterFrame masterFrame){
+        this.masterFrame = masterFrame;
+
         setLayout(new BorderLayout());
 
         welcomeImage.setSize(new Dimension(500,500));
@@ -23,6 +27,11 @@ public class LoginPanel extends JPanel {
 
         southPanel.add(enterUsername);
         southPanel.add(login);
+
+        login.addActionListener(e -> {
+            masterFrame.showPage("2");
+            System.out.println("byt till skärm 2");
+        });
 
         add(southPanel,BorderLayout.SOUTH);
     }
