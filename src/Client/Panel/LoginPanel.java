@@ -1,4 +1,4 @@
-package Panel;
+package Client.Panel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package Panel;
+package Client.Panel;
 
 public class EndOfRoundPanel {
 }

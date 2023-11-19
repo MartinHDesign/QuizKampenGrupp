@@ -1,11 +1,11 @@
-package Panel;
+package Client.Panel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MasterFrame extends JFrame {
-    private CardLayout layout = new CardLayout();
-    private CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
+    private final CardLayout layout = new CardLayout();
+    private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
     String pageNumber = "4";
 
     public MasterFrame(){
