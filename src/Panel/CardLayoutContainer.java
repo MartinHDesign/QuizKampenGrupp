@@ -4,16 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CardLayoutContainer extends JPanel {
-    MasterFrame masterFrame;
-    private GameMenu gameMenu = new GameMenu();
     public CardLayoutContainer(CardLayout layout, MasterFrame masterFrame){
-        this.masterFrame = masterFrame;
         setLayout(layout);
 
         LoginPanel loginScreen = new LoginPanel(masterFrame);
         add(loginScreen, "1");
 
+        GameMenu gameMenu = new GameMenu(masterFrame);
         add(gameMenu, "2");
+
+        WaitingForOtherPlayerScreen waitingForOtherPlayerPanel = new WaitingForOtherPlayerScreen(masterFrame);
+        add(waitingForOtherPlayerPanel, "3");
+
+        QuestionScreen questionScreen = new QuestionScreen(masterFrame);
+        add(questionScreen, "4");
 
     }
 

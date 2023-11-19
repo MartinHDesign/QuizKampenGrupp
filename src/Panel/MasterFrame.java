@@ -6,7 +6,7 @@ import java.awt.*;
 public class MasterFrame extends JFrame {
     private CardLayout layout = new CardLayout();
     private CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
-    String pageNumber = "1";
+    String pageNumber = "4";
 
     public MasterFrame(){
         add(allPanels);
@@ -28,7 +28,4 @@ public class MasterFrame extends JFrame {
         repaint();
     }
 
-    public void setPageNumber(String pageNumber) {
-        this.pageNumber = pageNumber;
-    }
 }
