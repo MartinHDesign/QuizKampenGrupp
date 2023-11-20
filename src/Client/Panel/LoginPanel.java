@@ -29,7 +29,7 @@ public class LoginPanel extends JPanel {
         southPanel.add(login);
 
         login.addActionListener(e -> {
-            masterFrame.showPage("2");
+            masterFrame.showPage("menu");
             System.out.println("byt till skärm 2");
         });
 

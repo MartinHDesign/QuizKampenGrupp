@@ -6,7 +6,7 @@ import java.awt.*;
 public class MasterFrame extends JFrame {
     private final CardLayout layout = new CardLayout();
     private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
-    String pageNumber = "4";
+    String pageNumber = "ScoreScreen";
 
     public MasterFrame(){
         add(allPanels);

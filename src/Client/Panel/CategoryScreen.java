@@ -15,7 +15,7 @@ public class CategoryScreen extends JPanel {
             setLayout(new GridLayout(5,1));
 
             add(History);
-            History.addActionListener(e -> {masterFrame.showPage("4");});
+            History.addActionListener(e -> {masterFrame.showPage("question");});
 
             add(Category2);
             add(Category3);

@@ -19,34 +19,43 @@ public class GameMenu extends JPanel {
 
         add(newGame);
         newGame.addActionListener(e -> {
+
+            // actionListener som kopplar upp till server
             Socket socketToServer = null;
-            masterFrame.showPage("3");
+            masterFrame.showPage("wait");
+
             try {
-                socketToServer = new Socket("127.0.0.1", 6666);
-            } catch (IOException ex) {
+                Thread.sleep(3000);
+            } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
-
-            // out och in måste spara någonstans för framtida användning
-            try (ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
-                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream())
-            ) {
-                System.out.println("Trying to connect");
-                String test = "Connecting";
-                out.writeObject(test);
-                Object fromServer = in.readObject();
-                if (fromServer instanceof String s){
-                    System.out.println(s);
-                }
-
-
-            } catch (UnknownHostException ex) {
-                throw new RuntimeException(ex);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+//            try {
+//                socketToServer = new Socket("127.0.0.1", 6666);
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//
+//            // out och in måste spara någonstans för framtida användning
+//            try (ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
+//                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream())
+//            ) {
+//                System.out.println("Trying to connect");
+//                String test = "Connecting";
+//                out.writeObject(test);
+//                Object fromServer = in.readObject();
+//                if (fromServer instanceof String s){
+//                    System.out.println(s);
+//                }
+//
+//
+//            } catch (UnknownHostException ex) {
+//                throw new RuntimeException(ex);
+//            } catch (IOException ex) {
+//                throw new RuntimeException(ex);
+//            } catch (ClassNotFoundException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//            masterFrame.showPage("question");
 
         });
 
