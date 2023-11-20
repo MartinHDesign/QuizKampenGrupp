@@ -3,10 +3,9 @@ package Client.Panel;
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginPanel extends JPanel {
 
-    private JLabel welcomeImage = new JLabel("Här kommer det vara en bild med text som tex \n" +
-            " Welcome to Quizkampen. Enter user name:");
+public class LoginPanel extends JPanel {
+    private JLabel welcomeImage = new JLabel(new ImageIcon("src/Client/Panel/GifAndImages/quizlogin.gif"));
     private JTextField enterUsername = new JTextField();
     private JButton login = new JButton("Login");
     private JPanel southPanel = new JPanel();
@@ -36,7 +35,7 @@ public class LoginPanel extends JPanel {
         add(southPanel,BorderLayout.SOUTH);
     }
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
 
     }
 }
