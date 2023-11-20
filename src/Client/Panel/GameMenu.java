@@ -2,6 +2,11 @@ package Client.Panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class GameMenu extends JPanel {
     private JButton newGame = new JButton("Nytt spel");
@@ -13,7 +18,37 @@ public class GameMenu extends JPanel {
         setLayout(new GridLayout(5,1));
 
         add(newGame);
-        newGame.addActionListener(e -> {masterFrame.showPage("3");});
+        newGame.addActionListener(e -> {
+            Socket socketToServer = null;
+            masterFrame.showPage("3");
+            try {
+                socketToServer = new Socket("127.0.0.1", 6666);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            // out och in måste spara någonstans för framtida användning
+            try (ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
+                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream())
+            ) {
+                System.out.println("Trying to connect");
+                String test = "Connecting";
+                out.writeObject(test);
+                Object fromServer = in.readObject();
+                if (fromServer instanceof String s){
+                    System.out.println(s);
+                }
+
+
+            } catch (UnknownHostException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        });
 
         add(vsGame);
         add(highScore);

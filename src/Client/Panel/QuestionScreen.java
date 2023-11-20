@@ -23,7 +23,6 @@ public class QuestionScreen extends JPanel {
         buttonPanel.setSize(new Dimension(500,230));
         buttonPanel.add(answer1); buttonPanel.add(answer2); buttonPanel.add(answer3); buttonPanel.add(answer4);
 
-        timeToAnswer.setBackground(Color.blue);
 
         questionsAndButtons.setLayout(new GridLayout(2,1));
         questionsAndButtons.add(questionFromServer);
