@@ -20,15 +20,19 @@ public class GameMenu extends JPanel {
         add(newGame);
         newGame.addActionListener(e -> {
 
-            // actionListener som kopplar upp till server
-            Socket socketToServer = null;
+            // skicka till server att man vill spela nytt spel
+            // få tillbaka om man är spelare 1 eller 2
+            // om spelare 1 visa kategori screen
+            // om spelare två visa wait screen eller score screen?
             masterFrame.showPage("wait");
+            masterFrame.repaint();
 
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
+//            try {
+//                Thread.sleep(3000);
+//            } catch (InterruptedException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//            Socket socketToServer = null;
 //            try {
 //                socketToServer = new Socket("127.0.0.1", 6666);
 //            } catch (IOException ex) {

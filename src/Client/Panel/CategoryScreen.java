@@ -14,9 +14,14 @@ public class CategoryScreen extends JPanel {
     public CategoryScreen(MasterFrame masterFrame){
             setLayout(new GridLayout(5,1));
 
-            add(History);
-            History.addActionListener(e -> {masterFrame.showPage("question");});
+            /*
+            1. skicka till servern vilken kategori man valt
+            2. vänta på att servern skickar fråga + svars alternativ
+            3. byt till question screen som uppdaterats med frågor å svar
+             */
 
+            History.addActionListener(e -> {masterFrame.showPage("question");});
+            add(History);
             add(Category2);
             add(Category3);
             add(Category4);

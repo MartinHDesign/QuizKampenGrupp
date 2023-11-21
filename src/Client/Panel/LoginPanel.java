@@ -29,7 +29,9 @@ public class LoginPanel extends JPanel {
 
         login.addActionListener(e -> {
             masterFrame.showPage("menu");
-            System.out.println("byt till skärm 2");
+            // koppla upp till server
+            // skicka med username från textField
+            // byt till menu fönster
         });
 
         add(southPanel,BorderLayout.SOUTH);

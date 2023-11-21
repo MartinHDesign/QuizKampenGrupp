@@ -15,6 +15,12 @@ public class QuestionScreen extends JPanel {
     JLabel timeToAnswer = new JLabel("Här kommer en progressbar på 10 sec");
     JButton exit = new JButton("Ge upp");
     public QuestionScreen(MasterFrame masterFrame){
+        /*
+        1. svara på fråga, spara svar
+        2. om det finns fler frågor svara, spara svar
+        3. skicka svaren till servern
+        4. visa score screen
+         */
         setLayout(new BorderLayout());
 
         questionFromServer.setSize(new Dimension(500,250));

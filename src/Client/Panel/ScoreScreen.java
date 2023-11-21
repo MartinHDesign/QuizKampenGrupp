@@ -13,6 +13,14 @@ public class ScoreScreen extends JPanel {
     private JButton exit = new JButton("ge upp");
 
     public ScoreScreen(){
+        /*
+        1. uppdatera score screen med senaste svaren
+        2. server skickar svar från motståndare
+        3. uppdatera och visa nya resultaten
+        4. om servern skickar kategori visa kategori screen
+            om servern skickar frågor visa question screen
+            om servern skickar klar visa winner screen/looser screen
+         */
         setLayout(new BorderLayout());
         player1.setHorizontalAlignment(JLabel.CENTER);
         player2.setHorizontalAlignment(JLabel.CENTER);
