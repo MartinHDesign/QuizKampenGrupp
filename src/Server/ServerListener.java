@@ -26,7 +26,7 @@ public class ServerListener {
 
                GameStateWriter gameStateWriter = new GameStateWriter(player1Socket,player2Socket, player1, player2);
 
-               ServerProtocol protocol = new ServerProtocol(gameStateWriter);
+               ServerProtocol protocol = new ServerProtocol(gameStateWriter, player1,player2);
 
 
                ServerSideGame gameServer1 = new ServerSideGame(player1,player1Socket, gameStateWriter,protocol);
