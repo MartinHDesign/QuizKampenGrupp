@@ -6,17 +6,29 @@ import java.io.IOException;
 
 public class ServerProtocol {
     private final GameStateWriter gameStateWriter;
-    private final int NEWGAME = 0;
+    private final int NEXTROUND = 0;
     private final int WAITING = 1;
     private int numberOfQuestionsAnswered;
     private final int SHOWENDOFROUND = 3;
 
+    private Player player1;
+    private Player player2;
+
+    private Player currentPlayersTurn;
+
+    private int numberOfRounds = 2;
+    private int numberOfRoundsPlayed;
+    private int numberOfQuestionsPerRound = 2;
+
     private int numberOfPlayerAnswers;
 
-    private int STATE = NEWGAME;
+    private int STATE = NEXTROUND;
 
-    public ServerProtocol(GameStateWriter gameStateWriter) {
+    public ServerProtocol(GameStateWriter gameStateWriter, Player player1, Player player2) {
         this.gameStateWriter = gameStateWriter;
+        this.player1 = player1;
+        this.player2 = player2;
+        currentPlayersTurn = player1;
     }
 
 
@@ -34,15 +46,25 @@ public class ServerProtocol {
 
 
 
-    public void gameProcess(boolean correctAnswerFromClient, Player player) throws IOException {
-        if (numberOfQuestionsAnswered == 2) {
+    public void gameProcess(Object response, Player player) throws IOException {
+
+        if (response instanceof Boolean) {
+            if ((Boolean) response) {
+                player.gainOnePoint();
+            }
+        }
+        if (numberOfQuestionsAnswered == numberOfQuestionsPerRound) {
             STATE = SHOWENDOFROUND;
+        }
+
+        if (numberOfRounds == numberOfRoundsPlayed) {
+            //end game
         }
         switch (STATE) {
             case 0 -> {
                 {
-                    gameStateWriter.sendQuestions();
-                    gameStateWriter.chooseCategory(1);
+                    setCurrentPlayersTurn();
+                    gameStateWriter.chooseCategory(currentPlayersTurn);
                     STATE = WAITING;
                 }
             }
@@ -51,9 +73,7 @@ public class ServerProtocol {
             }
 
             case 2 -> {
-                if (correctAnswerFromClient) {
-                    player.gainOnePoint();
-                }
+
                 this.numberOfQuestionsAnswered++;
                 gameStateWriter.sendOpponentAnswer();
                 STATE = WAITING;
@@ -61,12 +81,25 @@ public class ServerProtocol {
 
             case 3 -> {
                 gameStateWriter.sendEndOfRoundScore();
+                setCurrentPlayersTurn();
                 STATE = WAITING;
             }
         }
 
 
     }
+
+    public void setCurrentPlayersTurn() {
+        if (numberOfQuestionsAnswered == numberOfQuestionsPerRound) {
+            if (currentPlayersTurn.equals(player1)) {
+                currentPlayersTurn = player2;
+            } else if (currentPlayersTurn.equals(player2)) {
+                currentPlayersTurn = player1;
+            }
+        }
+    }
+
+
 
 
 

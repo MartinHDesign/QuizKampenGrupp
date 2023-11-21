@@ -23,10 +23,13 @@ public class GameStateWriter {
         this.player2 = player2;
     }
 
-    public void chooseCategory(int player) throws IOException {
+    public void chooseCategory(Player player) throws IOException {
 
-        // send categories to client 2
-
+        if (player.equals(player1)) {
+            outputStreamToPlayer1.writeObject(1); //Här kan vi skicka valfritt objekt så länge clienten vet hur den ska hanteras, vi kollar på det
+        } else if (player.equals(player2)) {
+            outputStreamToPlayer2.writeObject(1);
+        }
     }
 
     public void sendQuestions() throws IOException {
@@ -34,7 +37,12 @@ public class GameStateWriter {
     }
 
     public void sendEndOfRoundScore() {
-
+        try {
+            outputStreamToPlayer1.writeObject(player2.getScore());
+            outputStreamToPlayer2.writeObject(player1.getScore());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void sendOpponentAnswer() {
