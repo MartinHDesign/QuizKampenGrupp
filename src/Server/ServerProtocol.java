@@ -53,7 +53,10 @@ public class ServerProtocol {
                 player.gainOnePoint();
             }
         }
-        if (numberOfQuestionsAnswered == numberOfQuestionsPerRound) {
+        if (response instanceof Integer) {
+            gameStateWriter.setCurrentCategory((Integer) response);
+        }
+        if (numberOfQuestionsAnswered == numberOfQuestionsPerRound*2) {
             STATE = SHOWENDOFROUND;
         }
 
@@ -63,26 +66,25 @@ public class ServerProtocol {
         switch (STATE) {
             case 0 -> {
                 {
-                    setCurrentPlayersTurn();
+                    numberOfQuestionsAnswered = 0;
                     gameStateWriter.chooseCategory(currentPlayersTurn);
                     STATE = WAITING;
                 }
             }
             case 1 -> {
+                setCurrentPlayersTurn();
                 gameStateWriter.sendQuestions();
+                numberOfQuestionsAnswered++;
             }
 
             case 2 -> {
 
-                this.numberOfQuestionsAnswered++;
-                gameStateWriter.sendOpponentAnswer();
-                STATE = WAITING;
             }
 
             case 3 -> {
                 gameStateWriter.sendEndOfRoundScore();
                 setCurrentPlayersTurn();
-                STATE = WAITING;
+                STATE = NEXTROUND;
             }
         }
 
@@ -90,11 +92,13 @@ public class ServerProtocol {
     }
 
     public void setCurrentPlayersTurn() {
-        if (numberOfQuestionsAnswered == numberOfQuestionsPerRound) {
+        if (numberOfQuestionsAnswered == numberOfQuestionsPerRound || numberOfQuestionsAnswered == numberOfQuestionsPerRound*2) {
             if (currentPlayersTurn.equals(player1)) {
                 currentPlayersTurn = player2;
-            } else if (currentPlayersTurn.equals(player2)) {
+
+            } else if (currentPlayersTurn.equals(player2) || numberOfQuestionsAnswered == numberOfQuestionsPerRound*2) {
                 currentPlayersTurn = player1;
+
             }
         }
     }
