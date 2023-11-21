@@ -317,8 +317,3 @@ public class GamePanel extends JFrame implements ActionListener{
         GamePanel gamePanel = new GamePanel();
     }
 }
-
-
-
-
-
