@@ -45,14 +45,14 @@ public class GameStateWriter {
         //sätter current category baserat på svar från klienten
     }
 
-    public void sendQuestions() throws IOException {
+    public void sendQuestions(Player player) throws IOException {
 
     }
 
     public void sendEndOfRoundScore() {
         try {
-            outputStreamToPlayer1.writeObject(player2.getScore());
-            outputStreamToPlayer2.writeObject(player1.getScore());
+            outputStreamToPlayer1.writeObject(new ServerResponse(player2.getScore()));
+            outputStreamToPlayer2.writeObject(new ServerResponse(player1.getScore()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -60,6 +60,15 @@ public class GameStateWriter {
 
     public void sendOpponentAnswer() {
 
+    }
+
+    public void endOfGame(){
+        try {
+            outputStreamToPlayer1.writeObject(new ServerResponse(player2.getScore(), 1));
+            outputStreamToPlayer2.writeObject(new ServerResponse(player1.getScore(), 1));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 }

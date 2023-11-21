@@ -10,6 +10,8 @@ public class ServerProtocol {
     private final int WAITING = 1;
     private int numberOfQuestionsAnswered;
     private final int SHOWENDOFROUND = 3;
+    private final int SHOWENDOFGAME = 4;
+
 
     private Player player1;
     private Player player2;
@@ -60,8 +62,8 @@ public class ServerProtocol {
             STATE = SHOWENDOFROUND;
         }
 
-        if (numberOfRounds == numberOfRoundsPlayed) {
-            //end game
+        if (numberOfRoundsPlayed == numberOfRounds) {
+            STATE = SHOWENDOFGAME;
         }
         switch (STATE) {
             case 0 -> {
@@ -73,7 +75,7 @@ public class ServerProtocol {
             }
             case 1 -> {
                 setCurrentPlayersTurn();
-                gameStateWriter.sendQuestions();
+                gameStateWriter.sendQuestions(currentPlayersTurn);
                 numberOfQuestionsAnswered++;
             }
 
@@ -85,6 +87,12 @@ public class ServerProtocol {
                 gameStateWriter.sendEndOfRoundScore();
                 setCurrentPlayersTurn();
                 STATE = NEXTROUND;
+                numberOfRounds ++;
+            }
+
+            case 4 -> {
+                gameStateWriter.sendEndOfRoundScore();
+
             }
         }
 
