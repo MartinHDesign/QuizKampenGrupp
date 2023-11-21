@@ -20,7 +20,7 @@ public class HistoryAnswer implements Serializable {
         this.answerText = answerText;
     }
 
-    public boolean isCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 

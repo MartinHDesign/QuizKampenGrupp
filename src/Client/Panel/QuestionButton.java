@@ -6,13 +6,23 @@ import javax.swing.*;
 public class QuestionButton extends JButton {
 
     private boolean isCorrect;
-    private int index;
 
-    public QuestionButton(String text, boolean isCorrect, int index) {
+    public QuestionButton (String text,boolean isCorrect ) {
         super(text);
         this.isCorrect = isCorrect;
-        this.index = index;
+
     }
+
+
+    public QuestionButton() {
+        this.isCorrect = isCorrect;
+
+    }
+
+    public void setIsCorrect(boolean input) {
+        this.isCorrect = input;
+    }
+
 
 }
 

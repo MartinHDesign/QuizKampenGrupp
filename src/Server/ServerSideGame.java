@@ -37,13 +37,15 @@ public class ServerSideGame extends Thread {
             System.out.println("Socket bound");
 
 
+
+
             while (true) {
                 Object clientAnswer = objectsFromClient.readObject();
                 System.out.println("Object received");
 
-                if (clientAnswer instanceof Boolean) {
-                    protocol.playerResponses((boolean) clientAnswer, this.player);
-                }
+
+                    protocol.gameProcess(clientAnswer, player);
+
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

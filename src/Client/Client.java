@@ -4,10 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import Client.Panel.QuestionButton;
 import Server.DataBase.HistoryDAO;
 import Server.DataBase.HistoryQuestions.HistoryAnswer;
 

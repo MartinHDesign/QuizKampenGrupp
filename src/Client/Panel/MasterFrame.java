@@ -63,4 +63,17 @@ public class MasterFrame extends JFrame {
         return page;
     }
 
+    public void runTheGoddamnProgram(MasterFrame master) throws IOException, ClassNotFoundException {
+        ProtocolGamePanel protocol = new ProtocolGamePanel(master);
+
+        while (true) {
+            System.out.println("Loop starting");
+            protocol.panelProcess();
+            Object objectFromServer = master.fromServer.readObject();
+            protocol.gameProcess(objectFromServer);
+            System.out.println("End of loop");
+        }
+
+
+    }
 }

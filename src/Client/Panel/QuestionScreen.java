@@ -2,8 +2,11 @@ package Client.Panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class QuestionScreen extends JPanel {
+public class QuestionScreen extends JPanel implements ActionListener {
+    private static QuestionScreen instance;
     JLabel questionFromServer = new JLabel("Vad börjar på m och slutar på artin");
     JPanel buttonPanel = new JPanel();
     JPanel questionsAndButtons = new JPanel();
@@ -42,5 +45,16 @@ public class QuestionScreen extends JPanel {
         add(exit, BorderLayout.NORTH);
         add(questionsAndButtons, BorderLayout.CENTER);
         add(timeToAnswer, BorderLayout.SOUTH);
+    }
+
+
+    public static QuestionScreen getInstance() {
+        return instance;
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }

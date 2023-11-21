@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class CategoryScreen extends JPanel {
-
-        private JButton History = new JButton("Nytt spel");
-        private JButton Category2 = new JButton("Spela mot");
-        private JButton Category3 = new JButton("High score");
-        private JButton Category4 = new JButton("Inställningar");
+        private JButton History = new JButton("Kategori 1");
+        private JButton Category2 = new JButton("Kategori 2");
+        private JButton Category3 = new JButton("Kategori 3");
+        private JButton Category4 = new JButton("Kategori 4");
         private JButton exit = new JButton("avsluta");
 
     public CategoryScreen(MasterFrame masterFrame){
@@ -38,4 +37,4 @@ public class CategoryScreen extends JPanel {
             add(Category4);
             add(exit);
         }
-    }
+            }

@@ -56,7 +56,7 @@ public class ServerProtocol {
             }
         }
         if (response instanceof Integer) {
-            gameStateWriter.setCurrentCategory((Integer) response);
+            gameStateWriter.setCurrentCategory((String) response);
         }
         if (numberOfQuestionsAnswered == numberOfQuestionsPerRound*2) {
             STATE = SHOWENDOFROUND;
@@ -68,8 +68,8 @@ public class ServerProtocol {
         switch (STATE) {
             case 0 -> {
                 {
-                    numberOfQuestionsAnswered = 0;
                     gameStateWriter.chooseCategory(currentPlayersTurn);
+                    numberOfQuestionsAnswered = 0;
                     STATE = WAITING;
                 }
             }

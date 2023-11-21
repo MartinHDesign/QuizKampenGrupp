@@ -21,8 +21,8 @@ public class ServerListener {
                Socket player2Socket = serverSocket.accept();
                System.out.println("Player 2 connected");
 
-               Player player1 = new Player();
-               Player player2 = new Player();
+               Player player1 = new Player("player1");
+               Player player2 = new Player("player2");
 
                GameStateWriter gameStateWriter = new GameStateWriter(player1Socket,player2Socket, player1, player2);
 
