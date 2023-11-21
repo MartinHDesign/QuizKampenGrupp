@@ -28,9 +28,11 @@ public class GameStateWriter {
 
     public void chooseCategory(Player player) throws IOException {
 
-        if (player.equals(player1)) {
-            outputStreamToPlayer1.writeObject(1); //Här kan vi skicka valfritt objekt så länge clienten vet hur den ska hanteras, vi kollar på det
-            outputStreamToPlayer2.writeObject(0);
+        if (player.getName().equalsIgnoreCase(player1.getName())) {
+            outputStreamToPlayer1.writeObject(new ServerResponse("Historia"));
+            System.out.println("Category sent to" + player1.getName());
+            //Här kan vi skicka valfritt objekt så länge clienten vet hur den ska hanteras, vi kollar på det
+
         } else if (player.equals(player2)) {
             outputStreamToPlayer2.writeObject(1);
             outputStreamToPlayer1.writeObject(0);

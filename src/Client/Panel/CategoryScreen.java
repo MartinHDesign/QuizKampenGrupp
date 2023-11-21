@@ -2,6 +2,8 @@ package Client.Panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class CategoryScreen extends JPanel {
 
@@ -22,6 +24,15 @@ public class CategoryScreen extends JPanel {
 
             History.addActionListener(e -> {masterFrame.showPage("question");});
             add(History);
+            // return int 0
+            History.addActionListener(e -> {
+                ObjectOutputStream out = masterFrame.getSendToServer();
+                try {
+                    out.writeObject("0");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             add(Category2);
             add(Category3);
             add(Category4);

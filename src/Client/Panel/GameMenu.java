@@ -1,5 +1,7 @@
 package Client.Panel;
 
+import Server.ServerResponse;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -19,47 +21,53 @@ public class GameMenu extends JPanel {
 
         add(newGame);
         newGame.addActionListener(e -> {
+            Socket socketToServer;
+            ObjectOutputStream toServer;
+            ObjectInputStream fromServer;
+            Object temp;
 
+//            masterFrame.showPage("wait");
+//            masterFrame.revalidate();
+//            masterFrame.repaint();
+
+            try {
+                socketToServer = new Socket("127.0.0.1", 6666);
+                System.out.println("Socket to server");
+            } catch (UnknownHostException ew) {
+                throw new RuntimeException(ew);
+            } catch (IOException ew) {
+                throw new RuntimeException(ew);
+            }
+
+            try {
+
+                ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
+
+                System.out.println("för out");
+                toServer = out;
+               fromServer = in;
+              masterFrame.setSendToServer(out);
+              masterFrame.setFromServer(in);
+//                System.out.println("efter out");
+//                masterFrame.sendToServer.writeObject("Player1");
+//                System.out.println("skickad");
+
+                System.out.println("hallå?");
+
+
+                masterFrame.runTheGoddamnProgram(masterFrame);
+//                masterFrame.showPage("category");
+//                masterFrame.repaint();
+            } catch (IOException ea) {
+                throw new RuntimeException(ea);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             // skicka till server att man vill spela nytt spel
             // få tillbaka om man är spelare 1 eller 2
             // om spelare 1 visa kategori screen
             // om spelare två visa wait screen eller score screen?
-            masterFrame.showPage("wait");
-            masterFrame.repaint();
-
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//            Socket socketToServer = null;
-//            try {
-//                socketToServer = new Socket("127.0.0.1", 6666);
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//
-//            // out och in måste spara någonstans för framtida användning
-//            try (ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
-//                 ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream())
-//            ) {
-//                System.out.println("Trying to connect");
-//                String test = "Connecting";
-//                out.writeObject(test);
-//                Object fromServer = in.readObject();
-//                if (fromServer instanceof String s){
-//                    System.out.println(s);
-//                }
-//
-//
-//            } catch (UnknownHostException ex) {
-//                throw new RuntimeException(ex);
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            } catch (ClassNotFoundException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//            masterFrame.showPage("question");
 
         });
 

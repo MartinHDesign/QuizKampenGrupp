@@ -32,21 +32,21 @@ public class Client {
         System.out.println("This executes");
         for (HistoryAnswer answerToQuestion : historyQuestions.getHistoryQuestion().get(1).getAnswers()) {
             String question = answerToQuestion.getAnswerText();
-            boolean isCorrect = answerToQuestion.isCorrect();
-            QuestionButton questionButton = new QuestionButton(question, isCorrect, indexOfQuestion);
-            questionButton.addActionListener(l -> {
-
-
-                try  {
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketToServer.getOutputStream());
-                    objectOutputStream.writeObject(isCorrect);
-                    objectOutputStream.flush();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
-            testPanel.add(questionButton);
+            boolean isCorrect = answerToQuestion.getIsCorrect();
+//            QuestionButton questionButton = new QuestionButton(question, isCorrect, indexOfQuestion);
+//            questionButton.addActionListener(l -> {
+//
+//
+//                try  {
+//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketToServer.getOutputStream());
+//                    objectOutputStream.writeObject(isCorrect);
+//                    objectOutputStream.flush();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            });
+//            testPanel.add(questionButton);
             System.out.println("Button added");
         }
 

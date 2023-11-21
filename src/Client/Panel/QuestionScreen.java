@@ -7,14 +7,16 @@ public class QuestionScreen extends JPanel {
     JLabel questionFromServer = new JLabel("Vad börjar på m och slutar på artin");
     JPanel buttonPanel = new JPanel();
     JPanel questionsAndButtons = new JPanel();
-    JButton answer1 = new JButton("Svar1");
-    JButton answer2 = new JButton("Svar2");
-    JButton answer3 = new JButton("Svar3");
-    JButton answer4 = new JButton("Svar4");
+    QuestionButton answer1 = new QuestionButton();
+    QuestionButton answer2 = new QuestionButton();
+    QuestionButton answer3 = new QuestionButton();
+    QuestionButton answer4 = new QuestionButton();
 //    JProgressBar timeToAnswer = new JProgressBar();
     JLabel timeToAnswer = new JLabel("Här kommer en progressbar på 10 sec");
     JButton exit = new JButton("Ge upp");
+    MasterFrame masterFrame;
     public QuestionScreen(MasterFrame masterFrame){
+        this.masterFrame = masterFrame;
         /*
         1. svara på fråga, spara svar
         2. om det finns fler frågor svara, spara svar
