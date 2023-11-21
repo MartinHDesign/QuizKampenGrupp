@@ -2,11 +2,16 @@ package Client.Panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class MasterFrame extends JFrame {
     private final CardLayout layout = new CardLayout();
     private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
     String pageNumber = "login";
+    ObjectOutputStream sendToServer;
+    ObjectInputStream fromServer;
+
 
     public MasterFrame(){
         add(allPanels);
