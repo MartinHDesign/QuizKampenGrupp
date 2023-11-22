@@ -25,7 +25,7 @@ public class NewGameHandler extends Thread {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    break; // Break the loop on exception
+                    break;
                 }
             }
         });
@@ -44,26 +44,5 @@ public class NewGameHandler extends Thread {
                 }
             }
         });
-
-//            Object fromPlayers1;
-//            Object fromPlayers2;
-//            while ((fromPlayers1 = player1.in.readObject()) != null && (fromPlayers2 = player2.in.readObject()) != null ) {
-//                if (fromPlayers2 != null){
-//                    player1.out.writeObject(fromPlayers2);
-//                }
-//                if (fromPlayers1 != null){
-//                    player2.out.writeObject(fromPlayers1);
-//                }
-//
-//
-
-//                Object fromPlayer1 = player1.in.readObject();
-//                player2.out.writeObject(fromPlayer1);
-//                System.out.println("player 1: " + fromPlayer1);
-//
-//                Object fromPlayer2 = player2.in.readObject();
-//                System.out.println("player 2: " + fromPlayer2);
-//                player1.out.writeObject(fromPlayer2);
-//            }
     }
 }

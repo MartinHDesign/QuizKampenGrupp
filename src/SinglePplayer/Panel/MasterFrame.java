@@ -18,7 +18,7 @@ public class MasterFrame extends JFrame {
     private ObjectInputStream in;
     String ip = "127.0.0.1";
     int port = 55555;
-    ReadFromServer rfs = new ReadFromServer();
+    ReadFromServer readFromServer = new ReadFromServer();
 
 
     public MasterFrame(){
@@ -95,8 +95,8 @@ public class MasterFrame extends JFrame {
         }
     }
 
-    public ReadFromServer getRfs() {
-        return rfs;
+    public ReadFromServer getReadFromServer() {
+        return readFromServer;
     }
 
     public static void main(String[] args) {

@@ -32,7 +32,7 @@ public class LOGIN extends JPanel {
             masterFrame.startConnection(userName);
             masterFrame.showPage("MENU");
             System.out.println(userName + " connected to server");
-            MasterFrame.ReadFromServer rf = masterFrame.getRfs();
+            MasterFrame.ReadFromServer rf = masterFrame.getReadFromServer();
             Thread t = new Thread(rf);
             t.start();
         });
