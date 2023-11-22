@@ -34,6 +34,7 @@ public class GameServerHandler extends Thread{
 
 
 
+
             while ((objectFromClient = in.readObject()) != null) {
                 out.writeObject(protocol.processInput(objectFromClient));
             }

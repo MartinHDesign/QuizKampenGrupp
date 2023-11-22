@@ -49,7 +49,17 @@ public class GameServer {
         this.guestNumber++;
     }
     public void playerOnline(Player temp) {
-        this.onlinePlayer.add(temp);
+        if (!isPlayerOnline(temp))
+            this.onlinePlayer.add(temp);
+    }
+
+    public boolean isPlayerOnline(Player temp){
+        for (Player player : onlinePlayer){
+            if (player.getName().equals(temp.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Player> getDAOPlayers() {
