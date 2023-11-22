@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CATEGORY extends JPanel {
-        private JButton History = new JButton("history");
-        private JButton Category2 = new JButton("Kategori 2");
+        private JButton History = new JButton("Spelare 2 till QUESTIONS");
+        private JButton Category2 = new JButton("Spelare 2 till MENU");
         private JButton Category3 = new JButton("Kategori 3");
         private JButton Category4 = new JButton("Kategori 4");
         private JButton exit = new JButton("avsluta");
@@ -23,10 +23,8 @@ public class CATEGORY extends JPanel {
 
             History.addActionListener(e -> {
                     masterFrame.sendToServer("QUESTIONS");
-//                String temp = masterFrame.sendMessage("score");
-//                System.out.println("LOGIN");
-//                masterFrame.showPage(temp);
             });
+            Category2.addActionListener(e -> masterFrame.sendToServer("MENU"));
             add(History);
             add(Category2);
             add(Category3);

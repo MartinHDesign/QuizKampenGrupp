@@ -6,20 +6,20 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class MENU extends JPanel {
-    private JButton newGame = new JButton("Nytt spel");
-    private JButton vsGame = new JButton("Spela mot");
+    private JButton newGame = new JButton("player 2 to CATEGORY");
+    private JButton vsGame = new JButton("player 2 to MENU");
     private JButton highScore = new JButton("High score");
     private JButton settings = new JButton("Inställningar");
-    private JButton exit = new JButton("avsluta");
+    private JButton exit = new JButton("exit");
     public MENU(MasterFrame masterFrame){
         setLayout(new GridLayout(5,1));
 
         add(newGame);
         newGame.addActionListener(e -> {
-//            Object temp = masterFrame.sendMessage("score");
-//            System.out.println("menu");
-//            masterFrame.showPage(temp.toString());
             masterFrame.sendToServer("CATEGORY");
+        });
+        vsGame.addActionListener(e -> {
+            masterFrame.sendToServer("MENU");
         });
 
         add(vsGame);
@@ -27,9 +27,7 @@ public class MENU extends JPanel {
         add(settings);
 
 
-        exit.addActionListener(e -> {
-            masterFrame.sendToServer("");
-        });
+
         add(exit);
     }
 
