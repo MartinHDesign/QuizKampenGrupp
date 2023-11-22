@@ -18,6 +18,7 @@ public class GameServer {
     private List<Player> DAOPlayers = new ArrayList<>();
 
     public void start(int port) {
+        DAOPlayers.add(new Player("martin",null,null,null));
         try {
         serverSocket = new ServerSocket(port);
         while (true) {
@@ -49,9 +50,27 @@ public class GameServer {
         this.guestNumber++;
     }
 
+    public List<Player> getDAOPlayers() {
+        return DAOPlayers;
+    }
+
+    public void setDAOPlayers(List<Player> DAOPlayers) {
+        this.DAOPlayers = DAOPlayers;
+    }
+    public Player getExistingPlayer(Object objectFromClient) {
+        for (Player player : DAOPlayers){
+            if (player.getName().equals(objectFromClient.toString())){
+                System.out.println("Player found");
+                return player;
+            }
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         GameServer gameServer = new GameServer();
         int port = 55555;
         gameServer.start(port);
     }
+
 }

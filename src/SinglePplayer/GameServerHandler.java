@@ -2,6 +2,7 @@ package SinglePplayer;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class GameServerHandler extends Thread{
     private Socket clientSocket;
@@ -21,14 +22,22 @@ public class GameServerHandler extends Thread{
             in = new ObjectInputStream(clientSocket.getInputStream());
 
             Object objectFromClient;
+            // här läser servern userName från clienten
             objectFromClient = in.readObject();
 
-            Player temp = createNewPlayer(objectFromClient);
+
+            Player temp;
+            // kolla om spelare finns i dao
+            if (playerExists(objectFromClient)){
+                temp = gameServer.getExistingPlayer(objectFromClient);
+            } else {
+                // skapa ny player med username som kommer från client
+                temp = createNewPlayer(objectFromClient);
+            }
+
 
             System.out.println("Player " + temp.getName() + " connected");
 
-            // skapa ny player med username som kommer från client
-            // kolla om hen finns i playerDAO
             // lägg till antingen ny spelare i online player
 
 
@@ -53,5 +62,14 @@ public class GameServerHandler extends Thread{
         } else {
             return new Player(objectFromClient.toString(), clientSocket, out, in);
         }
+    }
+
+    public boolean playerExists(Object userName){
+        List<Player> DAOPlayer = gameServer.getDAOPlayers();
+        for (Player player: DAOPlayer){
+            if (player.getName().equals(userName.toString()))
+                return true;
+        }
+        return false;
     }
 }
