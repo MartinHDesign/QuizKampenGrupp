@@ -14,6 +14,7 @@ public class SCORE extends JPanel {
 
     public SCORE(MasterFrame masterFrame){
         exit.addActionListener(e -> {
+            masterFrame.sendToServer("MENU");
 //            masterFrame.showPage("MENU");
 //            String temp = masterFrame.sendMessage("score");
 //            System.out.println(temp);

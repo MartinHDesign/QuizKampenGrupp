@@ -30,6 +30,7 @@ public class QUESTIONS extends JPanel {
         buttonPanel.setLayout(new GridLayout(2,2));
         buttonPanel.setSize(new Dimension(500,230));
         answer1.addActionListener(e -> {
+            masterFrame.sendToServer("SCORE");
 //            String temp = masterFrame.sendMessage("score");
 //            System.out.println("LOGIN");
 //            masterFrame.showPage(temp);

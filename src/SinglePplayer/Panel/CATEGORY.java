@@ -22,6 +22,7 @@ public class CATEGORY extends JPanel {
              */
 
             History.addActionListener(e -> {
+                    masterFrame.sendToServer("QUESTIONS");
 //                String temp = masterFrame.sendMessage("score");
 //                System.out.println("LOGIN");
 //                masterFrame.showPage(temp);

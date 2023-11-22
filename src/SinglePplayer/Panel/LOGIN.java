@@ -30,9 +30,11 @@ public class LOGIN extends JPanel {
         login.addActionListener(e -> {
             Object userName = enterUsername.getText();
             masterFrame.startConnection(userName);
-            masterFrame.sendMessage("score");
             masterFrame.showPage("MENU");
             System.out.println(userName + " connected to server");
+            MasterFrame.ReadFromServer rf = masterFrame.getRfs();
+            Thread t = new Thread(rf);
+            t.start();
         });
 
         add(southPanel,BorderLayout.SOUTH);

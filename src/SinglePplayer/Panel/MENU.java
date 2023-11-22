@@ -2,6 +2,8 @@ package SinglePplayer.Panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class MENU extends JPanel {
     private JButton newGame = new JButton("Nytt spel");
@@ -14,14 +16,20 @@ public class MENU extends JPanel {
 
         add(newGame);
         newGame.addActionListener(e -> {
-//            String temp = masterFrame.sendMessage("score");
+//            Object temp = masterFrame.sendMessage("score");
 //            System.out.println("menu");
-//            masterFrame.showPage(temp);
+//            masterFrame.showPage(temp.toString());
+            masterFrame.sendToServer("CATEGORY");
         });
 
         add(vsGame);
         add(highScore);
         add(settings);
+
+
+        exit.addActionListener(e -> {
+            masterFrame.sendToServer("");
+        });
         add(exit);
     }
 

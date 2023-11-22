@@ -25,7 +25,7 @@ public class CardLayoutContainer extends JPanel {
         add(waitPanel, "WAIT");
 
         questionPanel = new QUESTIONS(masterFrame);
-        add(questionPanel, "QUESTION");
+        add(questionPanel, "QUESTIONS");
 
         HighScorePanel highScorePanel = new HighScorePanel(masterFrame);
         add(highScorePanel, "HIGHSCORE");

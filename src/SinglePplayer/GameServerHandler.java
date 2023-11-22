@@ -18,7 +18,7 @@ public class GameServerHandler extends Thread{
 
     public void run() {
         try {
-            Protocol protocol = new Protocol();
+
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new ObjectInputStream(clientSocket.getInputStream());
 
@@ -27,21 +27,40 @@ public class GameServerHandler extends Thread{
             objectFromClient = in.readObject();
 
 
-            Player temp = validatePlayer(objectFromClient);
+            Player connectingPlayer = validatePlayer(objectFromClient);
 
-            this.player = temp;
-            gameServer.playerOnline(temp);
-
-
+            this.player = connectingPlayer;
+            gameServer.playerOnline(connectingPlayer);
 
 
-            while ((objectFromClient = in.readObject()) != null) {
-                out.writeObject(protocol.processInput(objectFromClient));
+
+//            ProtocolSingelPlayer protocol = new ProtocolSingelPlayer(connectingPlayer);
+            System.out.println("innan läsning från client börjar");
+//            while ((objectFromClient = in.readObject()) != null) {
+//                System.out.println("server start listening");
+//                out.writeObject(protocol.processInput(objectFromClient));
+//
+//            }
+            while (true){
+                if (gameServer.getOnlinePlayer().size() == 2) {
+                    System.out.println("server start listening 2 player");
+                    Player player1 = gameServer.getOnlinePlayer().get(0);
+                    Player player2 = gameServer.getOnlinePlayer().get(1);
+                    NewGameHandler newGame = new NewGameHandler(player1, player2);
+                    newGame.start();
+                    break;
+                }
+                //obs ful kod
+//                if (objectFromClient.toString().equals("NEWGAME")){
+
+//                } else if (objectFromClient.toString().equals("VSGAME")) {
+//                    //Leta efter specifik spelare
+//                }
             }
 
-            in.close();
-            out.close();
-            clientSocket.close();
+//            in.close();
+//            out.close();
+//            clientSocket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

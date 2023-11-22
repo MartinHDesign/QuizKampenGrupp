@@ -6,7 +6,6 @@ import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 
 public class MasterFrame extends JFrame {
@@ -19,6 +18,7 @@ public class MasterFrame extends JFrame {
     private ObjectInputStream in;
     String ip = "127.0.0.1";
     int port = 55555;
+    ReadFromServer rfs = new ReadFromServer();
 
 
     public MasterFrame(){
@@ -60,6 +60,43 @@ public class MasterFrame extends JFrame {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void sendToServer(Object fromClient) {
+        try {
+            out.writeObject(fromClient);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
+
+    // lyssnar efter vad servern skickar.
+    public class ReadFromServer implements Runnable{
+        @Override
+        public void run() {
+            try {
+                Object objectFromServer;
+                while ((objectFromServer = in.readObject()) != null) {
+                    //kolla vad för object från servern och utför rätt åtgärd via ett protokoll?
+                    System.out.println(objectFromServer);
+                    showPage(objectFromServer.toString());
+
+
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public ReadFromServer getRfs() {
+        return rfs;
     }
 
     public static void main(String[] args) {
