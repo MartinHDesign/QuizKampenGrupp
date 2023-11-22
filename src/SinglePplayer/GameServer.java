@@ -18,7 +18,6 @@ public class GameServer {
     private List<Player> DAOPlayers = new ArrayList<>();
 
     public void start(int port) {
-        DAOPlayers.add(new Player("martin",null,null,null));
         try {
         serverSocket = new ServerSocket(port);
         while (true) {
@@ -49,13 +48,16 @@ public class GameServer {
     public void guestNumberCountUp() {
         this.guestNumber++;
     }
+    public void playerOnline(Player temp) {
+        this.onlinePlayer.add(temp);
+    }
 
     public List<Player> getDAOPlayers() {
         return DAOPlayers;
     }
 
-    public void setDAOPlayers(List<Player> DAOPlayers) {
-        this.DAOPlayers = DAOPlayers;
+    public void addPlayerDAO(Object player) {
+        this.DAOPlayers.add((Player) player); ;
     }
     public Player getExistingPlayer(Object objectFromClient) {
         for (Player player : DAOPlayers){
@@ -72,5 +74,6 @@ public class GameServer {
         int port = 55555;
         gameServer.start(port);
     }
+
 
 }

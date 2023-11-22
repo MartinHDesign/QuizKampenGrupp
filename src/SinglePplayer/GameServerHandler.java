@@ -9,6 +9,7 @@ public class GameServerHandler extends Thread{
     private ObjectOutputStream out;
     private ObjectInputStream in;
     GameServer gameServer;
+    Player player;
 
     public GameServerHandler(GameServer gameServer,Socket socket) {
         this.gameServer = gameServer;
@@ -26,19 +27,11 @@ public class GameServerHandler extends Thread{
             objectFromClient = in.readObject();
 
 
-            Player temp;
-            // kolla om spelare finns i dao
-            if (playerExists(objectFromClient)){
-                temp = gameServer.getExistingPlayer(objectFromClient);
-            } else {
-                // skapa ny player med username som kommer från client
-                temp = createNewPlayer(objectFromClient);
-            }
+            Player temp = validatePlayer(objectFromClient);
 
+            this.player = temp;
+            gameServer.playerOnline(temp);
 
-            System.out.println("Player " + temp.getName() + " connected");
-
-            // lägg till antingen ny spelare i online player
 
 
             while ((objectFromClient = in.readObject()) != null) {
@@ -71,5 +64,20 @@ public class GameServerHandler extends Thread{
                 return true;
         }
         return false;
+    }
+    public Player validatePlayer(Object objectFromClient){
+        Player temp;
+        // kolla om spelare finns i dao
+        if (playerExists(objectFromClient)){
+            temp = gameServer.getExistingPlayer(objectFromClient);
+            System.out.println("Welcome back " + temp.getName() + ". connected to server");
+        } else {
+            // skapa ny player med username som kommer från client
+            temp = createNewPlayer(objectFromClient);
+            // lägger till player i DAOPlayer
+            gameServer.addPlayerDAO(temp);
+            System.out.println("Player " + temp.getName() + " connected");
+        }
+        return temp;
     }
 }
