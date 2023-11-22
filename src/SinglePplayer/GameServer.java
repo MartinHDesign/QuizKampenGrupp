@@ -7,6 +7,7 @@ import java.util.List;
 
 
 public class GameServer {
+    private int guestNumber = 1;
     private ServerSocket serverSocket;
 
     //Lista med online players när spelaren startar nytt spel försvinner hen från listan tills hen spelat färdigt.
@@ -20,7 +21,7 @@ public class GameServer {
         try {
         serverSocket = new ServerSocket(port);
         while (true) {
-            new GameServerHandler(serverSocket.accept()).start();
+            new GameServerHandler(this,serverSocket.accept()).start();
         }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -38,6 +39,14 @@ public class GameServer {
     }
     public void connectPlayer(Player userName){
         onlinePlayer.add(userName);
+    }
+
+    public int getGuestNumber() {
+        return guestNumber;
+    }
+
+    public void guestNumberCountUp() {
+        this.guestNumber++;
     }
 
     public static void main(String[] args) {

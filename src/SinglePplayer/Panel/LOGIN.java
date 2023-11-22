@@ -29,14 +29,10 @@ public class LOGIN extends JPanel {
 
         login.addActionListener(e -> {
             Object userName = enterUsername.getText();
-            if (!enterUsername.getText().isEmpty()){
-                masterFrame.startConnection(userName);
-                masterFrame.sendMessage("score");
-                masterFrame.showPage("MENU");
-                System.out.println(userName + " connected to server");
-            }
-
-
+            masterFrame.startConnection(userName);
+            masterFrame.sendMessage("score");
+            masterFrame.showPage("MENU");
+            System.out.println(userName + " connected to server");
         });
 
         add(southPanel,BorderLayout.SOUTH);

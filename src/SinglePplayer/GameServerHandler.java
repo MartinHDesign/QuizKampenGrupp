@@ -7,8 +7,10 @@ public class GameServerHandler extends Thread{
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    GameServer gameServer;
 
-    public GameServerHandler(Socket socket) {
+    public GameServerHandler(GameServer gameServer,Socket socket) {
+        this.gameServer = gameServer;
         this.clientSocket = socket;
     }
 
@@ -21,11 +23,14 @@ public class GameServerHandler extends Thread{
             Object objectFromClient;
             objectFromClient = in.readObject();
 
+            Player temp = createNewPlayer(objectFromClient);
+
+            System.out.println("Player " + temp.getName() + " connected");
+
             // skapa ny player med username som kommer från client
             // kolla om hen finns i playerDAO
             // lägg till antingen ny spelare i online player
 
-            System.out.println(objectFromClient.toString()+" Connected");
 
             while ((objectFromClient = in.readObject()) != null) {
                 out.writeObject(protocol.processInput(objectFromClient));
@@ -38,6 +43,15 @@ public class GameServerHandler extends Thread{
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }
+    }
+    public Player createNewPlayer(Object objectFromClient){
+        if (objectFromClient.toString().isEmpty()){
+            int guestNumber = gameServer.getGuestNumber();
+            gameServer.guestNumberCountUp();
+            return new Player("Guest"+guestNumber,clientSocket,out,in);
+        } else {
+            return new Player(objectFromClient.toString(), clientSocket, out, in);
         }
     }
 }
