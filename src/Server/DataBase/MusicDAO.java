@@ -1,8 +1,7 @@
 package Server.DataBase;
 
-import Server.DataBase.HistoryQuestions.HistoryQuestion;
-import Server.DataBase.MusicQuestions.MusicAnswer;
-import Server.DataBase.MusicQuestions.MusicQuestion;
+import Server.DataBase.Questions.Music.MusicAnswer;
+import Server.DataBase.Questions.Music.MusicQuestion;
 
 import java.util.ArrayList;
 import java.util.List;

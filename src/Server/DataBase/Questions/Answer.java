@@ -1,16 +1,17 @@
-package Server.DataBase.MusicQuestions;
+package Server.DataBase.Questions;
 
 import java.io.Serializable;
 
-public class MusicAnswer implements Serializable {
+public abstract class Answer implements Serializable {
+
     private String answerText;
     private boolean isCorrect;
 
-    public MusicAnswer(String answerText, boolean isCorrect) {
+    public Answer(String answerText, boolean isCorrect) {
         this.answerText = answerText;
         this.isCorrect = isCorrect;
-
     }
+
     public String getAnswerText() {
         return answerText;
     }
@@ -27,4 +28,3 @@ public class MusicAnswer implements Serializable {
         isCorrect = correct;
     }
 }
-
