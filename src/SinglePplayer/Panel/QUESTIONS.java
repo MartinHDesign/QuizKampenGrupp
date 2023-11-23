@@ -29,17 +29,15 @@ public class QUESTIONS extends JPanel {
 
         buttonPanel.setLayout(new GridLayout(2,2));
         buttonPanel.setSize(new Dimension(500,230));
+
         answer1.addActionListener(e -> {
             masterFrame.sendToServer("MENU");
-//            String temp = masterFrame.sendMessage("score");
-//            System.out.println("LOGIN");
-//            masterFrame.showPage(temp);
         });
         answer2.addActionListener(e -> {
             masterFrame.sendToServer("CATEGORY");
         });
-        buttonPanel.add(answer1); buttonPanel.add(answer2); buttonPanel.add(answer3); buttonPanel.add(answer4);
 
+        buttonPanel.add(answer1); buttonPanel.add(answer2); buttonPanel.add(answer3); buttonPanel.add(answer4);
 
         questionsAndButtons.setLayout(new GridLayout(2,1));
         questionsAndButtons.add(questionFromServer);

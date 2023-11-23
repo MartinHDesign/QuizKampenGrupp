@@ -28,6 +28,7 @@ public class LOGIN extends JPanel {
         southPanel.add(login);
 
         login.addActionListener(e -> {
+            // OBS RÖR EJ
             Object userName = enterUsername.getText();
             masterFrame.startConnection(userName);
             masterFrame.setTitleNameToUserName("Jesus Quiztus "+enterUsername.getText());

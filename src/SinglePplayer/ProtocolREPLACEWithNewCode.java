@@ -1,6 +1,6 @@
 package SinglePplayer;
 
-public class Protocol {
+public class ProtocolREPLACEWithNewCode {
     private final String WAIT = "WAIT";
     private final String LOGIN = "LOGIN";
     private final String MENU = "MENU";

@@ -33,13 +33,6 @@ public class GameServerHandler extends Thread{
             gameServer.playerOnline(connectingPlayer);
 
 
-
-//            ProtocolSingelPlayer protocol = new ProtocolSingelPlayer(connectingPlayer);
-//            while ((objectFromClient = in.readObject()) != null) {
-//                System.out.println("server start listening");
-//                out.writeObject(protocol.processInput(objectFromClient));
-//
-//            }
             System.out.println("innan läsning från client börjar");
             while (true){
                 // här lyssnar servern efter client
@@ -56,12 +49,6 @@ public class GameServerHandler extends Thread{
                     newGame.start();
                     break;
                 }
-                //obs ful kod
-//                if (objectFromClient.toString().equals("NEWGAME")){
-
-//                } else if (objectFromClient.toString().equals("VSGAME")) {
-//                    //Leta efter specifik spelare
-//                }
             }
 
 
@@ -104,6 +91,7 @@ public class GameServerHandler extends Thread{
         }
         return temp;
     }
+    // Behövs när player stänger spel
     public void disconnect(){
         try {
             in.close();

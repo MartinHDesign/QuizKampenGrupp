@@ -17,6 +17,8 @@ public class NewGameHandler extends Thread {
         //Här kommer ett protokoll för spelets gång
         startListningForInputFromBothClient();
     }
+
+    // kod som eventuellt inte kommer användas sen eller måste skrivas om ->
     private void startListningForInputFromBothClient(){
         pairPlayers(player1,player2);
         pairPlayers(player2,player1);
@@ -38,5 +40,6 @@ public class NewGameHandler extends Thread {
             }
         });
     }
+    // <-
 
 }

@@ -16,7 +16,6 @@ public class WAIT extends JPanel {
         backToMenu.setSize(new Dimension(500,10));
 
         backToMenu.addActionListener(e -> {
-            masterFrame.showPage("menu");
         });
 
         add(waitingImage, BorderLayout.CENTER);

@@ -1,4 +1,4 @@
-package SinglePplayer;
+package notInUse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
