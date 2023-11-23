@@ -45,12 +45,12 @@ public class NewGameHandler extends Thread {
 
 
                 Object objectFromPlayer = currentPlayer.in.readObject();
-                Object categoryChosen = objectFromPlayer;
                 System.out.println(objectFromPlayer);
 
                 Object objectToReturnToPlayer = protocol.processInput(objectFromPlayer, currentPlayer);
                 currentPlayer.out.writeObject(objectToReturnToPlayer);
                 rounds++;
+                System.out.println(rounds);
 
             }
 /*

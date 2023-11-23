@@ -35,7 +35,7 @@ public class SCORE extends JPanel {
         northPanel.add(exit);
 
         playNextRound.addActionListener(l -> {
-            masterFrame.sendToServer(0);
+            masterFrame.showPage("CATEGORY");
         });
         northPanel.add(playNextRound);
 

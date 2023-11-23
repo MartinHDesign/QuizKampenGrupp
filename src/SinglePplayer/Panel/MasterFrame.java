@@ -89,7 +89,7 @@ public class MasterFrame extends JFrame {
         public void run() {
             try {
                 Object objectFromServer;
-                out.writeObject(0);
+
                 while ((objectFromServer = in.readObject()) != null) {
 
                     ServerResponse serverResponse = getServerResponse(objectFromServer);
