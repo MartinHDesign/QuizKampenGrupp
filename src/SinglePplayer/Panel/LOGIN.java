@@ -30,6 +30,7 @@ public class LOGIN extends JPanel {
         login.addActionListener(e -> {
             Object userName = enterUsername.getText();
             masterFrame.startConnection(userName);
+            masterFrame.setTitleNameToUserName("Jesus Quiztus "+enterUsername.getText());
             masterFrame.showPage("MENU");
             System.out.println(userName + " connected to server");
             MasterFrame.ReadFromServer rf = masterFrame.getReadFromServer();

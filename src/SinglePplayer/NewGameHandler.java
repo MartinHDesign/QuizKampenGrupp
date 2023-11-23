@@ -14,6 +14,7 @@ public class NewGameHandler extends Thread {
     }
     public void run(){
         System.out.println("från newGameHandler");
+        //Här kommer ett protokoll för spelets gång
         startListningForInputFromBothClient();
     }
     private void startListningForInputFromBothClient(){

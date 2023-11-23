@@ -16,6 +16,10 @@ public class GameServer {
     // När en spelare loggar in -> kolla om hen finns i dao annars lägg till i listan. Sök via Player.getName
     // Dao bör skrivas och läsas från fil så att den sparas när servern stängs av
     private List<Player> DAOPlayers = new ArrayList<>();
+    // Lista där spelare läggs till om dom vill möta en random motståndare
+    private List<Player> newRandomOponentGameConnect = new ArrayList<>();
+    // Lista för vs mode
+    private List<Player> newChallangeOponentGameConnect = new ArrayList<>();
 
     public void start(int port) {
         try {

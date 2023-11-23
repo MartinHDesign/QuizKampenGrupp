@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 public class MasterFrame extends JFrame {
     private final CardLayout layout = new CardLayout();
     private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
-    String pageNumber = "LOGIN";
+    String pageNumber = FinalStrings.LOGIN.toString();
 
     private Socket socketToServer;
     private ObjectOutputStream out;
@@ -25,12 +25,16 @@ public class MasterFrame extends JFrame {
         add(allPanels);
 
         showPage(pageNumber);
+        setTitle("Jesus Quiztus ");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(new Dimension(500,520));
         setResizable(false);
         setVisible(true);
         setLocationRelativeTo(null);
+    }
+    public void setTitleNameToUserName(String userName){
+        setTitle(userName);
     }
 
     public String showPage(String page){

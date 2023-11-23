@@ -49,7 +49,9 @@ public class GameServerHandler extends Thread{
                 if (gameServer.getOnlinePlayer().size() >= 2) {
                     System.out.println("server start listening 2 player");
                     Player player1 = gameServer.getOnlinePlayer().get(0);
-                    Player player2 = gameServer.getOnlinePlayer().get(1);
+                    gameServer.getOnlinePlayer().remove(0);
+                    Player player2 = gameServer.getOnlinePlayer().get(0);
+                    gameServer.getOnlinePlayer().remove(0);
                     NewGameHandler newGame = new NewGameHandler(player1, player2);
                     newGame.start();
                     break;
