@@ -23,17 +23,17 @@ public class ProtocolSingelPlayer {
         System.out.println("String from client in protokoll: " + objectFromClient.toString());
         System.out.println("protkoll state: " + STATE);
         Object returnObject = objectFromClient;
-//        if (STATE == MENU) {
-//            STATE = CATEGORY;
-//            return CATEGORY;
-//        }else if (STATE == CATEGORY) {
-//            STATE = QUESTIONS;
-//            return QUESTIONS;
-//        } else if (STATE == QUESTIONS) {
-//            STATE = SCORE;
-//            return MENU;
-//        }
-//
+        if (STATE == MENU) {
+            STATE = CATEGORY;
+            return CATEGORY;
+        }else if (STATE == CATEGORY) {
+            STATE = QUESTIONS;
+            return QUESTIONS;
+        } else if (STATE == QUESTIONS) {
+            STATE = SCORE;
+            return MENU;
+        }
+
 //        else if (STATE == SCORE) {
 //            STATE = WINNER;
 //            return WINNER;

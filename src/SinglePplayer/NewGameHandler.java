@@ -14,35 +14,28 @@ public class NewGameHandler extends Thread {
     }
     public void run(){
         System.out.println("från newGameHandler");
+        startListningForInputFromBothClient();
+    }
+    private void startListningForInputFromBothClient(){
+        pairPlayers(player1,player2);
+        pairPlayers(player2,player1);
+    }
+    private void pairPlayers(Player user1, Player user2){
         readPlayersInput.execute(() -> {
             while (true) {
                 try {
-                    Object fromPlayers1 = player1.in.readObject();
+                    Object fromPlayers1 = user1.in.readObject();
                     if (fromPlayers1 != null) {
-                        player2.out.writeObject(fromPlayers1);
+                        user2.out.writeObject(fromPlayers1);
                     } else {
                         break;
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        });
-        readPlayersInput.execute(() -> {
-            while (true) {
-                try {
-                    Object fromPlayers2 = player2.in.readObject();
-                    if (fromPlayers2 != null) {
-                        player1.out.writeObject(fromPlayers2);
-                    } else {
-                        break;
-                    }
-                } catch (Exception e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                     break;
                 }
             }
         });
     }
+
 }

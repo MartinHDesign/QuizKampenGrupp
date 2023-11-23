@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.List;
 
 public class GameServerHandler extends Thread{
-    private Socket clientSocket;
+    private Socket serverSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     GameServer gameServer;
@@ -13,14 +13,14 @@ public class GameServerHandler extends Thread{
 
     public GameServerHandler(GameServer gameServer,Socket socket) {
         this.gameServer = gameServer;
-        this.clientSocket = socket;
+        this.serverSocket = socket;
     }
 
     public void run() {
         try {
 
-            out = new ObjectOutputStream(clientSocket.getOutputStream());
-            in = new ObjectInputStream(clientSocket.getInputStream());
+            out = new ObjectOutputStream(serverSocket.getOutputStream());
+            in = new ObjectInputStream(serverSocket.getInputStream());
 
             Object objectFromClient;
             // här läser servern userName från clienten
@@ -35,14 +35,18 @@ public class GameServerHandler extends Thread{
 
 
 //            ProtocolSingelPlayer protocol = new ProtocolSingelPlayer(connectingPlayer);
-            System.out.println("innan läsning från client börjar");
 //            while ((objectFromClient = in.readObject()) != null) {
 //                System.out.println("server start listening");
 //                out.writeObject(protocol.processInput(objectFromClient));
 //
 //            }
+            System.out.println("innan läsning från client börjar");
             while (true){
-                if (gameServer.getOnlinePlayer().size() == 2) {
+                // här lyssnar servern efter client
+                // om client skickar new game -> kör new game
+                //om client skickar vs game -> kör vs game
+                // om client skickar high score -> kör highscore
+                if (gameServer.getOnlinePlayer().size() >= 2) {
                     System.out.println("server start listening 2 player");
                     Player player1 = gameServer.getOnlinePlayer().get(0);
                     Player player2 = gameServer.getOnlinePlayer().get(1);
@@ -58,9 +62,7 @@ public class GameServerHandler extends Thread{
 //                }
             }
 
-//            in.close();
-//            out.close();
-//            clientSocket.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -71,9 +73,9 @@ public class GameServerHandler extends Thread{
         if (objectFromClient.toString().isEmpty()){
             int guestNumber = gameServer.getGuestNumber();
             gameServer.guestNumberCountUp();
-            return new Player("Guest"+guestNumber,clientSocket,out,in);
+            return new Player("Guest"+guestNumber, serverSocket,out,in);
         } else {
-            return new Player(objectFromClient.toString(), clientSocket, out, in);
+            return new Player(objectFromClient.toString(), serverSocket, out, in);
         }
     }
 
@@ -99,5 +101,14 @@ public class GameServerHandler extends Thread{
             System.out.println("Player " + temp.getName() + " connected");
         }
         return temp;
+    }
+    public void disconnect(){
+        try {
+            in.close();
+            out.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
