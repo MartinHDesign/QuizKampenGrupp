@@ -96,7 +96,8 @@ public class MasterFrame extends JFrame {
                     System.out.println("messageRecieved");
                     System.out.println("GUI INSTRUCTION: " + serverResponse.getShowGUIPanel());
                     if (serverResponse.getPlayerNames() != null) {
-
+                        allPanels.scorePanel.setPlayer1Name(serverResponse.getPlayerNames().get(0));
+                        allPanels.scorePanel.setPlayer1Name(serverResponse.getPlayerNames().get(1));
                     }
                     if (serverResponse.getShowGUIPanel() != null) {
                         System.out.println("Trying to set page to " + serverResponse.getShowGUIPanel());

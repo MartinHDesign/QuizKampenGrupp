@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 public class MENU extends JPanel {
-    private JButton newGame = new JButton("player 2 to CATEGORY");
-    private JButton vsGame = new JButton("player 2 to MENU");
+    private JButton newGame = new JButton("New game");
+    private JButton vsGame = new JButton("Challenge Player");
     private JButton highScore = new JButton("High score");
     private JButton settings = new JButton("Inställningar");
     private JButton exit = new JButton("exit");
@@ -16,7 +16,7 @@ public class MENU extends JPanel {
 
         add(newGame);
         newGame.addActionListener(e -> {
-            masterFrame.sendToServer("CATEGORY");
+            masterFrame.showPage("CATEGORY");
         });
         vsGame.addActionListener(e -> {
             masterFrame.sendToServer("MENU");

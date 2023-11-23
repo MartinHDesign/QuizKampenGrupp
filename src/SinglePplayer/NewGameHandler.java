@@ -5,6 +5,7 @@ import Server.ServerResponse;
 import SinglePplayer.Panel.SCORE;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,13 +26,23 @@ public class NewGameHandler extends Thread {
 
         try {
             player2.out.writeObject(new ServerResponse("WAIT"));
+
             int rounds = 0;
             Player currentPlayer = player1;
             while(true) {
                     switch (rounds) {
                         case 3 -> currentPlayer = player2;
-                        case 6 -> currentPlayer = player1;
+
+                        case 5 ->{
+                            Object objectFromPlayer = currentPlayer.in.readObject();
+                            Object objectToReturnToPlayer = protocol.processInput(objectFromPlayer, currentPlayer);
+                            currentPlayer.out.writeObject(objectToReturnToPlayer);
+                            currentPlayer = player1;
+                            currentPlayer.out.writeObject(objectToReturnToPlayer);
+                            rounds = 0;
+                        }
                     }
+
 
                 Object objectFromPlayer = currentPlayer.in.readObject();
                 Object categoryChosen = objectFromPlayer;
