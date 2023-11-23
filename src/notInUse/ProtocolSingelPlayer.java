@@ -1,4 +1,6 @@
-package SinglePplayer;
+package notInUse;
+
+import SinglePplayer.Player;
 
 public class ProtocolSingelPlayer {
     private Player player1;
