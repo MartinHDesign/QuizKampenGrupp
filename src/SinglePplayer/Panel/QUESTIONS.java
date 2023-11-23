@@ -15,7 +15,7 @@ public class QUESTIONS extends JPanel {
 //    JProgressBar timeToAnswer = new JProgressBar();
     JLabel timeToAnswer = new JLabel("Här kommer en progressbar på 10 sec");
     JButton exit = new JButton("Spelare 2 till CATEGORY");
-    Client.Panel.MasterFrame masterFrame;
+    MasterFrame masterFrame;
     public QUESTIONS(MasterFrame masterFrame){
         /*
         1. svara på fråga, spara svar

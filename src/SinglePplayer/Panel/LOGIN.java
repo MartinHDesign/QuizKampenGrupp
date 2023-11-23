@@ -5,7 +5,7 @@ import java.awt.*;
 
 
 public class LOGIN extends JPanel {
-    private JLabel welcomeImage = new JLabel(new ImageIcon("src/Client/Panel/GifAndImages/quizlogin.gif"));
+    private JLabel welcomeImage = new JLabel(new ImageIcon("src/SinglePplayer/Panel/GifAndImages/quizlogin.gif"));
     private JTextField enterUsername = new JTextField();
     private JButton login = new JButton("Login");
     private JPanel southPanel = new JPanel();
