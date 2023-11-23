@@ -25,8 +25,8 @@ public class ProtocolGamePanel {
 
     private int STATE = NEXTROUND;
 
-    public ProtocolGamePanel(MasterFrame masterFrame) {
-        this.masterFrame = masterFrame;
+    public ProtocolGamePanel() {
+        this.masterFrame = MasterFrame.getInstance();
     }
 
     public void panelProcess() {
@@ -48,7 +48,7 @@ public class ProtocolGamePanel {
             int score = response.getScore();
             HistoryQuestion question = response.getQuestion();
             int endOfGame = response.getEndOfGame();
-            String categories = response.getCategories();
+            String categories = response.getShowGUIPanel();
 
             if (question != null) {
                 questionButtons.buttonPanel.removeAll();

@@ -18,8 +18,8 @@ public class QuestionScreen extends JPanel implements ActionListener {
     JLabel timeToAnswer = new JLabel("Här kommer en progressbar på 10 sec");
     JButton exit = new JButton("Ge upp");
     MasterFrame masterFrame;
-    public QuestionScreen(MasterFrame masterFrame){
-        this.masterFrame = masterFrame;
+    public QuestionScreen(){
+        this.masterFrame = MasterFrame.getInstance();
         /*
         1. svara på fråga, spara svar
         2. om det finns fler frågor svara, spara svar

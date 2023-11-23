@@ -16,8 +16,9 @@ public class GameMenu extends JPanel {
     private JButton highScore = new JButton("High score");
     private JButton settings = new JButton("Inställningar");
     private JButton exit = new JButton("avsluta");
-    public GameMenu(MasterFrame masterFrame){
-        setLayout(new GridLayout(5,1));
+
+    public GameMenu(MasterFrame masterFrame) {
+        setLayout(new GridLayout(5, 1));
 
         add(newGame);
         newGame.addActionListener(e -> {
@@ -39,42 +40,41 @@ public class GameMenu extends JPanel {
                 throw new RuntimeException(ew);
             }
 
-            try {
+            // try {
 
-                ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
-                ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
+            //     ObjectOutputStream out = new ObjectOutputStream(socketToServer.getOutputStream());
+            //     ObjectInputStream in = new ObjectInputStream(socketToServer.getInputStream());
 
-                System.out.println("för out");
-                toServer = out;
-               fromServer = in;
-              masterFrame.setSendToServer(out);
-              masterFrame.setFromServer(in);
+            //     System.out.println("för out");
+
+            //  masterFrame.setSendToServer(out);
+            //   masterFrame.setFromServer(in);
 //                System.out.println("efter out");
 //                masterFrame.sendToServer.writeObject("Player1");
 //                System.out.println("skickad");
 
-                System.out.println("hallå?");
+            System.out.println("hallå?");
 
 
-                masterFrame.runTheGoddamnProgram(masterFrame);
+            //               masterFrame.runTheGoddamnProgram(masterFrame);
 //                masterFrame.showPage("category");
-//                masterFrame.repaint();
-            } catch (IOException ea) {
-                throw new RuntimeException(ea);
-            } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+//                masterFrame.repaint();} catch (IOException ea) {
+
             // skicka till server att man vill spela nytt spel
             // få tillbaka om man är spelare 1 eller 2
             // om spelare 1 visa kategori screen
             // om spelare två visa wait screen eller score screen?
 
+            //  });
+
+            //    add(vsGame);
+            //   add(highScore);
+            //    add(settings);
+            //     add(exit);
         });
-
-        add(vsGame);
-        add(highScore);
-        add(settings);
-        add(exit);
+        //   }
     }
-
 }
+
+
+

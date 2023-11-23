@@ -11,10 +11,14 @@ public class LoginPanel extends JPanel {
     private JPanel southPanel = new JPanel();
     MasterFrame masterFrame;
 
-    public LoginPanel(MasterFrame masterFrame){
-        this.masterFrame = masterFrame;
+    public LoginPanel(){
 
-        setLayout(new BorderLayout());
+
+        SwingUtilities.invokeLater(()-> {
+            this.setLayout(new BorderLayout());
+        });
+
+
 
         welcomeImage.setSize(new Dimension(500,500));
         enterUsername.setSize(new Dimension(500,10));
@@ -28,7 +32,10 @@ public class LoginPanel extends JPanel {
         southPanel.add(login);
 
         login.addActionListener(e -> {
+            this.masterFrame = MasterFrame.getInstance();
             masterFrame.showPage("menu");
+            masterFrame.revalidate();
+            masterFrame.repaint();
             // koppla upp till server
             // skicka med username från textField
             // byt till menu fönster

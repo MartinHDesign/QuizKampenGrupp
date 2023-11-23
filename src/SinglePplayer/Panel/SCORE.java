@@ -4,10 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SCORE extends JPanel {
-    private JLabel player1 = new JLabel("player score: 6");
-    private JLabel player2 = new JLabel("player score: 3");
+    private JLabel player1name = new JLabel();
+    private JLabel player2name = new JLabel();
     private JPanel topPanel = new JPanel();
     private JPanel centerPanel = new JPanel();
+
+    private JButton playNextRound = new JButton("Spela nästa runda");
 
     private JPanel northPanel = new JPanel();
     private JButton exit = new JButton("ge upp");
@@ -24,19 +26,24 @@ public class SCORE extends JPanel {
             om servern skickar klar visa winner screen/looser screen
          */
         setLayout(new BorderLayout());
-        player1.setHorizontalAlignment(JLabel.CENTER);
-        player2.setHorizontalAlignment(JLabel.CENTER);
+        player1name.setHorizontalAlignment(JLabel.CENTER);
+        player2name.setHorizontalAlignment(JLabel.CENTER);
         topPanel.setLayout(new GridLayout(1,2));
         centerPanel.setLayout(new GridLayout(8,2));
         centerPanel.setSize(new Dimension(500,460));
 
         northPanel.add(exit);
 
+        playNextRound.addActionListener(l -> {
+            masterFrame.sendToServer(0);
+        });
+        northPanel.add(playNextRound);
+
         northPanel.setSize(new Dimension(500, 10));
         topPanel.setSize(new Dimension(500, 40));
 
-        topPanel.add(player1);
-        topPanel.add(player2);
+        topPanel.add(player1name);
+        topPanel.add(player2name);
 
         for (int i = 0; i < 16; i++) {
             ScoreLabel temp = new ScoreLabel();
@@ -58,4 +65,12 @@ public class SCORE extends JPanel {
         }
 
     }
+
+    public void setPlayer1Name(String name) {
+        this.player1name.setText(name);
+    }
+    public void setPlayer2Name(String name) {
+        this.player2name.setText(name);
+    }
+
 }

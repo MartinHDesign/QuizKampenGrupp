@@ -9,21 +9,28 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class MasterFrame extends JFrame {
-    private final CardLayout layout = new CardLayout();
-    private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
+
+    private static MasterFrame instance;
+    private CardLayout layout;
+    private CardLayoutContainer allPanels;
     String pageNumber = "gameMenu";
     ObjectOutputStream sendToServer;
     ObjectInputStream fromServer;
     Socket socketToServer;
 
 
-    public MasterFrame(){
+    private MasterFrame() {
+
+        layout = new CardLayout();
+
+      //  allPanels = new CardLayoutContainer(layout);
+
         add(allPanels);
 
         showPage(pageNumber);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(new Dimension(500,520));
+        setSize(new Dimension(500, 520));
         setResizable(false);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -54,26 +61,19 @@ public class MasterFrame extends JFrame {
         this.socketToServer = socketToServer;
     }
 
-    public static void main(String[] args) {
-        new MasterFrame();
-    }
-    public String showPage(String page){
-        layout.show(allPanels,page);
+    public String showPage(String page) {
+        layout.show(allPanels, page);
         repaint();
         return page;
     }
 
-    public void runTheGoddamnProgram(MasterFrame master) throws IOException, ClassNotFoundException {
-        ProtocolGamePanel protocol = new ProtocolGamePanel(master);
-
-        while (true) {
-            System.out.println("Loop starting");
-            protocol.panelProcess();
-            Object objectFromServer = master.fromServer.readObject();
-            protocol.gameProcess(objectFromServer);
-            System.out.println("End of loop");
+    public static synchronized MasterFrame getInstance() {
+        if (instance == null) {
+            instance = new MasterFrame();
         }
-
-
+        return instance;
     }
+
+
 }
+

@@ -2,15 +2,17 @@ package SinglePplayer.Panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class QUESTIONS extends JPanel {
-    JLabel questionFromServer = new JLabel("Vad börjar på m och slutar på artin");
+    JLabel questionFromServer = new JLabel("Här bör frågan dyka upp");
     JPanel buttonPanel = new JPanel();
     JPanel questionsAndButtons = new JPanel();
-    JButton answer1 = new JButton("spelare 2 till MENU");
-    JButton answer2 = new JButton("spelare 2 till CATEGORY");
-    JButton answer3 = new JButton("answer1");
-    JButton answer4 = new JButton("answer1");
+    protected QuestionButton answer1 = new QuestionButton();
+    protected QuestionButton answer2 = new QuestionButton();
+    protected QuestionButton answer3 = new QuestionButton();
+    protected QuestionButton answer4 = new QuestionButton();
 
 //    JProgressBar timeToAnswer = new JProgressBar();
     JLabel timeToAnswer = new JLabel("Här kommer en progressbar på 10 sec");
@@ -27,14 +29,25 @@ public class QUESTIONS extends JPanel {
 
         questionFromServer.setSize(new Dimension(500,250));
 
-        buttonPanel.setLayout(new GridLayout(2,2));
+        buttonPanel.setLayout(new GridLayout(2,2,10, 10));
         buttonPanel.setSize(new Dimension(500,230));
 
-        answer1.addActionListener(e -> {
-            masterFrame.sendToServer("MENU");
+        answer1.addActionListener(l -> {
+                masterFrame.sendToServer(answer1.isCorrect());
         });
-        answer2.addActionListener(e -> {
-            masterFrame.sendToServer("CATEGORY");
+        answer2.addActionListener(l -> {
+
+                masterFrame.sendToServer(answer2.isCorrect());
+
+        });
+        answer3.addActionListener(l -> {
+
+                masterFrame.sendToServer(answer3.isCorrect());
+
+        });
+        answer4.addActionListener(l -> {
+                masterFrame.sendToServer(answer4.isCorrect());
+
         });
 
         buttonPanel.add(answer1); buttonPanel.add(answer2); buttonPanel.add(answer3); buttonPanel.add(answer4);
@@ -49,4 +62,6 @@ public class QUESTIONS extends JPanel {
         add(questionsAndButtons, BorderLayout.CENTER);
         add(timeToAnswer, BorderLayout.SOUTH);
     }
+
+
 }

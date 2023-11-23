@@ -6,11 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CATEGORY extends JPanel {
-        private JButton History = new JButton("Spelare 2 till QUESTIONS");
-        private JButton Category2 = new JButton("Spelare 2 till MENU");
-        private JButton Category3 = new JButton("Kategori 3");
-        private JButton Category4 = new JButton("Kategori 4");
-        private JButton exit = new JButton("avsluta");
+        private JButton history = new JButton("HISTORIA");
+        private JButton sport = new JButton("SPORT");
+        private JButton music = new JButton("MUSIK");
+
 
     public CATEGORY(MasterFrame masterFrame){
             setLayout(new GridLayout(5,1));
@@ -21,14 +20,17 @@ public class CATEGORY extends JPanel {
             3. byt till question screen som uppdaterats med frågor å svar
              */
 
-            History.addActionListener(e -> {
-                    masterFrame.sendToServer("QUESTIONS");
+            history.addActionListener(l -> {
+                    masterFrame.sendToServer(0);
             });
-            Category2.addActionListener(e -> masterFrame.sendToServer("MENU"));
-            add(History);
-            add(Category2);
-            add(Category3);
-            add(Category4);
-            add(exit);
+            sport.addActionListener(l -> masterFrame.sendToServer(1));
+
+            music.addActionListener(l -> {
+                    masterFrame.sendToServer(2);
+            });
+            add(history);
+            add(sport);
+            add(music);
+
         }
             }

@@ -7,17 +7,17 @@ public class CardLayoutContainer extends JPanel {
     public CardLayoutContainer(CardLayout layout, MasterFrame masterFrame){
         setLayout(layout);
 
-        LoginPanel loginScreen = new LoginPanel(masterFrame);
-        add(loginScreen, "login");
+      //  LoginPanel loginScreen = new LoginPanel(masterFrame);
+    //    add(loginScreen, "login");
 
         GameMenu gameMenu = new GameMenu(masterFrame);
         add(gameMenu, "menu");
 
-        WaitingForOtherPlayerScreen waitingForOtherPlayerPanel = new WaitingForOtherPlayerScreen(masterFrame);
+        WaitingForOtherPlayerScreen waitingForOtherPlayerPanel = new WaitingForOtherPlayerScreen();
         add(waitingForOtherPlayerPanel, "wait");
 
-        QuestionScreen questionScreen = new QuestionScreen(masterFrame);
-        add(questionScreen, "question");
+      //  QuestionScreen questionScreen = new QuestionScreen(masterFrame);
+      //  add(questionScreen, "question");
 
         HighScorePanel highScorePanel = new HighScorePanel(masterFrame);
         add(highScorePanel, "highScore");

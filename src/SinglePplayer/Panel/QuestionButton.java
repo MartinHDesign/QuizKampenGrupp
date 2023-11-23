@@ -15,7 +15,7 @@ public class QuestionButton extends JButton {
 
 
     public QuestionButton() {
-        this.isCorrect = isCorrect;
+        this.isCorrect = false;
 
     }
 
@@ -23,7 +23,13 @@ public class QuestionButton extends JButton {
         this.isCorrect = input;
     }
 
+    public boolean isCorrect() {
+        return isCorrect;
+    }
 
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
+    }
 }
 
 

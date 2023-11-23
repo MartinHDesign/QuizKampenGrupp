@@ -12,8 +12,7 @@ public class HistoryDAO extends CategoryDAO <HistoryQuestion>{
     private final List<HistoryQuestion> historyQuestions = new ArrayList<>();
 
     // Konstruktor för att skapa historiska frågor och svarsalternativ
-    public HistoryDAO(List<HistoryQuestion> historyQuestions) {
-        super(historyQuestions);
+    public HistoryDAO() {
         // Fråga 1
         List<HistoryAnswer> answer0 = new ArrayList<>();
         answer0.add(new HistoryAnswer("1492", true));

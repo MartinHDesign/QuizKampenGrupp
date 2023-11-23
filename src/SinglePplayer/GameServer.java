@@ -85,7 +85,7 @@ public class GameServer {
 
     public static void main(String[] args) {
         GameServer gameServer = new GameServer();
-        int port = 55555;
+        int port = 5555;
         gameServer.start(port);
     }
 

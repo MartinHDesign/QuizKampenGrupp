@@ -1,5 +1,7 @@
 package SinglePplayer.Panel;
 
+import Server.ServerResponse;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,28 +19,29 @@ public class MasterFrame extends JFrame {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     String ip = "127.0.0.1";
-    int port = 55555;
+    int port = 5555;
     ReadFromServer readFromServer = new ReadFromServer();
 
 
-    public MasterFrame(){
+    public MasterFrame() {
         add(allPanels);
 
         showPage(pageNumber);
         setTitle("Jesus Quiztus ");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(new Dimension(500,520));
+        setSize(new Dimension(500, 520));
         setResizable(false);
         setVisible(true);
         setLocationRelativeTo(null);
     }
-    public void setTitleNameToUserName(String userName){
+
+    public void setTitleNameToUserName(String userName) {
         setTitle(userName);
     }
 
-    public String showPage(String page){
-        layout.show(allPanels,page);
+    public String showPage(String page) {
+        layout.show(allPanels, page);
         return page;
     }
 
@@ -54,6 +57,7 @@ public class MasterFrame extends JFrame {
             throw new RuntimeException(e);
         }
     }
+
     public Object sendMessage(Object objectToServer) {
         try {
             out.writeObject(objectToServer);
@@ -65,6 +69,7 @@ public class MasterFrame extends JFrame {
             throw new RuntimeException(e);
         }
     }
+
     public void sendToServer(Object fromClient) {
         try {
             out.writeObject(fromClient);
@@ -79,15 +84,36 @@ public class MasterFrame extends JFrame {
 
 
     // lyssnar efter vad servern skickar.
-    public class ReadFromServer implements Runnable{
+    public class ReadFromServer implements Runnable {
         @Override
         public void run() {
             try {
                 Object objectFromServer;
+                out.writeObject(0);
                 while ((objectFromServer = in.readObject()) != null) {
-                    //kolla vad för object från servern och utför rätt åtgärd via ett protokoll?
-                    System.out.println(objectFromServer);
-                    showPage(objectFromServer.toString());
+
+                    ServerResponse serverResponse = getServerResponse(objectFromServer);
+                    System.out.println("messageRecieved");
+                    System.out.println("GUI INSTRUCTION: " + serverResponse.getShowGUIPanel());
+                    if (serverResponse.getPlayerNames() != null) {
+                        allPanels.scorePanel.setPlayer1Name(serverResponse.getPlayerNames().get(0).getName());
+                        allPanels.scorePanel.setPlayer1Name(serverResponse.getPlayerNames().get(1).getName());
+
+                    }
+                    if (serverResponse.getShowGUIPanel() != null) {
+                        System.out.println("Trying to set page to " + serverResponse.getShowGUIPanel());
+                        showPage(serverResponse.getShowGUIPanel());
+                        revalidate();
+                        repaint();
+                    }
+
+                    if (serverResponse.getQuestion() != null) {
+                        System.out.println(serverResponse.getQuestion().getAnswers().get(0).getAnswerText());
+                        setQuestions(serverResponse);
+                        revalidate();
+                        repaint();
+                    }
+
 
 
                 }
@@ -102,6 +128,24 @@ public class MasterFrame extends JFrame {
     public ReadFromServer getReadFromServer() {
         return readFromServer;
     }
+    public ServerResponse getServerResponse(Object object) {
+        return (ServerResponse) object;
+    }
+
+    public void setQuestions(ServerResponse serverResponse) {
+        allPanels.questionPanel.questionFromServer.setText(serverResponse.getQuestion().getQuestion());
+        allPanels.questionPanel.answer1.setText(serverResponse.getQuestion().getAnswers().get(0).getAnswerText());
+        allPanels.questionPanel.answer2.setText(serverResponse.getQuestion().getAnswers().get(1).getAnswerText());
+        allPanels.questionPanel.answer3.setText(serverResponse.getQuestion().getAnswers().get(2).getAnswerText());
+        allPanels.questionPanel.answer4.setText(serverResponse.getQuestion().getAnswers().get(3).getAnswerText());
+        allPanels.questionPanel.answer1.setCorrect(serverResponse.getQuestion().getAnswers().get(0).getIsCorrect());
+        allPanels.questionPanel.answer2.setCorrect(serverResponse.getQuestion().getAnswers().get(1).getIsCorrect());
+        allPanels.questionPanel.answer3.setCorrect(serverResponse.getQuestion().getAnswers().get(2).getIsCorrect());
+        allPanels.questionPanel.answer4.setCorrect(serverResponse.getQuestion().getAnswers().get(3).getIsCorrect());
+        revalidate();
+        repaint();
+    }
+
 
     public static void main(String[] args) {
         new MasterFrame();
