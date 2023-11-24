@@ -16,25 +16,25 @@ public class CardLayoutContainer extends JPanel {
         setLayout(layout);
 
         loginPanel = new LOGIN(masterFrame);
-        add(loginPanel, "LOGIN");
+        add(loginPanel, FinalStrings.LOGIN.toString());
 
         menuPanel = new MENU(masterFrame);
-        add(menuPanel, "MENU");
+        add(menuPanel, FinalStrings.MENU.toString());
 
         waitPanel = new WAIT(masterFrame);
-        add(waitPanel, "WAIT");
+        add(waitPanel, FinalStrings.WAIT.toString());
 
         questionPanel = new QUESTIONS(masterFrame);
-        add(questionPanel, "QUESTIONS");
+        add(questionPanel, FinalStrings.QUESTIONS.toString());
 
         HighScorePanel highScorePanel = new HighScorePanel(masterFrame);
         add(highScorePanel, "HIGHSCORE");
 
         categoryPanel = new CATEGORY(masterFrame);
-        add(categoryPanel, "CATEGORY");
+        add(categoryPanel, FinalStrings.CATEGORY.toString());
 
         scorePanel = new SCORE(masterFrame);
-        add(scorePanel, "SCORE");
+        add(scorePanel, FinalStrings.SCORE.toString());
     }
 
     public LOGIN getLoginPanel() {
