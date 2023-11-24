@@ -87,7 +87,9 @@ public class MasterFrame extends JFrame {
     public class ReadFromServer implements Runnable {
         @Override
         public void run() {
+
             try {
+
                 Object objectFromServer;
 
                 while ((objectFromServer = in.readObject()) != null) {

@@ -33,7 +33,9 @@ public class QUESTIONS extends JPanel {
         buttonPanel.setSize(new Dimension(500,230));
 
         answer1.addActionListener(l -> {
+
                 masterFrame.sendToServer(answer1.isCorrect());
+
         });
         answer2.addActionListener(l -> {
 

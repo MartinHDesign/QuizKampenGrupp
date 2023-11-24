@@ -25,12 +25,15 @@ public class NewGameHandler extends Thread {
 
 
         try {
+            player1.out.writeObject(new ServerResponse("CATEGORY"));
             player2.out.writeObject(new ServerResponse("WAIT"));
 
             int rounds = 0;
+            int numbrerofRounds = 5;
             Player currentPlayer = player1;
             while(true) {
                     switch (rounds) {
+
                         case 3 -> currentPlayer = player2;
 
                         case 5 ->{
