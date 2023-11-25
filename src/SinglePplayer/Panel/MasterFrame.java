@@ -122,7 +122,7 @@ public class MasterFrame extends JFrame {
                         setQuestions(serverResponse);
                         revalidate();
                         repaint();
-                        continue;
+
                     }
 
                 }

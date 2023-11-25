@@ -38,49 +38,22 @@ public class ProtocolREPLACEWithNewCode {
         System.out.println("Numer of questions answered: " + questionsAnswered);
 
 
-
         if (objectFromClient instanceof Integer) {
-            questionsAnswered++;
-            System.out.println("Sending questions to " + player.getName());
-            switch ((Integer) objectFromClient) {
-                case 0 -> currentCategory = historyQuestions.getHistoryQuestions();
-
-            }
-            return new ServerResponse(currentCategory.get(0), "QUESTIONS");
+            return processCategoryChosen((Integer) objectFromClient);
         }
 
-            if (objectFromClient instanceof Boolean) {
+        if (objectFromClient instanceof Boolean) {
 
+            return (processAnsweredQuestion((Boolean) objectFromClient, player));
 
-                if ((Boolean) objectFromClient) {
-                    player.gainOnePoint();
-                    System.out.println(player.getName() + " gained one point");
-                }
-                if (questionsAnswered == numberOfQuestions) {
-                    System.out.println("telling player" + player.getName() + " to wait");
-                    questionToSend = 0;
-                    return new ServerResponse("WAIT");
+        }
 
-                }
-                if (questionsAnswered == numberOfQuestions*2) {
-                    System.out.println("sending end of round score");
-                    questionsAnswered = 0;
-                    return new ServerResponse("SCORE");
-                }
-                System.out.println("Sending questions to " + player.getName());
-                questionToSend++;
-                questionsAnswered++;
-                return new ServerResponse(currentCategory.get(questionToSend), "QUESTION");
-
-
-            }
-
-            return null;
+        return null;
 
 
     }
 
-    public Object processBoolean(boolean input, Player player) {
+    public Object processAnsweredQuestion(boolean input, Player player) {
 
         if ((Boolean) input) {
             player.gainOnePoint();
@@ -92,7 +65,7 @@ public class ProtocolREPLACEWithNewCode {
             return new ServerResponse("WAIT");
 
         }
-        if (questionsAnswered == numberOfQuestions*2) {
+        if (questionsAnswered == numberOfQuestions * 2) {
             System.out.println("sending end of round score");
             questionsAnswered = 0;
             return new ServerResponse("SCORE");
@@ -102,9 +75,14 @@ public class ProtocolREPLACEWithNewCode {
         questionsAnswered++;
         return new ServerResponse(currentCategory.get(questionToSend), "QUESTION");
 
+    }
 
+    public Object processCategoryChosen(int input) {
+        questionsAnswered++;
+        switch (input) {
+            case 0 -> currentCategory = historyQuestions.getHistoryQuestions();
 
-
-
+        }
+        return new ServerResponse(currentCategory.get(0), "QUESTIONS");
     }
 }

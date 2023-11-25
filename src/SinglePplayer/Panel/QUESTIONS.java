@@ -2,13 +2,12 @@ package SinglePplayer.Panel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class QUESTIONS extends JPanel {
     JLabel questionFromServer = new JLabel("Här bör frågan dyka upp");
     JPanel buttonPanel = new JPanel();
     JPanel questionsAndButtons = new JPanel();
+    boolean answer;
     protected QuestionButton answer1 = new QuestionButton();
     protected QuestionButton answer2 = new QuestionButton();
     protected QuestionButton answer3 = new QuestionButton();
@@ -19,13 +18,13 @@ public class QUESTIONS extends JPanel {
     JButton exit = new JButton("Spelare 2 till CATEGORY");
     MasterFrame masterFrame;
 
+
+    private JLayeredPane layeredPane;
+    private JPanel popupPanel;
+
     public QUESTIONS(MasterFrame masterFrame) {
-        /*
-        1. svara på fråga, spara svar
-        2. om det finns fler frågor svara, spara svar
-        3. skicka svaren till servern
-        4. visa score screen
-         */
+
+        this.masterFrame = masterFrame;
         setLayout(new BorderLayout());
 
         questionFromServer.setSize(new Dimension(500, 250));
@@ -34,27 +33,25 @@ public class QUESTIONS extends JPanel {
         buttonPanel.setSize(new Dimension(500, 230));
 
         answer1.addActionListener(l -> {
-            setColorBasedOnCorrectAnswer(answer1, answer1.isCorrect());
-            showPopup();
-            masterFrame.sendToServer(answer1.isCorrect());
+            this.answer = answer1.isCorrect();
+            setColorAndShowPopup(answer1);
+
 
         });
         answer2.addActionListener(l -> {
-            setColorBasedOnCorrectAnswer(answer2, answer2.isCorrect());
-            showPopup();
-            masterFrame.sendToServer(answer2.isCorrect());
+            this.answer = answer2.isCorrect();
+            setColorAndShowPopup(answer2);
+
 
         });
         answer3.addActionListener(l -> {
-            setColorBasedOnCorrectAnswer(answer3, answer3.isCorrect());
-            showPopup();
-            masterFrame.sendToServer(answer3.isCorrect());
+            this.answer = answer3.isCorrect();
+            setColorAndShowPopup(answer3);
 
         });
         answer4.addActionListener(l -> {
-            setColorBasedOnCorrectAnswer(answer4, answer4.isCorrect());
-            showPopup();
-            masterFrame.sendToServer(answer4.isCorrect());
+            this.answer = answer4.isCorrect();
+            setColorAndShowPopup(answer4);
 
         });
 
@@ -69,46 +66,78 @@ public class QUESTIONS extends JPanel {
 
         exit.setSize(new Dimension(500, 10));
 
+
+        layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(300, 300)); // Set this according to your needs
+        initPopupPanel();
+
+        questionsAndButtons.setBounds(0, 0, 500, 500);
+        popupPanel.setBounds(100, 100, 300, 200); // Position the popup panel
+
+        layeredPane.add(questionsAndButtons, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(popupPanel, JLayeredPane.PALETTE_LAYER);
+
+        // Add the layered pane to the panel
+        add(layeredPane, BorderLayout.CENTER);
         add(exit, BorderLayout.NORTH);
-        add(questionsAndButtons, BorderLayout.CENTER);
         add(timeToAnswer, BorderLayout.SOUTH);
     }
 
-    private void showPopup() {
-        // Create a modal JDialog
-        JDialog popupDialog = new JDialog(masterFrame, true);
-        popupDialog.setLayout(new FlowLayout());
-        popupDialog.setModal(true);
+    private void initPopupPanel() {
+        popupPanel = new JPanel(new BorderLayout());
+        int popupWidth = 100;
+        int popupHeight = 100;
+        popupPanel.setSize(popupWidth, popupHeight);
 
-        JButton newButton = new JButton("Nästa fråga");
-        newButton.addActionListener(e -> {
-
-            popupDialog.dispose();
+        JButton nextQuestion = new JButton("Nästa fråga");
+        nextQuestion.setSize(popupWidth,popupHeight);
+        nextQuestion.addActionListener(e -> {
+            togglePopupVisibility(false);
             setButtonsToDefaultColor();
+            masterFrame.sendToServer(answer);
 
         });
 
-        popupDialog.add(newButton);
-        popupDialog.setSize(300, 200);
-        popupDialog.setLocationRelativeTo(masterFrame);
-        popupDialog.setVisible(true);
+        popupPanel.add(nextQuestion, BorderLayout.CENTER);
+        popupPanel.setVisible(false);
+
+        int x = (layeredPane.getWidth() - popupWidth) / 2;
+        int y = (layeredPane.getHeight() - popupHeight) / 2;
+        popupPanel.setBounds(x, y, popupWidth, popupHeight);
+    }
+
+    private void togglePopupVisibility(boolean visible) {
+        popupPanel.setVisible(visible);
+        if (visible) {
+            layeredPane.moveToFront(popupPanel);
+        } else {
+            layeredPane.moveToBack(popupPanel);
+        }
     }
 
     public void setButtonsToDefaultColor() {
-        answer1.setBackground(null);
-        answer2.setBackground(null);
-        answer3.setBackground(null);
-        answer4.setBackground(null);
+        answer1.setBackground(UIManager.getColor("Button.background"));
+        answer2.setBackground(UIManager.getColor("Button.background"));
+        answer3.setBackground(UIManager.getColor("Button.background"));
+        answer4.setBackground(UIManager.getColor("Button.background"));
 
     }
 
     public void setColorBasedOnCorrectAnswer(QuestionButton questionButton, boolean isCorrectAnswer) {
+        questionButton.setOpaque(true);
 
         if (!isCorrectAnswer) {
            questionButton.setBackground(Color.red);
+
            return;
         }
         questionButton.setBackground(Color.green);
+
+    }
+
+    public void setColorAndShowPopup(QuestionButton button) {
+        setColorBasedOnCorrectAnswer(button, button.isCorrect());
+        togglePopupVisibility(true);
 
 
     }
