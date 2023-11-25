@@ -18,9 +18,16 @@ public class MasterFrame extends JFrame {
     private Socket socketToServer;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    String ip = "127.0.0.1";
-    int port = 5555;
-    ReadFromServer readFromServer = new ReadFromServer();
+    private String ip = "127.0.0.1";
+    private int port = 5555;
+    private ReadFromServer readFromServer = new ReadFromServer();
+
+    private int currentCategory;
+
+    protected final int HISTORY = 0;
+    protected final int SPORT = 1;
+
+    protected final int MUSIC = 2;
 
 
     public MasterFrame() {
@@ -91,6 +98,8 @@ public class MasterFrame extends JFrame {
             try {
 
                 Object objectFromServer;
+                String instructions;
+
 
                 while ((objectFromServer = in.readObject()) != null) {
 
@@ -113,9 +122,8 @@ public class MasterFrame extends JFrame {
                         setQuestions(serverResponse);
                         revalidate();
                         repaint();
+                        continue;
                     }
-
-
 
                 }
             } catch (IOException e) {
@@ -147,8 +155,17 @@ public class MasterFrame extends JFrame {
         repaint();
     }
 
+    public void setCurrentCategory(int currentCategory) {
+        this.currentCategory = currentCategory;
+    }
+
+    public int getCurrentCategory() {
+        return currentCategory;
+    }
 
     public static void main(String[] args) {
         new MasterFrame();
     }
 }
+
+

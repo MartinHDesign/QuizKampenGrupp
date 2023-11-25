@@ -47,7 +47,6 @@ public class ProtocolGamePanel {
         if (fromServer instanceof ServerResponse response) {
             int score = response.getScore();
             HistoryQuestion question = response.getQuestion();
-            int endOfGame = response.getEndOfGame();
             String categories = response.getShowGUIPanel();
 
             if (question != null) {

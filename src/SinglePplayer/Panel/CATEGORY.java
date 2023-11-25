@@ -21,12 +21,19 @@ public class CATEGORY extends JPanel {
              */
 
             history.addActionListener(l -> {
-                    masterFrame.sendToServer(0);
+                    masterFrame.setCurrentCategory(0);
+                    masterFrame.sendToServer(masterFrame.getCurrentCategory());
+
+
             });
-            sport.addActionListener(l -> masterFrame.sendToServer(1));
+            sport.addActionListener(l -> {
+                    masterFrame.setCurrentCategory(1);
+                    masterFrame.sendToServer(masterFrame.getCurrentCategory());
+            });
 
             music.addActionListener(l -> {
-                    masterFrame.sendToServer(2);
+                    masterFrame.setCurrentCategory(2);
+                    masterFrame.sendToServer(masterFrame.getCurrentCategory());
             });
             add(history);
             add(sport);

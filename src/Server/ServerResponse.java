@@ -11,16 +11,26 @@ public class ServerResponse implements Serializable {
 
     private int score;
     private HistoryQuestion question;
-    private int endOfGame;
     private String showGUIPanel;
 
     private List<String> playerNames;
 
     private List<Integer> playerScores;
 
+    private boolean endOfGame;
+
 
     public ServerResponse(int score) {
         this.score = score;
+    }
+
+    public ServerResponse() {
+    }
+
+    public ServerResponse(List<String> playerNames, List<Integer> playerScores, boolean endOfGame) {
+        this.playerNames = playerNames;
+        this.playerScores = playerScores;
+        this.endOfGame = endOfGame;
     }
 
     public ServerResponse(int score, String showGUIPanel) {
@@ -75,9 +85,6 @@ public class ServerResponse implements Serializable {
         return question;
     }
 
-    public int getEndOfGame() {
-        return endOfGame;
-    }
     public String getShowGUIPanel() {
         return showGUIPanel;
     }

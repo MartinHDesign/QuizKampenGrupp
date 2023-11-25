@@ -1,11 +1,8 @@
 package SinglePplayer;
 
-import Server.DataBase.HistoryQuestions.HistoryQuestion;
 import Server.ServerResponse;
-import SinglePplayer.Panel.SCORE;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,14 +19,24 @@ public class NewGameHandler extends Thread {
     public void run() {
         System.out.println("från newGameHandler");
         ProtocolREPLACEWithNewCode protocol = new ProtocolREPLACEWithNewCode(player1, player2);
+        GameProcess gameProcess = new GameProcess(player1,player2,protocol);
 
 
         try {
             player1.out.writeObject(new ServerResponse("CATEGORY"));
             player2.out.writeObject(new ServerResponse("WAIT"));
 
+
+            while (true) {
+                gameProcess.play();
+
+            }
+
+
+            /*
             int rounds = 0;
             int numbrerofRounds = 5;
+
             Player currentPlayer = player1;
             while(true) {
                     switch (rounds) {
@@ -111,6 +118,8 @@ public class NewGameHandler extends Thread {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         //startListningForInputFromBothClient();

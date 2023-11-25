@@ -1,9 +1,11 @@
 package SinglePplayer;
 
 import Server.DataBase.HistoryDAO;
+import Server.DataBase.HistoryQuestions.HistoryQuestion;
 import Server.ServerResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ProtocolREPLACEWithNewCode {
 
@@ -14,8 +16,11 @@ public class ProtocolREPLACEWithNewCode {
 
     private final HistoryDAO historyQuestions = new HistoryDAO();
 
-    private int currentCategory;
+    private List<HistoryQuestion> currentCategory;
+
     private final int HISTORY = 0;
+    private final int SPORT = 0;
+    private final int MUSIC = 0;
     private final int NEWGAME = 0;
     private final int SENDQUESTION = 1;
     private int numberOfQuestions = 2;
@@ -32,13 +37,20 @@ public class ProtocolREPLACEWithNewCode {
     public Object processInput(Object objectFromClient, Player player) throws IOException {
         System.out.println("Numer of questions answered: " + questionsAnswered);
 
+
+
         if (objectFromClient instanceof Integer) {
             questionsAnswered++;
             System.out.println("Sending questions to " + player.getName());
-            return new ServerResponse(historyQuestions.getHistoryQuestions().get(0), "QUESTIONS");
+            switch ((Integer) objectFromClient) {
+                case 0 -> currentCategory = historyQuestions.getHistoryQuestions();
+
+            }
+            return new ServerResponse(currentCategory.get(0), "QUESTIONS");
         }
 
             if (objectFromClient instanceof Boolean) {
+
 
                 if ((Boolean) objectFromClient) {
                     player.gainOnePoint();
@@ -48,18 +60,51 @@ public class ProtocolREPLACEWithNewCode {
                     System.out.println("telling player" + player.getName() + " to wait");
                     questionToSend = 0;
                     return new ServerResponse("WAIT");
+
                 }
                 if (questionsAnswered == numberOfQuestions*2) {
                     System.out.println("sending end of round score");
+                    questionsAnswered = 0;
                     return new ServerResponse("SCORE");
                 }
-
                 System.out.println("Sending questions to " + player.getName());
                 questionToSend++;
                 questionsAnswered++;
-                return new ServerResponse(historyQuestions.getHistoryQuestions().get(questionToSend));
+                return new ServerResponse(currentCategory.get(questionToSend), "QUESTION");
+
+
             }
 
-        return new ServerResponse("Null");
+            return null;
+
+
+    }
+
+    public Object processBoolean(boolean input, Player player) {
+
+        if ((Boolean) input) {
+            player.gainOnePoint();
+            System.out.println(player.getName() + " gained one point");
+        }
+        if (questionsAnswered == numberOfQuestions) {
+            System.out.println("telling player" + player.getName() + " to wait");
+            questionToSend = 0;
+            return new ServerResponse("WAIT");
+
+        }
+        if (questionsAnswered == numberOfQuestions*2) {
+            System.out.println("sending end of round score");
+            questionsAnswered = 0;
+            return new ServerResponse("SCORE");
+        }
+        System.out.println("Sending questions to " + player.getName());
+        questionToSend++;
+        questionsAnswered++;
+        return new ServerResponse(currentCategory.get(questionToSend), "QUESTION");
+
+
+
+
+
     }
 }
