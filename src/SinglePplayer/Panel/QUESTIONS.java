@@ -7,7 +7,7 @@ public class QUESTIONS extends JPanel {
     JLabel questionFromServer = new JLabel("Här bör frågan dyka upp");
     JPanel buttonPanel = new JPanel();
     JPanel questionsAndButtons = new JPanel();
-    boolean answer;
+    boolean correctAnswer;
     protected QuestionButton answer1 = new QuestionButton();
     protected QuestionButton answer2 = new QuestionButton();
     protected QuestionButton answer3 = new QuestionButton();
@@ -33,24 +33,26 @@ public class QUESTIONS extends JPanel {
         buttonPanel.setSize(new Dimension(500, 230));
 
         answer1.addActionListener(l -> {
-            this.answer = answer1.isCorrect();
+            this.correctAnswer = answer1.getisCorrect();
+            System.out.println(this.correctAnswer);
+            System.out.println(answer1.getisCorrect());
             setColorAndShowPopup(answer1);
 
 
         });
         answer2.addActionListener(l -> {
-            this.answer = answer2.isCorrect();
+            this.correctAnswer = answer2.getisCorrect();
             setColorAndShowPopup(answer2);
 
 
         });
         answer3.addActionListener(l -> {
-            this.answer = answer3.isCorrect();
+            this.correctAnswer = answer3.getisCorrect();
             setColorAndShowPopup(answer3);
 
         });
         answer4.addActionListener(l -> {
-            this.answer = answer4.isCorrect();
+            this.correctAnswer = answer4.getisCorrect();
             setColorAndShowPopup(answer4);
 
         });
@@ -72,12 +74,11 @@ public class QUESTIONS extends JPanel {
         initPopupPanel();
 
         questionsAndButtons.setBounds(0, 0, 500, 500);
-        popupPanel.setBounds(100, 100, 300, 200); // Position the popup panel
+        popupPanel.setBounds(100, 100, 300, 200);
 
         layeredPane.add(questionsAndButtons, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(popupPanel, JLayeredPane.PALETTE_LAYER);
 
-        // Add the layered pane to the panel
         add(layeredPane, BorderLayout.CENTER);
         add(exit, BorderLayout.NORTH);
         add(timeToAnswer, BorderLayout.SOUTH);
@@ -90,11 +91,11 @@ public class QUESTIONS extends JPanel {
         popupPanel.setSize(popupWidth, popupHeight);
 
         JButton nextQuestion = new JButton("Nästa fråga");
-        nextQuestion.setSize(popupWidth,popupHeight);
+        nextQuestion.setSize(popupWidth, popupHeight);
         nextQuestion.addActionListener(e -> {
             togglePopupVisibility(false);
             setButtonsToDefaultColor();
-            masterFrame.sendToServer(answer);
+            masterFrame.sendToServer(correctAnswer);
 
         });
 
@@ -127,19 +128,17 @@ public class QUESTIONS extends JPanel {
         questionButton.setOpaque(true);
 
         if (!isCorrectAnswer) {
-           questionButton.setBackground(Color.red);
+            questionButton.setBackground(Color.red);
 
-           return;
+            return;
         }
         questionButton.setBackground(Color.green);
 
     }
 
     public void setColorAndShowPopup(QuestionButton button) {
-        setColorBasedOnCorrectAnswer(button, button.isCorrect());
+        setColorBasedOnCorrectAnswer(button, button.getisCorrect());
         togglePopupVisibility(true);
-
-
     }
 }
 
