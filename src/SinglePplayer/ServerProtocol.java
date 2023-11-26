@@ -7,7 +7,7 @@ import Server.ServerResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ProtocolREPLACEWithNewCode {
+public class ServerProtocol {
 
     private Player player1;
     private Player player2;
@@ -21,15 +21,13 @@ public class ProtocolREPLACEWithNewCode {
     private final int HISTORY = 0;
     private final int SPORT = 0;
     private final int MUSIC = 0;
-    private final int NEWGAME = 0;
-    private final int SENDQUESTION = 1;
     private int numberOfQuestions = 2;
     private int questionsAnswered = 0;
     private int questionToSend = 0;
     private int rounds = 2;
     private int roundsPlayed = 0;
 
-    public ProtocolREPLACEWithNewCode(Player player1, Player player2) {
+    public ServerProtocol(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
     }
@@ -37,15 +35,12 @@ public class ProtocolREPLACEWithNewCode {
     public Object processInput(Object objectFromClient, Player player) throws IOException {
         System.out.println("Numer of questions answered: " + questionsAnswered);
 
-
         if (objectFromClient instanceof Integer) {
             return processCategoryChosen((Integer) objectFromClient);
         }
-
         if (objectFromClient instanceof Boolean) {
 
             return (processAnsweredQuestion((Boolean) objectFromClient, player));
-
         }
 
         return null;
@@ -62,12 +57,17 @@ public class ProtocolREPLACEWithNewCode {
         if (questionsAnswered == numberOfQuestions) {
             System.out.println("telling player" + player.getName() + " to wait");
             questionToSend = 0;
+
             return new ServerResponse("WAIT");
 
         }
         if (questionsAnswered == numberOfQuestions * 2) {
             System.out.println("sending end of round score");
             questionsAnswered = 0;
+            if (roundsPlayed == rounds) {
+                return new ServerResponse("SCORE",true);
+            }
+            //Här kan vi lägga till vad som behövs för att visa SCOREpanel
             return new ServerResponse("SCORE");
         }
         System.out.println("Sending questions to " + player.getName());

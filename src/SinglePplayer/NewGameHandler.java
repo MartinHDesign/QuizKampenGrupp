@@ -18,7 +18,7 @@ public class NewGameHandler extends Thread {
 
     public void run() {
         System.out.println("från newGameHandler");
-        ProtocolREPLACEWithNewCode protocol = new ProtocolREPLACEWithNewCode(player1, player2);
+        ServerProtocol protocol = new ServerProtocol(player1, player2);
         GameProcess gameProcess = new GameProcess(player1,player2,protocol);
 
 

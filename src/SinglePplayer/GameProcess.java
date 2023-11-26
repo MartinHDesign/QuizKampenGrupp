@@ -17,9 +17,9 @@ public class GameProcess {
 
     private boolean playerSwapped;
 
-    ProtocolREPLACEWithNewCode protocol;
+    ServerProtocol protocol;
 
-    public GameProcess(Player player1, Player player2, ProtocolREPLACEWithNewCode protocol) {
+    public GameProcess(Player player1, Player player2, ServerProtocol protocol) {
 
         this.player1 = player1;
         this.player2 = player2;
@@ -31,44 +31,61 @@ public class GameProcess {
     public void play() throws IOException, ClassNotFoundException, InterruptedException {
 
         Object objectFromClient = currentPlayer.in.readObject();
+        if (objectFromClient instanceof String) {
+            //Tar en in en sträng från "Spela nästa runda"-knappen i SCORE
+            newRound();
+            return;
+        }
         Object objectToReturn = protocol.processInput(objectFromClient, currentPlayer);
         currentPlayer.out.writeObject(objectToReturn);
-
         roundsPlayed++;
-        System.out.println("playerSwapped = " + playerSwapped);
 
         if (roundsPlayed == numberOfQuestions + 1) {
             if (playerSwapped) {
-                if (currentPlayer.equals(player1)) {
-                    player2.out.writeObject(objectToReturn);
-                    playerSwapped = false;
-                    roundsPlayed = 0;
-                    return;
-
-                } else if (currentPlayer.equals(player2)) {
-                    player1.out.writeObject(objectToReturn);
-                    playerSwapped = false;
-                    roundsPlayed = 0;
-                    return;
-
-                }
-
-                }
-            if (currentPlayer.equals(player1)) {
-                System.out.println("changing to player 2");
-                playerSwapped = true;
-                currentPlayer = player2;
-                roundsPlayed = 0;
-
+                sendEndOfRoundResults(objectToReturn);
             }
-            else if (currentPlayer.equals(player2)) {
-                System.out.println("changing to player 1");
-                playerSwapped = true;
-                currentPlayer = player1;
-                roundsPlayed = 0;
-            }
+            swapCurrentPlayer(player1, player2);
+        }
+    }
 
+    private void swapCurrentPlayer(Player player1, Player player2) {
+        if (currentPlayer.equals(player1)) {
+            System.out.println("changing to player 2");
+            playerSwapped = true;
+            currentPlayer = player2;
+            roundsPlayed = 0;
 
+        } else if (currentPlayer.equals(player2)) {
+            System.out.println("changing to player 1");
+            playerSwapped = true;
+            currentPlayer = player1;
+            roundsPlayed = 0;
+        }
+    }
+
+    private void sendEndOfRoundResults(Object objectToReturn) throws IOException {
+        if (currentPlayer.equals(player1)) {
+            player2.out.writeObject(objectToReturn);
+            playerSwapped = false;
+            roundsPlayed = 0;
+
+        } else if (currentPlayer.equals(player2)) {
+            player1.out.writeObject(objectToReturn);
+            playerSwapped = false;
+            roundsPlayed = 0;
+        }
+    }
+
+    private void newRound() throws IOException {
+        if (currentPlayer.equals(player1)) {
+            System.out.println("Sending new game instructions, Player1");
+            player1.out.writeObject(new ServerResponse("CATEGORY"));
+            player2.out.writeObject(new ServerResponse("WAIT"));
+
+        } if (currentPlayer.equals(player2)) {
+            System.out.println("Sending new game instructions, Player1");
+            player1.out.writeObject(new ServerResponse("WAIT"));
+            player2.out.writeObject(new ServerResponse("CATEGORY"));
 
         }
     }

@@ -98,8 +98,6 @@ public class MasterFrame extends JFrame {
             try {
 
                 Object objectFromServer;
-                String instructions;
-
 
                 while ((objectFromServer = in.readObject()) != null) {
 
@@ -107,18 +105,13 @@ public class MasterFrame extends JFrame {
                     System.out.println("messageRecieved");
                     System.out.println("GUI INSTRUCTION: " + serverResponse.getShowGUIPanel());
                     if (serverResponse.getPlayerNames() != null) {
-                        allPanels.scorePanel.setPlayer1Name(serverResponse.getPlayerNames().get(0));
-                        allPanels.scorePanel.setPlayer1Name(serverResponse.getPlayerNames().get(1));
+                        setNamesAndPointsOnScoreBoard();
                     }
                     if (serverResponse.getShowGUIPanel() != null) {
-                        System.out.println("Trying to set page to " + serverResponse.getShowGUIPanel());
-                        showPage(serverResponse.getShowGUIPanel());
-                        revalidate();
-                        repaint();
+                        setGUIPage(serverResponse);
                     }
 
                     if (serverResponse.getQuestion() != null) {
-                        System.out.println(serverResponse.getQuestion().getAnswers().get(0).getAnswerText());
                         setQuestions(serverResponse);
                         revalidate();
                         repaint();
@@ -165,6 +158,15 @@ public class MasterFrame extends JFrame {
 
     public static void main(String[] args) {
         new MasterFrame();
+    }
+
+    private void setNamesAndPointsOnScoreBoard() {
+
+    }
+    private void setGUIPage(ServerResponse serverResponse) {
+        showPage(serverResponse.getShowGUIPanel());
+        revalidate();
+        repaint();
     }
 }
 

@@ -18,35 +18,33 @@ public class CATEGORY extends JPanel {
 
         // LayeredPane setup
         layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(500, 200)); // Set preferred size
+        layeredPane.setPreferredSize(new Dimension(500, 200));
 
         // Adding buttons to the layeredPane on the default layer
         JPanel buttonsPanel = new JPanel(new GridLayout(5, 1));
         buttonsPanel.add(history);
         buttonsPanel.add(sport);
         buttonsPanel.add(music);
-        buttonsPanel.setBounds(0, 0, 500, 520); // Set bounds to match layeredPane size
+        buttonsPanel.setBounds(0, 0, 500, 520);
 
         layeredPane.add(buttonsPanel, JLayeredPane.DEFAULT_LAYER);
 
-        // Initialize and add the popup panel
         initPopupPanel();
         layeredPane.add(popupPanel, JLayeredPane.POPUP_LAYER);
 
-        add(layeredPane, BorderLayout.CENTER); // Add layeredPane to CATEGORY panel
+        add(layeredPane, BorderLayout.CENTER);
 
-        // Button Action Listeners
         history.addActionListener(l -> {
             masterFrame.setCurrentCategory(0);
-            togglePopupVisibility(true);
+            masterFrame.sendToServer(masterFrame.getCurrentCategory());
         });
         sport.addActionListener(l -> {
             masterFrame.setCurrentCategory(1);
-            togglePopupVisibility(true);
+            masterFrame.sendToServer(masterFrame.getCurrentCategory());
         });
         music.addActionListener(l -> {
             masterFrame.setCurrentCategory(2);
-            togglePopupVisibility(true);
+            masterFrame.sendToServer(masterFrame.getCurrentCategory());
         });
     }
 
@@ -60,7 +58,7 @@ public class CATEGORY extends JPanel {
         });
 
         popupPanel.add(button, BorderLayout.CENTER);
-        popupPanel.setBounds(50, 50, 200, 100); // Adjust position and size
+        popupPanel.setBounds(50, 50, 200, 100);
         popupPanel.setVisible(false);
     }
 

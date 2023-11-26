@@ -27,6 +27,11 @@ public class ServerResponse implements Serializable {
     public ServerResponse() {
     }
 
+    public ServerResponse(String showGUIPanel, boolean endOfGame) {
+        this.showGUIPanel = showGUIPanel;
+        this.endOfGame = endOfGame;
+    }
+
     public ServerResponse(List<String> playerNames, List<Integer> playerScores, boolean endOfGame) {
         this.playerNames = playerNames;
         this.playerScores = playerScores;
