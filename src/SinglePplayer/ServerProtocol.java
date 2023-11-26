@@ -56,7 +56,7 @@ public class ServerProtocol {
         }
         if (questionsAnswered == numberOfQuestions) {
             System.out.println("telling player" + player.getName() + " to wait");
-            questionToSend = 0;
+            questionToSend =0;
 
             return new ServerResponse("WAIT");
 
@@ -67,7 +67,7 @@ public class ServerProtocol {
             if (roundsPlayed == rounds) {
                 return new ServerResponse("SCORE",true);
             }
-            //Här kan vi lägga till vad som behövs för att visa SCOREpanel
+            //Här kan vi lägga till vad som behövs för att visa SCORE-Panel
             return new ServerResponse("SCORE");
         }
         System.out.println("Sending questions to " + player.getName());
@@ -84,5 +84,9 @@ public class ServerProtocol {
 
         }
         return new ServerResponse(currentCategory.get(0), "QUESTIONS");
+    }
+
+    public int getQuestionsAnswered() {
+        return questionsAnswered;
     }
 }

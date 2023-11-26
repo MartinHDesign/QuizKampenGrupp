@@ -42,7 +42,9 @@ public class GameProcess {
 
         if (roundsPlayed == numberOfQuestions + 1) {
             if (playerSwapped) {
+                roundsPlayed = 0;
                 sendEndOfRoundResults(objectToReturn);
+                return;
             }
             swapCurrentPlayer(player1, player2);
         }
