@@ -12,10 +12,14 @@ public class ServerResponse implements Serializable {
     private int score;
     private Question question;
     private String showGUIPanel;
+    private String opponentName;
+    private String category;
+    int opponentScore;
 
     private List<String> playerNames;
 
     private List<Integer> playerScores;
+
 
     private boolean endOfGame;
 
@@ -92,6 +96,18 @@ public class ServerResponse implements Serializable {
 
     public String getShowGUIPanel() {
         return showGUIPanel;
+    }
+
+    public String getOpponentName() {
+        return opponentName;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getOpponentScore() {
+        return opponentScore;
     }
 }
 

@@ -99,26 +99,53 @@ public class MasterFrame extends JFrame {
         public void run() {
 
             try {
-
                 Object objectFromServer;
 
                 while ((objectFromServer = in.readObject()) != null) {
-
                     ServerResponse serverResponse = getServerResponse(objectFromServer);
 
-                    if (serverResponse.getPlayerNames() != null) {
-                        setNamesAndPointsOnScoreBoard();
+                    // få category från server
+                    if (serverResponse.getCategory() != null){
+
                     }
-                    if (serverResponse.getShowGUIPanel() != null) {
+                    // poäng från servern
+                    if (serverResponse.getScore() != 0){
+                        System.out.println("spelare fick poäng: " + serverResponse.getScore());
+                    }
+
+                    // få questions
+                    if (serverResponse.getQuestion() != null){
+                        setQuestions(serverResponse);
+                    }
+
+                    // få byta GUI
+                    if (serverResponse.getShowGUIPanel() != null){
                         setGUIPage(serverResponse);
                     }
 
-                    if (serverResponse.getQuestion() != null) {
-                        setQuestions(serverResponse);
-                        revalidate();
-                        repaint();
+                    // få motståndares namn
+                    if (serverResponse.getOpponentName() != null){
 
                     }
+                    // få motståndares poäng
+                    if (serverResponse.getOpponentScore() != 0){
+
+                    }
+
+//                    ServerResponse serverResponse = getServerResponse(objectFromServer);
+//
+//                    if (serverResponse.getPlayerNames() != null) {
+//                        setNamesAndPointsOnScoreBoard();
+//                    }
+//                    if (serverResponse.getShowGUIPanel() != null) {
+//                        setGUIPage(serverResponse);
+//                    }
+//
+//                    if (serverResponse.getQuestion() != null) {
+//                        setQuestions(serverResponse);
+//                        revalidate();
+//                        repaint();
+//                    }
 
                 }
             } catch (IOException e) {
