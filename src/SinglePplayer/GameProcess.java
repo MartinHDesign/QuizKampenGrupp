@@ -12,6 +12,8 @@ public class GameProcess {
     private Player player2;
     int player1score;
     int player2score;
+    int totalScorePlayer1;
+    int totalScorePlayer2;
 
     Player currentPlayer;
 
@@ -57,6 +59,7 @@ public class GameProcess {
                 //+ poäng om rätt svar
                 if (objectFromClient.equals(true)){
                     player1score++;
+                    totalScorePlayer1++;
                 }
             }
             System.out.println("p1 svarat på 2 frågor");
@@ -74,6 +77,7 @@ public class GameProcess {
                 objectFromClient = player2.in.readObject();
                 if (objectFromClient.equals(true)){
                     player2score++;
+                    totalScorePlayer2++;
                 }
             }
 
@@ -99,6 +103,7 @@ public class GameProcess {
                 objectFromClient = player2.in.readObject();
                 if (objectFromClient.equals(true)){
                     player2score++;
+                    totalScorePlayer2++;
                 }
             }
             System.out.println("p2 har valt kategori och svarat på 2 frågor");
@@ -119,6 +124,7 @@ public class GameProcess {
                 objectFromClient = player1.in.readObject();
                 if (objectFromClient.equals(true)){
                     player1score++;
+                    totalScorePlayer1++;
                 }
             }
             player1.out.writeObject(new ServerResponse(player1score+100));
@@ -132,8 +138,16 @@ public class GameProcess {
             System.out.println(player2score);
         }
         //om alla rundor är slut score screen för båda
-        player1.out.writeObject(new ServerResponse("LOGIN"));
-        player2.out.writeObject(new ServerResponse("LOGIN"));
+        if (player1score > player2score){
+            player1.out.writeObject(new ServerResponse("WIN"));
+            player2.out.writeObject(new ServerResponse("LOSE"));
+        } else if (player2score > player1score){
+            player1.out.writeObject(new ServerResponse("LOSE"));
+            player2.out.writeObject(new ServerResponse("WIN"));
+        } else {
+            player1.out.writeObject(new ServerResponse("DRAW"));
+            player2.out.writeObject(new ServerResponse("DRAW"));
+        }
 
 
 

@@ -12,6 +12,9 @@ public class CardLayoutContainer extends JPanel {
     QUESTIONS questionPanel;
     CATEGORY categoryPanel;
     SCORE scorePanel;
+    WIN winPanel;
+    LOSE losePanel;
+    DRAW drawPanel;
     public CardLayoutContainer(CardLayout layout, MasterFrame masterFrame){
         setLayout(layout);
 
@@ -35,6 +38,17 @@ public class CardLayoutContainer extends JPanel {
 
         scorePanel = new SCORE(masterFrame);
         add(scorePanel, FinalStrings.SCORE.toString());
+
+        winPanel = new WIN();
+        add(winPanel,"WIN");
+
+        losePanel = new LOSE();
+        add(loginPanel, "LOSE");
+
+        drawPanel = new DRAW();
+        add(drawPanel, "DRAW");
+
+
     }
 
     public LOGIN getLoginPanel() {
