@@ -26,17 +26,7 @@ public class NewGameHandler extends Thread {
             player1.out.writeObject(new ServerResponse("CATEGORY"));
             player2.out.writeObject(new ServerResponse("WAIT"));
 
-
-            while (true) {
-
-                gameProcess.play();
-
-            }
-
-
-
-
-
+            gameProcess.play();
 
         } catch (IOException e) {
             throw new RuntimeException(e);

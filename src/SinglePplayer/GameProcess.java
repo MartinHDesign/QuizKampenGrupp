@@ -38,7 +38,7 @@ public class GameProcess {
 
 
         // loopar antal rundor
-        for (int rundor = 0; rundor < 1; rundor++) {
+        for (int rundor = 0; rundor < 2; rundor++) {
             //p1 skickar vald kategori
             objectFromClient = currentPlayer.in.readObject();
             //loopar för antal frågor
@@ -50,9 +50,7 @@ public class GameProcess {
                 objectFromClient = currentPlayer.in.readObject();
                 //+ poäng om rätt svar
                 if (objectFromClient.equals(true)){
-                    System.out.println(player1score);
                     player1score++;
-                    System.out.println(player1score);
                 }
             }
             System.out.println("p1 svarat på 2 frågor");
@@ -68,7 +66,9 @@ public class GameProcess {
                 currentPlayer.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
                 objectFromClient = currentPlayer.in.readObject();
-                //+ poäng om rätt svar
+                if (objectFromClient.equals(true)){
+                    player2score++;
+                }
             }
             System.out.println("p2 svarat på 2 frågor");
 
@@ -83,7 +83,9 @@ public class GameProcess {
                 currentPlayer.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
                 objectFromClient = currentPlayer.in.readObject();
-                //+ poäng om rätt svar
+                if (objectFromClient.equals(true)){
+                    player2score++;
+                }
             }
             System.out.println("p2 har valt kategori och svarat på 2 frågor");
             // p2 till score sidan med player1 poäng för runda
@@ -96,10 +98,14 @@ public class GameProcess {
                 currentPlayer.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p1
                 objectFromClient = currentPlayer.in.readObject();
-                //+ poäng om rätt svar
+                if (objectFromClient.equals(true)){
+                    player1score++;
+                }
             }
             System.out.println("p1 svarat på 2 frågor");
             currentPlayer.out.writeObject(new ServerResponse("CATEGORY"));
+            System.out.println(player1score);
+            System.out.println(player2score);
         }
         //om alla rundor är slut score screen för båda
         player1.out.writeObject(new ServerResponse("LOGIN"));
