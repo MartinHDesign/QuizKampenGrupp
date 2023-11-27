@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
-public class  Player {
+public class  Player implements Serializable {
     String name = "Guest Player";
     ImageIcon avatar = new ImageIcon(); // kommer när vi har avatar bilder
     private int score = 0;

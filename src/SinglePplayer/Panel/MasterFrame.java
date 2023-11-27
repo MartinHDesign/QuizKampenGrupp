@@ -5,6 +5,8 @@ import Server.DataBase.Questions.History.HistoryAnswer;
 import Server.DataBase.Questions.History.HistoryQuestion;
 import Server.DataBase.Questions.Question;
 import Server.ServerResponse;
+import SinglePplayer.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,7 +18,7 @@ import java.net.UnknownHostException;
 public class MasterFrame extends JFrame {
     private final CardLayout layout = new CardLayout();
     private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
-    String pageNumber = FinalStrings.SCORE.toString();
+    String pageNumber = FinalStrings.LOGIN.toString();
 
     private Socket socketToServer;
     private ObjectOutputStream out;
@@ -109,8 +111,11 @@ public class MasterFrame extends JFrame {
 
                     }
                     // poäng från servern
-                    if (serverResponse.getScore() != 0){
-                        System.out.println("spelare fick poäng: " + serverResponse.getScore());
+                    if (serverResponse.getScore() > 99){
+                        if (serverResponse.getScore() < 200){
+                            setPlayer1Score(serverResponse.getScore()-100);
+                        } else
+                            setPlayer2Score(serverResponse.getScore()-200);
                     }
 
                     // få questions
@@ -125,27 +130,8 @@ public class MasterFrame extends JFrame {
 
                     // få motståndares namn
                     if (serverResponse.getOpponentName() != null){
-
+                        setOpponentName(serverResponse.getOpponentName());
                     }
-                    // få motståndares poäng
-                    if (serverResponse.getOpponentScore() != 0){
-
-                    }
-
-//                    ServerResponse serverResponse = getServerResponse(objectFromServer);
-//
-//                    if (serverResponse.getPlayerNames() != null) {
-//                        setNamesAndPointsOnScoreBoard();
-//                    }
-//                    if (serverResponse.getShowGUIPanel() != null) {
-//                        setGUIPage(serverResponse);
-//                    }
-//
-//                    if (serverResponse.getQuestion() != null) {
-//                        setQuestions(serverResponse);
-//                        revalidate();
-//                        repaint();
-//                    }
 
                 }
             } catch (IOException e) {
@@ -185,27 +171,26 @@ public class MasterFrame extends JFrame {
         repaint();
 
     }
-
-    public void setCurrentCategory(int currentCategory) {
-        this.currentCategory = currentCategory;
+    public void setPlayer1Score(int score){
+        allPanels.scorePanel.player1ScoreThisRound(score);
+    }
+    public void setPlayer2Score(int score){
+        allPanels.scorePanel.player2ScoreThisRound(score);
+    }
+    public void setOpponentName(String playerName){
+        allPanels.scorePanel.setPlayer2Username(playerName);
     }
 
     public int getCurrentCategory() {
         return currentCategory;
     }
 
-    public static void main(String[] args) {
-        new MasterFrame();
-    }
-
-    private void setNamesAndPointsOnScoreBoard() {
-
-    }
     private void setGUIPage(ServerResponse serverResponse) {
         showPage(serverResponse.getShowGUIPanel());
         revalidate();
         repaint();
     }
+    public static void main(String[] args) {new MasterFrame();}
 }
 
 

@@ -28,14 +28,8 @@ public class SCORE extends JPanel {
 
     public SCORE(MasterFrame masterFrame){
         player2testbutton.addActionListener(e -> {
-            player2ScoreThisRound(2);
-            revalidate();
-            repaint();
         });
         exit.addActionListener(e -> {
-            player1ScoreThisRound(3);
-            revalidate();
-            repaint();
         });
 
         setLayout(new BorderLayout());

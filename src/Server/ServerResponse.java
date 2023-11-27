@@ -2,6 +2,7 @@ package Server;
 
 
 import Server.DataBase.Questions.Question;
+import SinglePplayer.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class ServerResponse implements Serializable {
     private String showGUIPanel;
     private String opponentName;
     private String category;
-    int opponentScore;
+    private int opponentScore;
 
     private List<String> playerNames;
 
@@ -22,6 +23,10 @@ public class ServerResponse implements Serializable {
 
 
     private boolean endOfGame;
+    public ServerResponse(String opponentName, int opponentScore){
+        this.opponentName = opponentName;
+    }
+
 
 
     public ServerResponse(int score) {
@@ -109,5 +114,6 @@ public class ServerResponse implements Serializable {
     public int getOpponentScore() {
         return opponentScore;
     }
+
 }
 

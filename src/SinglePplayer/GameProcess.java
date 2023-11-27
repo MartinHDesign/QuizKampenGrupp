@@ -35,19 +35,25 @@ public class GameProcess {
         System.out.println("här 1");
         HistoryDAO hd = new HistoryDAO();
         Object objectFromClient;
+        int rounds = 2; // från property
+        int questionsAmount = 2; // från property
 
+        //skickar namn till andra spelaren
+        player1.out.writeObject(new ServerResponse(player2.getName(), 0));
+        player2.out.writeObject(new ServerResponse(player1.getName(), 0));
 
         // loopar antal rundor
-        for (int rundor = 0; rundor < 2; rundor++) {
+        for (int rundor = 0; rundor < rounds; rundor++) {
             //p1 skickar vald kategori
-            objectFromClient = currentPlayer.in.readObject();
+            objectFromClient = player1.in.readObject();
+
             //loopar för antal frågor
-            for (int questions = 0; questions < 2; questions++) {
+            for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar ny fråga till p1
-                currentPlayer.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
-                currentPlayer.out.writeObject(new ServerResponse("QUESTIONS"));
+                player1.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player1.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p1
-                objectFromClient = currentPlayer.in.readObject();
+                objectFromClient = player1.in.readObject();
                 //+ poäng om rätt svar
                 if (objectFromClient.equals(true)){
                     player1score++;
@@ -55,55 +61,73 @@ public class GameProcess {
             }
             System.out.println("p1 svarat på 2 frågor");
             //p1 till score sidan
-//            currentPlayer.out.writeObject(player1score);
+            player1.out.writeObject(new ServerResponse(player1score+100));
             System.out.println("byt p1 till score");
-            currentPlayer.out.writeObject(new ServerResponse("SCORE"));
+            player1.out.writeObject(new ServerResponse("SCORE"));
             // byt till p2
-            swapCurrentPlayer(player1,player2);
-            for (int questions = 0; questions < 2; questions++) {
+//            swapCurrentPlayer(player1,player2);
+            for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar ny fråga till p2
-                currentPlayer.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
-                currentPlayer.out.writeObject(new ServerResponse("QUESTIONS"));
+                player2.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player2.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
-                objectFromClient = currentPlayer.in.readObject();
+                objectFromClient = player2.in.readObject();
                 if (objectFromClient.equals(true)){
                     player2score++;
                 }
             }
+
+            player1.out.writeObject(new ServerResponse(player2score+200));
+            player1.out.writeObject(new ServerResponse("SCORE"));
+            player2.out.writeObject(new ServerResponse(player2score+100));
+            player2.out.writeObject(new ServerResponse(player1score+200));
+            player1score = 0;
+            player2score = 0;
+
             System.out.println("p2 svarat på 2 frågor");
 
             //skicka category = byt till category sidan fär p2
-            currentPlayer.out.writeObject(new ServerResponse("CATEGORY"));
+            player2.out.writeObject(new ServerResponse("CATEGORY"));
 
             //får svar p2
-            objectFromClient = currentPlayer.in.readObject();
-            for (int questions = 0; questions < 2; questions++) {
+            objectFromClient = player2.in.readObject();
+            for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar ny fråga till p2
-                currentPlayer.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
-                currentPlayer.out.writeObject(new ServerResponse("QUESTIONS"));
+                player2.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player2.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
-                objectFromClient = currentPlayer.in.readObject();
+                objectFromClient = player2.in.readObject();
                 if (objectFromClient.equals(true)){
                     player2score++;
                 }
             }
             System.out.println("p2 har valt kategori och svarat på 2 frågor");
+
             // p2 till score sidan med player1 poäng för runda
-            currentPlayer.out.writeObject(new ServerResponse("SCORE"));
+            player2.out.writeObject(new ServerResponse(player2score+100));
+            player1.out.writeObject(new ServerResponse(player2score+200));
+            player2score = 0;
+
+            player2.out.writeObject(new ServerResponse("SCORE"));
             //byt till player1
-            swapCurrentPlayer(player1,player2);
-            for (int questions = 0; questions < 2; questions++) {
+
+            for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar nya frågor till p1
-                currentPlayer.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
-                currentPlayer.out.writeObject(new ServerResponse("QUESTIONS"));
+                player1.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player1.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p1
-                objectFromClient = currentPlayer.in.readObject();
+                objectFromClient = player1.in.readObject();
                 if (objectFromClient.equals(true)){
                     player1score++;
                 }
             }
+            player1.out.writeObject(new ServerResponse(player1score+100));
+            player2.out.writeObject(new ServerResponse(player1score+200));
+            player1score = 0;
+
+            player2.out.writeObject(new ServerResponse("SCORE"));
             System.out.println("p1 svarat på 2 frågor");
-            currentPlayer.out.writeObject(new ServerResponse("CATEGORY"));
+            player1.out.writeObject(new ServerResponse("CATEGORY"));
             System.out.println(player1score);
             System.out.println(player2score);
         }
