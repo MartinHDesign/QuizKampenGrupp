@@ -1,14 +1,14 @@
-package Server.DataBase.HistoryQuestions;
+package Server.DataBase.Questions;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class HistoryQuestion implements Serializable {
+public abstract class Question<T extends Answer> implements Serializable {
 
     private String question;
-    private List<HistoryAnswer> answers;
+    private List<T> answers;
 
-    public HistoryQuestion(String question, List<HistoryAnswer> answers) {
+    public Question(String question, List<T> answers) {
         this.question = question;
         this.answers = answers;
     }
@@ -21,11 +21,11 @@ public class HistoryQuestion implements Serializable {
         this.question = question;
     }
 
-    public List<HistoryAnswer> getAnswers() {
+    public List<T> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(List<HistoryAnswer> answers) {
+    public void setAnswers(List<T> answers) {
         this.answers = answers;
     }
 }

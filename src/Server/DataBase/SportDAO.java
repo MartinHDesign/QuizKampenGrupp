@@ -1,7 +1,9 @@
 package Server.DataBase;
 
-import Server.DataBase.SportQuestions.SportAnswer;
-import Server.DataBase.SportQuestions.SportQuestion;
+
+
+import Server.DataBase.Questions.Sport.SportAnswer;
+import Server.DataBase.Questions.Sport.SportQuestion;
 
 import java.util.ArrayList;
 import java.util.List;

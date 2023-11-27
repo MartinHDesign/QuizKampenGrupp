@@ -1,7 +1,8 @@
 package Server.DataBase;
 
-import Server.DataBase.HistoryQuestions.HistoryAnswer;
-import Server.DataBase.HistoryQuestions.HistoryQuestion;
+import Server.DataBase.Questions.History.HistoryAnswer;
+import Server.DataBase.Questions.History.HistoryQuestion;
+
 
 import java.util.ArrayList;
 import java.util.List;
