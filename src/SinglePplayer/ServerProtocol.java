@@ -21,10 +21,10 @@ public class ServerProtocol {
     private final int HISTORY = 0;
     private final int SPORT = 0;
     private final int MUSIC = 0;
-    private int numberOfQuestions = 2;
+    private int numberOfQuestions = 2; //från properties
     private int questionsAnswered = 0;
     private int questionToSend = 0;
-    private int rounds = 2;
+    private int numberOfRounds = 2; //från properties
     private int roundsPlayed = 0;
 
     public ServerProtocol(Player player1, Player player2) {
@@ -50,7 +50,7 @@ public class ServerProtocol {
 
     public Object processAnsweredQuestion(boolean input, Player player) {
 
-        if ((Boolean) input) {
+        if (input) {
             player.gainOnePoint();
             System.out.println(player.getName() + " gained one point");
         }
@@ -64,10 +64,11 @@ public class ServerProtocol {
         if (questionsAnswered == numberOfQuestions * 2) {
             System.out.println("sending end of round score");
             questionsAnswered = 0;
-            if (roundsPlayed == rounds) {
+            if (roundsPlayed == numberOfRounds) {
                 return new ServerResponse("SCORE",true);
             }
             //Här kan vi lägga till vad som behövs för att visa SCORE-Panel
+            roundsPlayed++;
             return new ServerResponse("SCORE");
         }
         System.out.println("Sending questions to " + player.getName());

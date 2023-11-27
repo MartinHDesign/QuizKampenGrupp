@@ -7,7 +7,7 @@ public class QUESTIONS extends JPanel {
     JLabel questionFromServer = new JLabel("Här bör frågan dyka upp");
     JPanel buttonPanel = new JPanel();
     JPanel questionsAndButtons = new JPanel();
-    boolean correctAnswer;
+    private boolean correctAnswer;
     protected QuestionButton answer1 = new QuestionButton();
     protected QuestionButton answer2 = new QuestionButton();
     protected QuestionButton answer3 = new QuestionButton();
@@ -34,8 +34,6 @@ public class QUESTIONS extends JPanel {
 
         answer1.addActionListener(l -> {
             this.correctAnswer = answer1.getisCorrect();
-            System.out.println(this.correctAnswer);
-            System.out.println(answer1.getisCorrect());
             setColorAndShowPopup(answer1);
 
 

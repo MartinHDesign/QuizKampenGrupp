@@ -102,8 +102,7 @@ public class MasterFrame extends JFrame {
                 while ((objectFromServer = in.readObject()) != null) {
 
                     ServerResponse serverResponse = getServerResponse(objectFromServer);
-                    System.out.println("messageRecieved");
-                    System.out.println("GUI INSTRUCTION: " + serverResponse.getShowGUIPanel());
+
                     if (serverResponse.getPlayerNames() != null) {
                         setNamesAndPointsOnScoreBoard();
                     }

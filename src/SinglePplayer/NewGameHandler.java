@@ -28,90 +28,13 @@ public class NewGameHandler extends Thread {
 
 
             while (true) {
+
                 gameProcess.play();
 
             }
 
 
-            /*
-            int rounds = 0;
-            int numbrerofRounds = 5;
 
-            Player currentPlayer = player1;
-            while(true) {
-                    switch (rounds) {
-
-                        case 3 -> currentPlayer = player2;
-
-                        case 5 ->{
-                            Object objectFromPlayer = currentPlayer.in.readObject();
-                            Object objectToReturnToPlayer = protocol.processInput(objectFromPlayer, currentPlayer);
-                            currentPlayer.out.writeObject(objectToReturnToPlayer);
-                            currentPlayer = player1;
-                            currentPlayer.out.writeObject(objectToReturnToPlayer);
-                            rounds = 0;
-                        }
-                    }
-
-
-                Object objectFromPlayer = currentPlayer.in.readObject();
-                System.out.println(objectFromPlayer);
-
-                Object objectToReturnToPlayer = protocol.processInput(objectFromPlayer, currentPlayer);
-                currentPlayer.out.writeObject(objectToReturnToPlayer);
-                rounds++;
-                System.out.println(rounds);
-
-            }
-/*
-            Object objectFromPlayer = player1.in.readObject();
-            System.out.println(objectFromPlayer);
-            Object categoryChosen = objectFromPlayer;
-
-
-            Object objectToReturnToPlayer = protocol.processInput(objectFromPlayer, player1);
-            player1.out.writeObject(objectToReturnToPlayer);
-            ServerResponse test = (ServerResponse) objectToReturnToPlayer;
-            objectFromPlayer = player1.in.readObject();
-            System.out.println(objectFromPlayer);
-
-            objectToReturnToPlayer = protocol.processInput(objectFromPlayer, player1);
-            player1.out.writeObject(objectToReturnToPlayer);
-
-            objectFromPlayer = player1.in.readObject();
-            objectToReturnToPlayer = protocol.processInput(objectFromPlayer, player1);
-            player1.out.writeObject(objectToReturnToPlayer);
-
-            objectToReturnToPlayer = protocol.processInput(categoryChosen, player2);
-            test = (ServerResponse) objectToReturnToPlayer;
-
-            System.out.println(test.getQuestion());
-            player2.out.writeObject(objectToReturnToPlayer);
-
-            objectFromPlayer = player2.in.readObject();
-
-            objectToReturnToPlayer = protocol.processInput(objectFromPlayer, player2);
-            test = (ServerResponse) objectToReturnToPlayer;
-
-            System.out.println(test.getQuestion());
-            player2.out.writeObject(objectToReturnToPlayer);
-
-            objectFromPlayer = player2.in.readObject();
-
-            objectToReturnToPlayer = protocol.processInput(objectFromPlayer, player2);
-
-            objectFromPlayer = player2.in.readObject();
-
-            objectToReturnToPlayer = protocol.processInput(objectFromPlayer, player2);
-
-            test = (ServerResponse) objectToReturnToPlayer;
-
-            System.out.println(test.getShowGUIPanel());
-
-            player2.out.writeObject(new ServerResponse("SCORE"));
-            player1.out.writeObject(new ServerResponse("SCORE"));
-
-*/
 
 
 

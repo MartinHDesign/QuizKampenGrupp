@@ -11,9 +11,8 @@ public class GameProcess {
 
     Player currentPlayer;
 
-    private final int numberOfQuestions = 2;
-    private final int numberOfRounds = 2;
-    private int roundsPlayed;
+    private final int numberOfQuestions = 2; //properties
+    private int questionsAnswered;
 
     private boolean playerSwapped;
 
@@ -38,11 +37,11 @@ public class GameProcess {
         }
         Object objectToReturn = protocol.processInput(objectFromClient, currentPlayer);
         currentPlayer.out.writeObject(objectToReturn);
-        roundsPlayed++;
+        questionsAnswered++;
 
-        if (roundsPlayed == numberOfQuestions + 1) {
+        if (questionsAnswered == numberOfQuestions + 1) {
             if (playerSwapped) {
-                roundsPlayed = 0;
+                questionsAnswered = 0;
                 sendEndOfRoundResults(objectToReturn);
                 return;
             }
@@ -55,13 +54,13 @@ public class GameProcess {
             System.out.println("changing to player 2");
             playerSwapped = true;
             currentPlayer = player2;
-            roundsPlayed = 0;
+            questionsAnswered = 0;
 
         } else if (currentPlayer.equals(player2)) {
             System.out.println("changing to player 1");
             playerSwapped = true;
             currentPlayer = player1;
-            roundsPlayed = 0;
+            questionsAnswered = 0;
         }
     }
 
@@ -69,12 +68,12 @@ public class GameProcess {
         if (currentPlayer.equals(player1)) {
             player2.out.writeObject(objectToReturn);
             playerSwapped = false;
-            roundsPlayed = 0;
+            questionsAnswered = 0;
 
         } else if (currentPlayer.equals(player2)) {
             player1.out.writeObject(objectToReturn);
             playerSwapped = false;
-            roundsPlayed = 0;
+            questionsAnswered = 0;
         }
     }
 
