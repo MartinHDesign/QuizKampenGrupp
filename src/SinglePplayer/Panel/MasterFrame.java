@@ -1,5 +1,9 @@
 package SinglePplayer.Panel;
 
+import Server.DataBase.Questions.Answer;
+import Server.DataBase.Questions.History.HistoryAnswer;
+import Server.DataBase.Questions.History.HistoryQuestion;
+import Server.DataBase.Questions.Question;
 import Server.ServerResponse;
 import javax.swing.*;
 import java.awt.*;
@@ -133,17 +137,26 @@ public class MasterFrame extends JFrame {
     }
 
     public void setQuestions(ServerResponse serverResponse) {
+
+        Answer answer1 = (Answer) serverResponse.getQuestion().getAnswers().get(0);
+        Answer answer2 = (Answer) serverResponse.getQuestion().getAnswers().get(1);
+        Answer answer3 = (Answer) serverResponse.getQuestion().getAnswers().get(2);
+        Answer answer4 = (Answer) serverResponse.getQuestion().getAnswers().get(3);
+
         allPanels.questionPanel.questionFromServer.setText(serverResponse.getQuestion().getQuestion());
-        allPanels.questionPanel.answer1.setText(serverResponse.getQuestion().getAnswers().get(0).getAnswerText);
-        allPanels.questionPanel.answer2.setText(serverResponse.getQuestion().getAnswers().get(1).getAnswerText());
-        allPanels.questionPanel.answer3.setText(serverResponse.getQuestion().getAnswers().get(2).getAnswerText());
-        allPanels.questionPanel.answer4.setText(serverResponse.getQuestion().getAnswers().get(3).getAnswerText());
-        allPanels.questionPanel.answer1.setCorrect(serverResponse.getQuestion().getAnswers().get(0).getIsCorrect());
-        allPanels.questionPanel.answer2.setCorrect(serverResponse.getQuestion().getAnswers().get(1).getIsCorrect());
-        allPanels.questionPanel.answer3.setCorrect(serverResponse.getQuestion().getAnswers().get(2).getIsCorrect());
-        allPanels.questionPanel.answer4.setCorrect(serverResponse.getQuestion().getAnswers().get(3).getIsCorrect());
+        allPanels.questionPanel.answer1.setText(answer1.getAnswerText());
+        allPanels.questionPanel.answer2.setText(answer1.getAnswerText());
+        allPanels.questionPanel.answer3.setText(answer1.getAnswerText());
+        allPanels.questionPanel.answer4.setText(answer1.getAnswerText());
+        allPanels.questionPanel.answer1.setCorrect(answer1.getIsCorrect());
+        allPanels.questionPanel.answer2.setCorrect(answer2.getIsCorrect());
+        allPanels.questionPanel.answer3.setCorrect(answer3.getIsCorrect());
+        allPanels.questionPanel.answer4.setCorrect(answer4.getIsCorrect());
+
+
         revalidate();
         repaint();
+
     }
 
     public void setCurrentCategory(int currentCategory) {

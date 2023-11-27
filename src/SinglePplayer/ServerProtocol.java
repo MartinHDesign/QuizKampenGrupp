@@ -1,7 +1,10 @@
 package SinglePplayer;
 
 import Server.DataBase.HistoryDAO;
+import Server.DataBase.Questions.Answer;
+import Server.DataBase.Questions.History.HistoryAnswer;
 import Server.DataBase.Questions.History.HistoryQuestion;
+import Server.DataBase.Questions.Question;
 import Server.ServerResponse;
 
 import java.io.IOException;
@@ -17,6 +20,8 @@ public class ServerProtocol {
     private final HistoryDAO historyQuestions = new HistoryDAO();
 
     private List<HistoryQuestion> currentCategory;
+
+
 
     private final int HISTORY = 0;
     private final int SPORT = 0;
