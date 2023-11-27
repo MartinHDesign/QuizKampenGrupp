@@ -1,7 +1,7 @@
 package Server;
 
-import Server.DataBase.HistoryQuestions.HistoryQuestion;
-import SinglePplayer.Player;
+
+import Server.DataBase.Questions.Question;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 public class ServerResponse implements Serializable {
 
     private int score;
-    private HistoryQuestion question;
+    private Question question;
     private String showGUIPanel;
 
     private List<String> playerNames;
@@ -58,7 +58,7 @@ public class ServerResponse implements Serializable {
     }
 
 
-    public ServerResponse(HistoryQuestion question) {
+    public ServerResponse(Question question) {
         this.question = question;
     }
 
@@ -69,7 +69,7 @@ public class ServerResponse implements Serializable {
 
     }
 
-    public ServerResponse(HistoryQuestion question, String showGUIPanel) {
+    public ServerResponse(Question question, String showGUIPanel) {
         this.question = question;
         this.showGUIPanel = showGUIPanel;
     }
@@ -86,7 +86,7 @@ public class ServerResponse implements Serializable {
         return score;
     }
 
-    public HistoryQuestion getQuestion() {
+    public Question getQuestion() {
         return question;
     }
 

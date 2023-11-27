@@ -8,4 +8,8 @@ public class HistoryQuestion extends Question<HistoryAnswer> {
     public HistoryQuestion(String question, List<HistoryAnswer> answers) {
         super(question, answers);
     }
+
+
 }
+
+

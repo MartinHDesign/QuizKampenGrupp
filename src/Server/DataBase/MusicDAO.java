@@ -13,7 +13,6 @@ public class MusicDAO extends CategoryDAO <MusicQuestion>{
 
     // Konstruktor för att skapa musikrelaterade frågor och svarsalternativ
     public MusicDAO(List<MusicQuestion> musicQuestions ) {
-        super(musicQuestions);
 
         // Fråga 1
         List<MusicAnswer> answer0 = new ArrayList<>();

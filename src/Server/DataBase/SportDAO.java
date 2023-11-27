@@ -16,7 +16,6 @@ public class SportDAO extends CategoryDAO<SportQuestion> {
     // Konstruktor för att skapa sportrelaterade frågor och svarsalternativ
     public SportDAO() {
 
-
         // Fråga 1
         List<SportAnswer> answer0 = new ArrayList<>();
         answer0.add(new SportAnswer("Muhammad Ali", false));

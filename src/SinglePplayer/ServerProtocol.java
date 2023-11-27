@@ -1,7 +1,7 @@
 package SinglePplayer;
 
 import Server.DataBase.HistoryDAO;
-import Server.DataBase.HistoryQuestions.HistoryQuestion;
+import Server.DataBase.Questions.History.HistoryQuestion;
 import Server.ServerResponse;
 
 import java.io.IOException;

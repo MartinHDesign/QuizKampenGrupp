@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class CategoryDAO<T> implements QuestionsInterface<T> {
 
-    private final List<T> allQuestions;
+    private  List<T> allQuestions;
     private List<T> availableQuestions;
     public CategoryDAO(List<T> questions) {
         this.allQuestions = new ArrayList<>(questions);
@@ -18,6 +18,9 @@ public class CategoryDAO<T> implements QuestionsInterface<T> {
     @Override
     public List<T> getQuestions() {
         return availableQuestions;
+    }
+
+    public CategoryDAO() {
     }
 
     @Override

@@ -28,4 +28,6 @@ public abstract class Question<T extends Answer> implements Serializable {
     public void setAnswers(List<T> answers) {
         this.answers = answers;
     }
+
+
 }

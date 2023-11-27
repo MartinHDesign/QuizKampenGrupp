@@ -1,7 +1,6 @@
 package SinglePplayer.Panel;
 
 import Server.ServerResponse;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -135,7 +134,7 @@ public class MasterFrame extends JFrame {
 
     public void setQuestions(ServerResponse serverResponse) {
         allPanels.questionPanel.questionFromServer.setText(serverResponse.getQuestion().getQuestion());
-        allPanels.questionPanel.answer1.setText(serverResponse.getQuestion().getAnswers().get(0).getAnswerText());
+        allPanels.questionPanel.answer1.setText(serverResponse.getQuestion().getAnswers().get(0).getAnswerText);
         allPanels.questionPanel.answer2.setText(serverResponse.getQuestion().getAnswers().get(1).getAnswerText());
         allPanels.questionPanel.answer3.setText(serverResponse.getQuestion().getAnswers().get(2).getAnswerText());
         allPanels.questionPanel.answer4.setText(serverResponse.getQuestion().getAnswers().get(3).getAnswerText());
