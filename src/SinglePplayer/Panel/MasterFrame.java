@@ -18,7 +18,7 @@ import java.net.UnknownHostException;
 public class MasterFrame extends JFrame {
     private final CardLayout layout = new CardLayout();
     private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
-    String pageNumber = FinalStrings.LOGIN.toString();
+    String pageNumber = "LOGIN";
 
     private Socket socketToServer;
     private ObjectOutputStream out;

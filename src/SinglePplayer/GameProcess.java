@@ -1,10 +1,17 @@
 package SinglePplayer;
 
 import Server.DataBase.HistoryDAO;
+import Server.DataBase.MusicDAO;
+import Server.DataBase.Questions.History.HistoryQuestion;
+import Server.DataBase.Questions.Music.MusicQuestion;
+import Server.DataBase.Questions.Sport.SportQuestion;
+import Server.DataBase.SportDAO;
 import Server.ServerResponse;
 
 import java.io.IOException;
-import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GameProcess {
 
@@ -16,6 +23,9 @@ public class GameProcess {
     int totalScorePlayer2;
 
     Player currentPlayer;
+    HistoryDAO history = new HistoryDAO();
+    MusicDAO music = new MusicDAO();
+    SportDAO sport = new SportDAO();
 
     private final int numberOfQuestions = 2; //properties
     private int questionsAnswered;
@@ -35,7 +45,7 @@ public class GameProcess {
 
     public void play() throws IOException, ClassNotFoundException, InterruptedException {
         System.out.println("här 1");
-        HistoryDAO hd = new HistoryDAO();
+
         Object objectFromClient;
         int rounds = 2; // från property
         int questionsAmount = 2; // från property
@@ -48,11 +58,15 @@ public class GameProcess {
         for (int rundor = 0; rundor < rounds; rundor++) {
             //p1 skickar vald kategori
             objectFromClient = player1.in.readObject();
+            int categoryNumber = categoryNumber(objectFromClient);
 
             //loopar för antal frågor
+            List<ServerResponse> answers = new ArrayList<>();
+
             for (int questions = 0; questions < questionsAmount; questions++) {
+                answers.add(getRandomQuestionFromCategory(categoryNumber));
                 //serv skickar ny fråga till p1
-                player1.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player1.out.writeObject(answers.get(questions));
                 player1.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p1
                 objectFromClient = player1.in.readObject();
@@ -61,6 +75,7 @@ public class GameProcess {
                     player1score++;
                     totalScorePlayer1++;
                 }
+
             }
             System.out.println("p1 svarat på 2 frågor");
             //p1 till score sidan
@@ -71,7 +86,7 @@ public class GameProcess {
 //            swapCurrentPlayer(player1,player2);
             for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar ny fråga till p2
-                player2.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player2.out.writeObject(answers.get(questions));
                 player2.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
                 objectFromClient = player2.in.readObject();
@@ -95,9 +110,12 @@ public class GameProcess {
 
             //får svar p2
             objectFromClient = player2.in.readObject();
+            answers.clear();
+            categoryNumber = categoryNumber(objectFromClient);
             for (int questions = 0; questions < questionsAmount; questions++) {
+                answers.add(getRandomQuestionFromCategory(categoryNumber));
                 //serv skickar ny fråga till p2
-                player2.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player2.out.writeObject(answers.get(questions));
                 player2.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
                 objectFromClient = player2.in.readObject();
@@ -118,7 +136,7 @@ public class GameProcess {
 
             for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar nya frågor till p1
-                player1.out.writeObject(new ServerResponse(hd.getHistoryQuestions().get(questions)));
+                player1.out.writeObject(answers.get(questions));
                 player1.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p1
                 objectFromClient = player1.in.readObject();
@@ -138,16 +156,19 @@ public class GameProcess {
             System.out.println(player2score);
         }
         //om alla rundor är slut score screen för båda
-        if (player1score > player2score){
-            player1.out.writeObject(new ServerResponse("WIN"));
-            player2.out.writeObject(new ServerResponse("LOSE"));
-        } else if (player2score > player1score){
-            player1.out.writeObject(new ServerResponse("LOSE"));
-            player2.out.writeObject(new ServerResponse("WIN"));
-        } else {
-            player1.out.writeObject(new ServerResponse("DRAW"));
-            player2.out.writeObject(new ServerResponse("DRAW"));
-        }
+        player1.out.writeObject(new ServerResponse("WIN"));
+        player2.out.writeObject(new ServerResponse("WIN"));
+
+//        if (player1score > player2score){
+//            player1.out.writeObject(new ServerResponse("WIN"));
+//            player2.out.writeObject(new ServerResponse("LOSE"));
+//        } else if (player2score > player1score){
+//            player1.out.writeObject(new ServerResponse("LOSE"));
+//            player2.out.writeObject(new ServerResponse("WIN"));
+//        } else {
+//            player1.out.writeObject(new ServerResponse("DRAW"));
+//            player2.out.writeObject(new ServerResponse("DRAW"));
+//        }
 
 
 
@@ -174,6 +195,25 @@ public class GameProcess {
 //            }
 //            swapCurrentPlayer(player1, player2);
 //        }
+    }
+
+    public int categoryNumber(Object objectFromClient){
+        if (objectFromClient.toString().equals("history")){
+            return 0;
+        } else if (objectFromClient.toString().equals("sport")) {
+            return 1;
+        } else
+            return 2;
+    }
+    public ServerResponse getRandomQuestionFromCategory(int categoryNumber){
+        Random random = new Random();
+        int rn = random.nextInt(3);
+        switch (categoryNumber){
+            case 0 -> {return new ServerResponse(history.getHistoryQuestions().get(rn));}
+            case 1 -> {return new ServerResponse(sport.getSportQuestions().get(rn));}
+            case 2 -> {return new ServerResponse(music.getMusicQuestions().get(rn));}
+        }
+        return new ServerResponse(history.getHistoryQuestions().get(rn));
     }
 
     private void swapCurrentPlayer(Player player1, Player player2) throws IOException {

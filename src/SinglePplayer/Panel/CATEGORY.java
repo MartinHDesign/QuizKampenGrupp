@@ -35,13 +35,13 @@ public class CATEGORY extends JPanel {
         add(layeredPane, BorderLayout.CENTER);
 
         history.addActionListener(l -> {
-            masterFrame.sendToServer(0);
+            masterFrame.sendToServer("history");
         });
         sport.addActionListener(l -> {
-            masterFrame.sendToServer(1);
+            masterFrame.sendToServer("sport");
         });
         music.addActionListener(l -> {
-            masterFrame.sendToServer(2);
+            masterFrame.sendToServer("music");
         });
     }
 

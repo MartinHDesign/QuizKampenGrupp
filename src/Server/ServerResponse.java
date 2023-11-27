@@ -1,6 +1,7 @@
 package Server;
 
 
+import Server.DataBase.Questions.History.HistoryQuestion;
 import Server.DataBase.Questions.Question;
 import SinglePplayer.Player;
 
@@ -16,6 +17,7 @@ public class ServerResponse implements Serializable {
     private String opponentName;
     private String category;
     private int opponentScore;
+    private HistoryQuestion historyQuestion;
 
     private List<String> playerNames;
 
@@ -26,8 +28,6 @@ public class ServerResponse implements Serializable {
     public ServerResponse(String opponentName, int opponentScore){
         this.opponentName = opponentName;
     }
-
-
 
     public ServerResponse(int score) {
         this.score = score;

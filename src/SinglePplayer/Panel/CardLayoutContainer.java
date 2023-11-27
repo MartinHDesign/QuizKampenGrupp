@@ -21,8 +21,8 @@ public class CardLayoutContainer extends JPanel {
         loginPanel = new LOGIN(masterFrame);
         add(loginPanel, FinalStrings.LOGIN.toString());
 
-        menuPanel = new MENU(masterFrame);
-        add(menuPanel, FinalStrings.MENU.toString());
+//        menuPanel = new MENU(masterFrame);
+//        add(menuPanel, FinalStrings.MENU.toString());
 
         waitPanel = new WAIT(masterFrame);
         add(waitPanel, FinalStrings.WAIT.toString());
@@ -41,12 +41,12 @@ public class CardLayoutContainer extends JPanel {
 
         winPanel = new WIN();
         add(winPanel,"WIN");
+//
+//        losePanel = new LOSE();
+//        add(loginPanel, "LOSE");
 
-        losePanel = new LOSE();
-        add(loginPanel, "LOSE");
-
-        drawPanel = new DRAW();
-        add(drawPanel, "DRAW");
+//        drawPanel = new DRAW();
+//        add(drawPanel, "DRAW");
 
 
     }

@@ -11,12 +11,12 @@ public class SCORE extends JPanel {
     private String player2Username = "player2";
     private int scorePlayer1 = 0;
     private int scorePlayer2 = 0;
-    private String roundString = "Poäng för runda ";
+    private String roundString = "Poäng för omgång ";
     private int player1Rounds = 1;
     private int player2Rounds = 1;
 
-    private JLabel player1 = new JLabel("player score: 6");
-    private JLabel player2 = new JLabel("player score: 3");
+    private JLabel player1 = new JLabel("Guest score: 0");
+    private JLabel player2 = new JLabel("Guest score: 0");
 
 
     private JPanel topPanel = new JPanel();
