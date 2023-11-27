@@ -14,13 +14,15 @@ public class SCORE extends JPanel {
     private String roundString = "Poäng för runda ";
     private int player1Rounds = 1;
     private int player2Rounds = 1;
+
     private JLabel player1 = new JLabel("player score: 6");
     private JLabel player2 = new JLabel("player score: 3");
 
+
     private JPanel topPanel = new JPanel();
     private JPanel centerPanel = new JPanel();
-
     private JPanel northPanel = new JPanel();
+
     private JButton exit = new JButton("ge upp");
     private JButton player2testbutton = new JButton("p2");
 
