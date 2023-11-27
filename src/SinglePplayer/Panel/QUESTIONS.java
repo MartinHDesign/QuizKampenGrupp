@@ -15,7 +15,6 @@ public class QUESTIONS extends JPanel {
 
     //    JProgressBar timeToAnswer = new JProgressBar();
     JLabel timeToAnswer = new JLabel("Här kommer en progressbar på 10 sec");
-    JButton exit = new JButton("Spelare 2 till CATEGORY");
     MasterFrame masterFrame;
 
 
@@ -64,21 +63,18 @@ public class QUESTIONS extends JPanel {
         questionsAndButtons.add(questionFromServer);
         questionsAndButtons.add(buttonPanel);
 
-        exit.setSize(new Dimension(500, 10));
-
 
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(300, 300)); // Set this according to your needs
         initPopupPanel();
 
-        questionsAndButtons.setBounds(0, 0, 500, 500);
+        questionsAndButtons.setBounds(0, 0, 500, 480);
         popupPanel.setBounds(100, 100, 300, 200);
 
         layeredPane.add(questionsAndButtons, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(popupPanel, JLayeredPane.PALETTE_LAYER);
 
         add(layeredPane, BorderLayout.CENTER);
-        add(exit, BorderLayout.NORTH);
         add(timeToAnswer, BorderLayout.SOUTH);
     }
 

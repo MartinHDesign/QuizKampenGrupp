@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class WAIT extends JPanel {
     private JLabel waitingImage = new JLabel("Gif kommer här. waiting for other player");
-    private JButton backToMenu = new JButton("Avbryt");
 
     protected int currentCategory = 0;
 
@@ -17,17 +16,12 @@ public class WAIT extends JPanel {
 
         setLayout(new BorderLayout());
         waitingImage.setSize(new Dimension(500, 510));
-        backToMenu.setSize(new Dimension(500, 10));
 
-        backToMenu.addActionListener(l -> {
-
-        });
         answerQuestions.addActionListener(l -> {
             masterFrame.sendToServer(currentCategory);
         });
 
         add(waitingImage, BorderLayout.CENTER);
-        add(backToMenu, BorderLayout.SOUTH);
         add(answerQuestions, BorderLayout.SOUTH);
     }
 
