@@ -15,15 +15,17 @@ public class QuestionButton extends JButton {
 
 
     public QuestionButton() {
-        this.isCorrect = isCorrect;
+        this.isCorrect = false;
 
     }
 
-    public void setIsCorrect(boolean input) {
-        this.isCorrect = input;
+    public boolean getisCorrect() {
+        return isCorrect;
     }
 
-
+    public void setCorrect(boolean correct) {
+        this.isCorrect = correct;
+    }
 }
 
 

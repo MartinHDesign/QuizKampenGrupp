@@ -3,13 +3,14 @@ package SinglePplayer;
 import javax.swing.*;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 
-public class Player {
+public class  Player {
     String name = "Guest Player";
     ImageIcon avatar = new ImageIcon(); // kommer när vi har avatar bilder
-    int score = 0;
-    int highScore = 0;
+    private int score = 0;
+    private int highScore = 0;
     Socket socketToClient;
     ObjectOutputStream out;
     ObjectInputStream in;
@@ -42,6 +43,10 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void gainOnePoint() {
+        this.score++;
     }
 
     public int getHighScore() {

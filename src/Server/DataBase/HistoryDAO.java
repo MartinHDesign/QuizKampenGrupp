@@ -13,8 +13,7 @@ public class HistoryDAO extends CategoryDAO <HistoryQuestion>{
     private final List<HistoryQuestion> historyQuestions = new ArrayList<>();
 
     // Konstruktor för att skapa historiska frågor och svarsalternativ
-    public HistoryDAO(List<HistoryQuestion> historyQuestions) {
-        super(historyQuestions);
+    public HistoryDAO() {
         // Fråga 1
         List<HistoryAnswer> answer0 = new ArrayList<>();
         answer0.add(new HistoryAnswer("1492", true));
@@ -27,9 +26,9 @@ public class HistoryDAO extends CategoryDAO <HistoryQuestion>{
 
         // Fråga 2
         List<HistoryAnswer> answer1 = new ArrayList<>();
-        answer1.add(new HistoryAnswer("1776", false));
+        answer1.add(new HistoryAnswer("1776", true));
         answer1.add(new HistoryAnswer("1789", false));
-        answer1.add(new HistoryAnswer("1492", true));
+        answer1.add(new HistoryAnswer("1492", false));
         answer1.add(new HistoryAnswer("1607", false));
         // Skapa en historisk fråga och lägg till den i listan
         HistoryQuestion question1 = new HistoryQuestion("Vilket år grundades USA?", answer1);

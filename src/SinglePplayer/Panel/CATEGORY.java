@@ -1,34 +1,69 @@
 package SinglePplayer.Panel;
 
-
-
 import javax.swing.*;
 import java.awt.*;
 
 public class CATEGORY extends JPanel {
-        private JButton History = new JButton("Spelare 2 till QUESTIONS");
-        private JButton Category2 = new JButton("Spelare 2 till MENU");
-        private JButton Category3 = new JButton("Kategori 3");
-        private JButton Category4 = new JButton("Kategori 4");
-        private JButton exit = new JButton("avsluta");
 
-    public CATEGORY(MasterFrame masterFrame){
-            setLayout(new GridLayout(5,1));
+    private JLayeredPane layeredPane;
+    private JPanel popupPanel;
+    private JButton history = new JButton("HISTORIA");
+    private JButton sport = new JButton("SPORT");
+    private JButton music = new JButton("MUSIK");
+    private MasterFrame masterFrame;
 
-            /*
-            1. skicka till servern vilken kategori man valt
-            2. vänta på att servern skickar fråga + svars alternativ
-            3. byt till question screen som uppdaterats med frågor å svar
-             */
+    public CATEGORY(MasterFrame masterFrame) {
+        this.masterFrame = masterFrame;
+        setLayout(new BorderLayout());
 
-            History.addActionListener(e -> {
-                    masterFrame.sendToServer("QUESTIONS");
-            });
-            Category2.addActionListener(e -> masterFrame.sendToServer("MENU"));
-            add(History);
-            add(Category2);
-            add(Category3);
-            add(Category4);
-            add(exit);
-        }
-            }
+        // LayeredPane setup
+        layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(500, 200));
+
+        // Adding buttons to the layeredPane on the default layer
+        JPanel buttonsPanel = new JPanel(new GridLayout(5, 1));
+        buttonsPanel.add(history);
+        buttonsPanel.add(sport);
+        buttonsPanel.add(music);
+        buttonsPanel.setBounds(0, 0, 500, 520);
+
+        layeredPane.add(buttonsPanel, JLayeredPane.DEFAULT_LAYER);
+
+        initPopupPanel();
+        layeredPane.add(popupPanel, JLayeredPane.POPUP_LAYER);
+
+        add(layeredPane, BorderLayout.CENTER);
+
+        history.addActionListener(l -> {
+            masterFrame.setCurrentCategory(0);
+            masterFrame.sendToServer(masterFrame.getCurrentCategory());
+        });
+        sport.addActionListener(l -> {
+            masterFrame.setCurrentCategory(1);
+            masterFrame.sendToServer(masterFrame.getCurrentCategory());
+        });
+        music.addActionListener(l -> {
+            masterFrame.setCurrentCategory(2);
+            masterFrame.sendToServer(masterFrame.getCurrentCategory());
+        });
+    }
+
+    private void initPopupPanel() {
+        popupPanel = new JPanel();
+        popupPanel.setLayout(new BorderLayout());
+        JButton button = new JButton("Börja svara på frågor");
+        button.addActionListener(e -> {
+            masterFrame.sendToServer(masterFrame.getCurrentCategory());
+            togglePopupVisibility(false);
+        });
+
+        popupPanel.add(button, BorderLayout.CENTER);
+        popupPanel.setBounds(50, 50, 200, 100);
+        popupPanel.setVisible(false);
+    }
+
+    private void togglePopupVisibility(boolean visible) {
+        popupPanel.setVisible(visible);
+        layeredPane.moveToFront(popupPanel);
+    }
+}

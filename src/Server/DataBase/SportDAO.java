@@ -14,8 +14,8 @@ public class SportDAO extends CategoryDAO<SportQuestion> {
     private final List<SportQuestion> sportQuestions = new ArrayList<>();
 
     // Konstruktor för att skapa sportrelaterade frågor och svarsalternativ
-    public SportDAO(List<SportQuestion> sportQuestions) {
-        super(sportQuestions);
+    public SportDAO() {
+
 
         // Fråga 1
         List<SportAnswer> answer0 = new ArrayList<>();
