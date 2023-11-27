@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WAIT extends JPanel {
-    private JLabel waitingImage = new JLabel("Gif kommer här. waiting for other player");
+    private JLabel waitingImage = new JLabel(new ImageIcon("src/SinglePplayer/Panel/GifAndImages/connecting.gif"));
 
     protected int currentCategory = 0;
 
@@ -22,7 +22,7 @@ public class WAIT extends JPanel {
         });
 
         add(waitingImage, BorderLayout.CENTER);
-        add(answerQuestions, BorderLayout.SOUTH);
+//        add(answerQuestions, BorderLayout.SOUTH);
     }
 
     private void showPopup(JFrame frame) {

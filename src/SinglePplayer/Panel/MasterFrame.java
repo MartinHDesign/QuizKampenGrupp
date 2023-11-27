@@ -180,6 +180,9 @@ public class MasterFrame extends JFrame {
     public void setOpponentName(String playerName){
         allPanels.scorePanel.setPlayer2Username(playerName);
     }
+    public void setPlayerName(String playerName){
+        allPanels.scorePanel.setPlayer1Username(playerName);
+    }
 
     public int getCurrentCategory() {
         return currentCategory;

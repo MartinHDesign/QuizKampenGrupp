@@ -33,6 +33,7 @@ public class LOGIN extends JPanel {
             masterFrame.startConnection(userName);
             masterFrame.setTitleNameToUserName("Jesus Quiztus "+enterUsername.getText());
             masterFrame.showPage("WAIT");
+            masterFrame.setPlayerName(enterUsername.getText());
             System.out.println(userName + " connected to server");
             MasterFrame.ReadFromServer rf = masterFrame.getReadFromServer();
             Thread t = new Thread(rf);
