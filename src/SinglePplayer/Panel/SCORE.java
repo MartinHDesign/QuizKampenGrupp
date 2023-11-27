@@ -4,52 +4,54 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SCORE extends JPanel {
-    String player1Username = "player1";
-    String player2Username = "player2";
-    int scorePlayer1 = 0;
-    int scorePlayer2 = 0;
+    private int amountOfRounds = 10;
+    private JPanel p1Score = new JPanel(new GridLayout(amountOfRounds,1));
+    private JPanel p2Score = new JPanel(new GridLayout(amountOfRounds,1));
+    private String player1Username = "player1";
+    private String player2Username = "player2";
+    private int scorePlayer1 = 0;
+    private int scorePlayer2 = 0;
+    private String roundString = "Poäng för runda ";
+    private int player1Rounds = 1;
+    private int player2Rounds = 1;
     private JLabel player1 = new JLabel("player score: 6");
     private JLabel player2 = new JLabel("player score: 3");
-
-    String roundString = "Poäng för runda ";
-    private JLabel round1player1 = new JLabel("Poäng för runda 1 = 0 poäng");
-    private JLabel round1player2 = new JLabel(roundString);
-    private JLabel round2player1 = new JLabel(roundString);
-    private JLabel round2player2 = new JLabel(roundString);
-    private JLabel round3player1 = new JLabel(roundString);
-    private JLabel round3player2 = new JLabel(roundString);
-    private JLabel round4player1 = new JLabel(roundString);
-    private JLabel round4player2 = new JLabel(roundString);
-
 
     private JPanel topPanel = new JPanel();
     private JPanel centerPanel = new JPanel();
 
     private JPanel northPanel = new JPanel();
     private JButton exit = new JButton("ge upp");
+    private JButton player2testbutton = new JButton("p2");
 
     public SCORE(MasterFrame masterFrame){
-        exit.addActionListener(e -> {
-            setRoundPanelText(11,3);
+        player2testbutton.addActionListener(e -> {
+            player2ScoreThisRound(2);
             revalidate();
             repaint();
         });
-        /*
-        1. uppdatera score screen med senaste svaren
-        2. server skickar svar från motståndare
-        3. uppdatera och visa nya resultaten
-        4. om servern skickar kategori visa kategori screen
-            om servern skickar frågor visa question screen
-            om servern skickar klar visa winner screen/looser screen
-         */
+        exit.addActionListener(e -> {
+            player1ScoreThisRound(3);
+            revalidate();
+            repaint();
+        });
+
         setLayout(new BorderLayout());
         player1.setHorizontalAlignment(JLabel.CENTER);
         player2.setHorizontalAlignment(JLabel.CENTER);
         topPanel.setLayout(new GridLayout(1,2));
-        centerPanel.setLayout(new GridLayout(4,2));
+
+         // från property
+        centerPanel.setLayout(new GridLayout(1,2));
         centerPanel.setSize(new Dimension(500,460));
 
+        centerPanel.add(p1Score);
+        centerPanel.add(p2Score);
+
+
+
         northPanel.add(exit);
+        northPanel.add(player2testbutton);
 
         northPanel.setSize(new Dimension(500, 10));
         topPanel.setSize(new Dimension(500, 40));
@@ -57,19 +59,8 @@ public class SCORE extends JPanel {
         topPanel.add(player1);
         topPanel.add(player2);
 
-        round1player1.setVisible(false);
-        hideRoundScorePanels();
-
-        centerPanel.add(round1player1);
-        centerPanel.add(round1player2);
-        centerPanel.add(round2player1);
-        centerPanel.add(round2player2);
-        centerPanel.add(round3player1);
-        centerPanel.add(round3player2);
-        centerPanel.add(round4player1);
-        centerPanel.add(round4player2);
-
         exit.setSize(new Dimension(500,10));
+
 
 
         add(topPanel, BorderLayout.NORTH);
@@ -77,48 +68,36 @@ public class SCORE extends JPanel {
         add(northPanel, BorderLayout.SOUTH);
     }
 
-    private void hideRoundScorePanels() {
-        round1player1.setVisible(false);
-        round1player2.setVisible(false);
-        round2player1.setVisible(false);
-        round2player2.setVisible(false);
-        round3player1.setVisible(false);
-        round3player2.setVisible(false);
-        round4player1.setVisible(false);
-        round4player2.setVisible(false);
+    public void setPlayer1Username(String username){
+        this.player1Username = username;
+    }
+    public void setPlayer2Username(String username){
+        this.player2Username = username;
     }
 
-    //metoder måste styras från cardLayout
-
-    public void setRoundPanelText(int labelID, int score){
-        switch (labelID){
-            case 11 -> {
-                round1player1.setText(roundString + "1" + " = " + score + " poäng");
-                scorePlayer1 += score;
-                displayPlayer1TotalScore();
-                round1player1.setVisible(true);
-            }
-            case 12 -> {
-                round1player2.setText(roundString + "1" + " = " + score + " poäng");
-                scorePlayer2 += score;
-                displayPlayer2TotalScore();
-                setVisible(true);
-            }
-            case 21 -> round2player1.setText(roundString + "2" + " = " +  score + " poäng");
-            case 22 -> round2player2.setText(roundString + "2" + " = " +  score + " poäng");
-            case 31 -> round3player1.setText(roundString + "3" + " = " +  score + " poäng");
-            case 32 -> round3player2.setText(roundString + "3" + " = " +  score + " poäng");
-            case 41 -> round4player1.setText(roundString + "4" + " = " +  score + " poäng");
-            case 42 -> round4player2.setText(roundString + "4" + " = " +  score + " poäng");
-        }
-
+    public void player1ScoreThisRound(int score){
+        JLabel temp = new JLabel(roundString + player1Rounds + " = " + score);
+        temp.setHorizontalAlignment(JLabel.CENTER);
+        temp.setVisible(true);
+        scorePlayer1 += score;
+        displayPlayer1TotalScore();
+        player1Rounds++;
+        p1Score.add(temp);
     }
-
+    public void player2ScoreThisRound(int score){
+        JLabel temp = new JLabel(roundString + player2Rounds + " = " + score);
+        temp.setHorizontalAlignment(JLabel.CENTER);
+        temp.setVisible(true);
+        scorePlayer2 += score;
+        displayPlayer2TotalScore();
+        player2Rounds++;
+        p2Score.add(temp);
+    }
     private void displayPlayer1TotalScore() {
         player1.setText(player1Username + " totala poäng: " + scorePlayer1);
     }
     private void displayPlayer2TotalScore() {
-        player1.setText(player2Username + " totala poäng: " + scorePlayer2);
+        player2.setText(player2Username + " totala poäng: " + scorePlayer2);
     }
 
 }
