@@ -1,9 +1,7 @@
 package Server;
 
 
-import Server.DataBase.Questions.History.HistoryQuestion;
 import Server.DataBase.Questions.Question;
-import SinglePplayer.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ public class ServerResponse implements Serializable {
     private String opponentName;
     private String category;
     private int opponentScore;
-    private HistoryQuestion historyQuestion;
+    private Server.DataBase.Questions.History.historyQuestion historyQuestion;
 
     private List<String> playerNames;
 

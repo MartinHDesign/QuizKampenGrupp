@@ -7,11 +7,12 @@ import Server.DataBase.Questions.Sport.SportQuestion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SportDAO extends CategoryDAO<SportQuestion> {
 
     // Lista för att lagra sportrelaterade frågor
-    private final List<SportQuestion> sportQuestions = new ArrayList<>();
+    private List<SportQuestion> sportQuestions = new ArrayList<>();
 
     // Konstruktor för att skapa sportrelaterade frågor och svarsalternativ
     public SportDAO() {
@@ -59,6 +60,36 @@ public class SportDAO extends CategoryDAO<SportQuestion> {
         // Skapa en sportrelaterad fråga och lägg till den i listan
         SportQuestion question3 = new SportQuestion("Vilken tennisspelare har vunnit flest Grand Slam-titlar?", answer3);
         sportQuestions.add(question3);
+
+        List<SportAnswer> answer4 = new ArrayList<>();
+        answer4.add(new SportAnswer("Brasilien", false));
+        answer4.add(new SportAnswer("Tyskland", false));
+        answer4.add(new SportAnswer("Frankrike", true));
+        answer4.add(new SportAnswer("Argentina", false));
+
+        SportQuestion question4 = new SportQuestion("Vilket Land vann Fotbolls-VM för herrar 2018?", answer4);
+        sportQuestions.add(question4);
+
+        List<SportAnswer> answer5 = new ArrayList<>();
+        answer4.add(new SportAnswer("Beijing", false));
+        answer4.add(new SportAnswer("London", true));
+        answer4.add(new SportAnswer("Rio De Janeiro", false));
+        answer4.add(new SportAnswer("Tokyo", false));
+
+        SportQuestion question5 = new SportQuestion("Vilken stad arrangerade Olympiska Sommarspelen 2012?", answer5);
+    }
+    public SportQuestion takeRandomQuestion() {
+        if (sportQuestions.isEmpty()) {
+            SportDAO newListOfQuestions = new SportDAO();
+            sportQuestions = newListOfQuestions.getSportQuestions();
+        }
+
+        Random random = new Random();
+        int questionToTake = random.nextInt(sportQuestions.size());
+
+        SportQuestion toReturn = sportQuestions.get(questionToTake);
+        sportQuestions.remove(0);
+        return toReturn;
     }
 
     // Metod för att hämta listan av sportrelaterade frågor

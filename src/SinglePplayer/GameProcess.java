@@ -2,9 +2,6 @@ package SinglePplayer;
 
 import Server.DataBase.HistoryDAO;
 import Server.DataBase.MusicDAO;
-import Server.DataBase.Questions.History.HistoryQuestion;
-import Server.DataBase.Questions.Music.MusicQuestion;
-import Server.DataBase.Questions.Sport.SportQuestion;
 import Server.DataBase.SportDAO;
 import Server.ServerResponse;
 
@@ -58,15 +55,19 @@ public class GameProcess {
         for (int rundor = 0; rundor < rounds; rundor++) {
             //p1 skickar vald kategori
             objectFromClient = player1.in.readObject();
+            // nummer för att identifiera vilken kategori som valts
             int categoryNumber = categoryNumber(objectFromClient);
 
-            //loopar för antal frågor
-            List<ServerResponse> answers = new ArrayList<>();
+            // lista där frågor/svar från vald kategori sparas
+            List<ServerResponse> currentCategoryQuestions = new ArrayList<>();
 
+            //loopar för antal frågor
             for (int questions = 0; questions < questionsAmount; questions++) {
-                answers.add(getRandomQuestionFromCategory(categoryNumber));
+                // lägger till en fråga/svar i listan så samma fråga kan skickas till p2
+                currentCategoryQuestions.add(getRandomQuestionFromCategory(categoryNumber));
                 //serv skickar ny fråga till p1
-                player1.out.writeObject(answers.get(questions));
+                player1.out.writeObject(currentCategoryQuestions.get(questions));
+                // server säger åt player1 att gå till question screen
                 player1.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p1
                 objectFromClient = player1.in.readObject();
@@ -78,47 +79,58 @@ public class GameProcess {
 
             }
             System.out.println("p1 svarat på 2 frågor");
-            //p1 till score sidan
+            //skickar poängen till player1
             player1.out.writeObject(new ServerResponse(player1score+100));
             System.out.println("byt p1 till score");
+            //p1 till score sidan
             player1.out.writeObject(new ServerResponse("SCORE"));
-            // byt till p2
-//            swapCurrentPlayer(player1,player2);
+            // player 2 får samma frågor som player1
             for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar ny fråga till p2
-                player2.out.writeObject(answers.get(questions));
+                player2.out.writeObject(currentCategoryQuestions.get(questions));
+                //säger åt player 2 att visa question screen
                 player2.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
                 objectFromClient = player2.in.readObject();
+                // om rätt ger p2 poäng
                 if (objectFromClient.equals(true)){
                     player2score++;
                     totalScorePlayer2++;
                 }
             }
-
+            // skickar player2 poäng till player1
             player1.out.writeObject(new ServerResponse(player2score+200));
+            //säger åt player1 att visa score screen
             player1.out.writeObject(new ServerResponse("SCORE"));
+            //skickar player2s poäng till player2
             player2.out.writeObject(new ServerResponse(player2score+100));
+            // skickar player1 poäng till player2
             player2.out.writeObject(new ServerResponse(player1score+200));
+            // återställer poängen för nästa fråga
             player1score = 0;
             player2score = 0;
 
             System.out.println("p2 svarat på 2 frågor");
 
+            // rensar listan med frågor
+            currentCategoryQuestions.clear();
             //skicka category = byt till category sidan fär p2
             player2.out.writeObject(new ServerResponse("CATEGORY"));
 
-            //får svar p2
+            //får svar p2 vilken kategori
             objectFromClient = player2.in.readObject();
-            answers.clear();
+            // nummer för att identifiera vilken kategori som valts
             categoryNumber = categoryNumber(objectFromClient);
+
             for (int questions = 0; questions < questionsAmount; questions++) {
-                answers.add(getRandomQuestionFromCategory(categoryNumber));
+                // lägger till en fråga/svar i listan så samma fråga kan skickas till p1
+                currentCategoryQuestions.add(getRandomQuestionFromCategory(categoryNumber));
                 //serv skickar ny fråga till p2
-                player2.out.writeObject(answers.get(questions));
+                player2.out.writeObject(currentCategoryQuestions.get(questions));
                 player2.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p2
                 objectFromClient = player2.in.readObject();
+                // om rätt ger poäng
                 if (objectFromClient.equals(true)){
                     player2score++;
                     totalScorePlayer2++;
@@ -126,17 +138,20 @@ public class GameProcess {
             }
             System.out.println("p2 har valt kategori och svarat på 2 frågor");
 
-            // p2 till score sidan med player1 poäng för runda
+            // skickar player2 score till player2
             player2.out.writeObject(new ServerResponse(player2score+100));
+            //skickar player2 score till player1
             player1.out.writeObject(new ServerResponse(player2score+200));
+            //nollställer player2 score
             player2score = 0;
 
+            //skickar player 2 till score screen
             player2.out.writeObject(new ServerResponse("SCORE"));
             //byt till player1
 
             for (int questions = 0; questions < questionsAmount; questions++) {
                 //serv skickar nya frågor till p1
-                player1.out.writeObject(answers.get(questions));
+                player1.out.writeObject(currentCategoryQuestions.get(questions));
                 player1.out.writeObject(new ServerResponse("QUESTIONS"));
                 //får svaret från p1
                 objectFromClient = player1.in.readObject();
@@ -206,14 +221,12 @@ public class GameProcess {
             return 2;
     }
     public ServerResponse getRandomQuestionFromCategory(int categoryNumber){
-        Random random = new Random();
-        int rn = random.nextInt(3);
         switch (categoryNumber){
-            case 0 -> {return new ServerResponse(history.getHistoryQuestions().get(rn));}
-            case 1 -> {return new ServerResponse(sport.getSportQuestions().get(rn));}
-            case 2 -> {return new ServerResponse(music.getMusicQuestions().get(rn));}
+            case 0 -> {return new ServerResponse(history.takeRandomQuestion());}
+            case 1 -> {return new ServerResponse(sport.takeRandomQuestion());}
+            case 2 -> {return new ServerResponse(music.takeRandomQuestion());}
         }
-        return new ServerResponse(history.getHistoryQuestions().get(rn));
+        return new ServerResponse(history.takeRandomQuestion());
     }
 
     private void swapCurrentPlayer(Player player1, Player player2) throws IOException {

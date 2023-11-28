@@ -1,15 +1,18 @@
 package Server.DataBase;
 
+import Server.DataBase.Questions.History.HistoryAnswer;
+import Server.DataBase.Questions.History.historyQuestion;
 import Server.DataBase.Questions.Music.MusicAnswer;
 import Server.DataBase.Questions.Music.MusicQuestion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MusicDAO extends CategoryDAO <MusicQuestion>{
 
     // Lista för att lagra musikrelaterade frågor
-    private final List<MusicQuestion> musicQuestions = new ArrayList<>();
+    private List<MusicQuestion> MusicQuestions = new ArrayList<>();
 
     // Konstruktor för att skapa musikrelaterade frågor och svarsalternativ
     public MusicDAO() {
@@ -23,7 +26,7 @@ public class MusicDAO extends CategoryDAO <MusicQuestion>{
 
         // Skapa en musikrelaterad fråga och lägg till den i listan
         MusicQuestion question0 = new MusicQuestion("Vilket band släppte albumet 'Abbey Road'?", answer0);
-        musicQuestions.add(question0);
+        MusicQuestions.add(question0);
 
         // Fråga 2
         List<MusicAnswer> answer1 = new ArrayList<>();
@@ -34,7 +37,7 @@ public class MusicDAO extends CategoryDAO <MusicQuestion>{
 
         // Skapa en musikrelaterad fråga och lägg till den i listan
         MusicQuestion question1 = new MusicQuestion("Vem kallas 'The Purple One' inom musikvärlden?", answer1);
-        musicQuestions.add(question1);
+        MusicQuestions.add(question1);
 
         // Fråga 3
         List<MusicAnswer> answer2 = new ArrayList<>();
@@ -45,12 +48,25 @@ public class MusicDAO extends CategoryDAO <MusicQuestion>{
 
         // Skapa en musikrelaterad fråga och lägg till den i listan
         MusicQuestion question2 = new MusicQuestion("Vilken musikgenre är kännetecknande för bandet Queen?", answer2);
-        musicQuestions.add(question2);
+        MusicQuestions.add(question2);
 
+    }
+    public MusicQuestion takeRandomQuestion(){
+        if (MusicQuestions.isEmpty()) {
+            MusicDAO newListOfQuestions = new MusicDAO();
+            MusicQuestions = newListOfQuestions.getMusicQuestions();
+        }
+        Random random = new Random();
+        int questionToTake = random.nextInt(MusicQuestions.size());
+
+        MusicQuestion toReturn = MusicQuestions.get(questionToTake);
+        MusicQuestions.remove(0);
+
+        return toReturn;
     }
 
     // Metod för att hämta listan av musikrelaterade frågor
     public List<MusicQuestion> getMusicQuestions() {
-        return musicQuestions;
+        return MusicQuestions;
     }
 }
