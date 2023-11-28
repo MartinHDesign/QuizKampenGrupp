@@ -27,10 +27,7 @@ public class SCORE extends JPanel {
     private JButton player2testbutton = new JButton("p2");
 
     public SCORE(MasterFrame masterFrame){
-        player2testbutton.addActionListener(e -> {
-        });
-        exit.addActionListener(e -> {
-        });
+
 
         setLayout(new BorderLayout());
         player1.setHorizontalAlignment(JLabel.CENTER);
@@ -44,10 +41,6 @@ public class SCORE extends JPanel {
         centerPanel.add(p1Score);
         centerPanel.add(p2Score);
 
-
-
-        northPanel.add(exit);
-        northPanel.add(player2testbutton);
 
         northPanel.setSize(new Dimension(500, 10));
         topPanel.setSize(new Dimension(500, 40));

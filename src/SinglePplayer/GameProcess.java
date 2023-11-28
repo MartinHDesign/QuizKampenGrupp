@@ -5,12 +5,17 @@ import Server.DataBase.MusicDAO;
 import Server.DataBase.SportDAO;
 import Server.ServerResponse;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 public class GameProcess {
+    private Properties settings = new Properties();
+    private int numberOfRounds;
+    private int numberOfQuestions;
 
     private Player player1;
     private Player player2;
@@ -23,8 +28,6 @@ public class GameProcess {
     HistoryDAO history = new HistoryDAO();
     MusicDAO music = new MusicDAO();
     SportDAO sport = new SportDAO();
-
-    private final int numberOfQuestions = 2; //properties
     private int questionsAnswered;
 
     private boolean playerSwapped;
@@ -44,8 +47,13 @@ public class GameProcess {
         System.out.println("här 1");
 
         Object objectFromClient;
-        int rounds = 2; // från property
-        int questionsAmount = 2; // från property
+
+        getProperties();
+
+
+        int rounds = numberOfRounds; // från property
+        int questionsAmount = numberOfQuestions; // från property
+
 
         //skickar namn till andra spelaren
         player1.out.writeObject(new ServerResponse(player2.getName(), 0));
@@ -269,5 +277,29 @@ public class GameProcess {
             player2.out.writeObject(new ServerResponse("CATEGORY"));
 
         }
+    }
+
+    public void getProperties(){
+        try {
+            settings.load(new FileInputStream("src/SinglePplayer/setting.properties"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String numberOfRoundsTemp = settings.getProperty("numberOfRoundsInGame", "2");
+        int tempRounds = Integer.parseInt(numberOfRoundsTemp);
+        setNumberOfRounds(tempRounds);
+
+        String numberOfQuestionsTemp = settings.getProperty("numberOfQuestions", "2");
+        int tempQuestions = Integer.parseInt(numberOfQuestionsTemp);
+        setNumberOfQuestions(tempQuestions);
+
+    }
+
+    public void setNumberOfRounds(int numberOfRounds) {
+        this.numberOfRounds = numberOfRounds;
+    }
+
+    public void setNumberOfQuestions(int numberOfQuestions) {
+        this.numberOfQuestions = numberOfQuestions;
     }
 }
