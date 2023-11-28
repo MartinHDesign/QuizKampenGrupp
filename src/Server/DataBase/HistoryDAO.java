@@ -71,9 +71,6 @@ public class HistoryDAO extends CategoryDAO <historyQuestion>{
 
         historyQuestion toReturn = historyQuestions.get(questionToTake);
         historyQuestions.remove(0);
-        for (HistoryAnswer answer : toReturn.getAnswers()) {
-            System.out.println(answer);
-        }
         return toReturn;
     }
 }

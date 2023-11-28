@@ -61,7 +61,6 @@ public class GameProcess {
 
         // loopar antal rundor
         for (int rundor = 0; rundor < rounds; rundor++) {
-            System.out.println("runda -> " + rundor);
             Player playerToChoseCategory = player1;
             Player playerToAnswerQuestions = player2;
             if (rundor % 2 != 0){
@@ -87,22 +86,22 @@ public class GameProcess {
                 //får svaret från p1
                 objectFromClient = playerToChoseCategory.in.readObject();
                 //+ poäng om rätt svar
-                if (rundor % 2 != 0){
-                    if (objectFromClient.equals(true)){
+                if (objectFromClient.equals(true)){
+                    if (playerToChoseCategory == player1){
+                        player1score++;
+                        totalScorePlayer1++;
+                    } else {
                         player2score++;
                         totalScorePlayer2++;
                     }
-                } else {
-                    if (objectFromClient.equals(true)){
-                        player1score++;
-                        totalScorePlayer1++;
-                    }
                 }
             }
-            System.out.println("p1 svarat på 2 frågor");
             //skickar poängen till player1
-            playerToChoseCategory.out.writeObject(new ServerResponse(player1score+100));
-            System.out.println("byt p1 till score");
+            if (playerToChoseCategory == player1){
+                playerToChoseCategory.out.writeObject(new ServerResponse(player1score+100));
+            } else {
+                playerToChoseCategory.out.writeObject(new ServerResponse(player2score+100));
+            }
             //p1 till score sidan
             playerToChoseCategory.out.writeObject(new ServerResponse("SCORE"));
             // player 2 får samma frågor som player1
@@ -114,31 +113,48 @@ public class GameProcess {
                 //får svaret från p2
                 objectFromClient = playerToAnswerQuestions.in.readObject();
                 // om rätt ger p2 poäng
-                if (rundor % 2 != 0){
-                    if (objectFromClient.equals(true)){
-                        player2score++;
-                        totalScorePlayer2++;
-                    }
-                } else {
-                    if (objectFromClient.equals(true)){
+                if (objectFromClient.equals(true)){
+                    if (playerToAnswerQuestions == player1){
                         player1score++;
                         totalScorePlayer1++;
+                    } else {
+                        player2score++;
+                        totalScorePlayer2++;
                     }
                 }
             }
             // skickar player2 poäng till player1
-            playerToChoseCategory.out.writeObject(new ServerResponse(player2score+200));
+
+            if (playerToChoseCategory == player1){
+                playerToChoseCategory.out.writeObject(new ServerResponse(player2score+200));
+            } else {
+                playerToChoseCategory.out.writeObject(new ServerResponse(player1score+200));
+            }
+//            playerToChoseCategory.out.writeObject(new ServerResponse(player2score+200));
             //säger åt player1 att visa score screen
             playerToChoseCategory.out.writeObject(new ServerResponse("SCORE"));
             //skickar player2s poäng till player2
-            playerToAnswerQuestions.out.writeObject(new ServerResponse(player2score+100));
+
+            if (playerToChoseCategory == player1){
+                playerToAnswerQuestions.out.writeObject(new ServerResponse(player2score+100));
+            } else{
+                playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+100));
+            }
+
             // skickar player1 poäng till player2
-            playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+200));
+
+            if (playerToChoseCategory == player1){
+                playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+200));
+            } else{
+                playerToAnswerQuestions.out.writeObject(new ServerResponse(player2score+200));
+            }
+//            playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+200));
             // återställer poängen för nästa fråga
             player1score = 0;
             player2score = 0;
             currentCategoryQuestions.clear();
             playerToAnswerQuestions.out.writeObject(new ServerResponse("SCORE"));
+            playerToChoseCategory.out.writeObject(new ServerResponse("SCORE"));
             Thread.sleep(2000);
             playerToAnswerQuestions.out.writeObject(new ServerResponse("CATEGORY"));
 
@@ -148,6 +164,7 @@ public class GameProcess {
         player1.out.writeObject(new ServerResponse("WIN"));
         player2.out.writeObject(new ServerResponse("WIN"));
     }
+
 
     public int categoryNumber(Object objectFromClient){
         if (objectFromClient.toString().equals("history")){
@@ -166,47 +183,6 @@ public class GameProcess {
         return new ServerResponse(history.takeRandomQuestion());
     }
 
-    private void swapCurrentPlayer(Player player1, Player player2) throws IOException {
-        if (currentPlayer.equals(player1)) {
-            System.out.println("changing to player 2");
-            playerSwapped = true;
-            currentPlayer = player2;
-            questionsAnswered = 0;
-
-        } else if (currentPlayer.equals(player2)) {
-            System.out.println("changing to player 1");
-            playerSwapped = true;
-            currentPlayer = player1;
-            questionsAnswered = 0;
-        }
-    }
-
-    private void sendEndOfRoundResults(Object objectToReturn) throws IOException {
-        if (currentPlayer.equals(player1)) {
-            player2.out.writeObject(objectToReturn);
-            playerSwapped = false;
-            questionsAnswered = 0;
-
-        } else if (currentPlayer.equals(player2)) {
-            player1.out.writeObject(objectToReturn);
-            playerSwapped = false;
-            questionsAnswered = 0;
-        }
-    }
-
-    private void newRound() throws IOException {
-        if (currentPlayer.equals(player1)) {
-            System.out.println("Sending new game instructions, Player1");
-            player1.out.writeObject(new ServerResponse("CATEGORY"));
-            player2.out.writeObject(new ServerResponse("WAIT"));
-
-        } if (currentPlayer.equals(player2)) {
-            System.out.println("Sending new game instructions, Player1");
-            player1.out.writeObject(new ServerResponse("WAIT"));
-            player2.out.writeObject(new ServerResponse("CATEGORY"));
-
-        }
-    }
 
     public void getProperties(){
         try {
