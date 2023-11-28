@@ -27,6 +27,19 @@ public class LOGIN extends JPanel {
         southPanel.add(enterUsername);
         southPanel.add(login);
 
+        enterUsername.addActionListener(e -> {
+            // OBS RÖR EJ
+            Object userName = enterUsername.getText();
+            masterFrame.startConnection(userName);
+            masterFrame.setTitleNameToUserName("Jesus Quiztus "+enterUsername.getText());
+            masterFrame.showPage("WAIT");
+            masterFrame.setPlayerName(enterUsername.getText());
+            System.out.println(userName + " connected to server");
+            MasterFrame.ReadFromServer rf = masterFrame.getReadFromServer();
+            Thread t = new Thread(rf);
+            t.start();
+        });
+
         login.addActionListener(e -> {
             // OBS RÖR EJ
             Object userName = enterUsername.getText();
