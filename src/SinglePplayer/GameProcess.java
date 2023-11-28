@@ -118,6 +118,8 @@ public class GameProcess {
             player1score = 0;
             player2score = 0;
 
+            //här slutar en runda
+
             System.out.println("p2 svarat på 2 frågor");
 
             // rensar listan med frågor

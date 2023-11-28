@@ -102,10 +102,6 @@ public class MasterFrame extends JFrame {
                 while ((objectFromServer = in.readObject()) != null) {
                     ServerResponse serverResponse = getServerResponse(objectFromServer);
 
-                    // få category från server
-                    if (serverResponse.getCategory() != null){
-
-                    }
                     // poäng från servern
                     if (serverResponse.getScore() > 99){
                         if (serverResponse.getScore() < 200){
@@ -121,7 +117,10 @@ public class MasterFrame extends JFrame {
 
                     // få byta GUI
                     if (serverResponse.getShowGUIPanel() != null){
-                        setGUIPage(serverResponse);
+                        if (serverResponse.getShowGUIPanel().equals("WIN")){
+                            winGUIpage(serverResponse);
+                        } else
+                            setGUIPage(serverResponse);
                     }
 
                     // få motståndares namn
@@ -188,6 +187,18 @@ public class MasterFrame extends JFrame {
         showPage(serverResponse.getShowGUIPanel());
         revalidate();
         repaint();
+    }
+    private void winGUIpage(ServerResponse serverResponse){
+        String player1name = allPanels.getScorePanel().getPlayer1Username();
+        String player2name = allPanels.getScorePanel().getPlayer2Username();
+        int scorePlayer1 = allPanels.getScorePanel().getScorePlayer1();
+        int scorePlayer2 = allPanels.getScorePanel().getScorePlayer2();
+
+        String text1 = player1name + " totala poäng: " + scorePlayer1;
+        String text2 = player2name + " totala poäng: " + scorePlayer2;
+
+        allPanels.winPanel.setFinalResultText(text1,text2,scorePlayer1,scorePlayer2);
+        showPage(serverResponse.getShowGUIPanel());
     }
     public static void main(String[] args) {new MasterFrame();}
 }
