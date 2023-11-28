@@ -13,42 +13,33 @@ public class CardLayoutContainer extends JPanel {
     CATEGORY categoryPanel;
     SCORE scorePanel;
     WIN winPanel;
-    LOSE losePanel;
-    DRAW drawPanel;
+
     public CardLayoutContainer(CardLayout layout, MasterFrame masterFrame){
         setLayout(layout);
 
         loginPanel = new LOGIN(masterFrame);
-        add(loginPanel, FinalStrings.LOGIN.toString());
+        add(loginPanel, FinalStrings.LOGIN.name());
 
 //        menuPanel = new MENU(masterFrame);
-//        add(menuPanel, FinalStrings.MENU.toString());
+//        add(menuPanel, FinalStrings.MENU.name());
 
         waitPanel = new WAIT(masterFrame);
-        add(waitPanel, FinalStrings.WAIT.toString());
+        add(waitPanel, FinalStrings.WAIT.name());
 
         questionPanel = new QUESTIONS(masterFrame);
-        add(questionPanel, FinalStrings.QUESTIONS.toString());
+        add(questionPanel, FinalStrings.QUESTIONS.name());
 
         HighScorePanel highScorePanel = new HighScorePanel(masterFrame);
-        add(highScorePanel, "HIGHSCORE");
+        add(highScorePanel, FinalStrings.HIGHSCORE.name());
 
         categoryPanel = new CATEGORY(masterFrame);
-        add(categoryPanel, FinalStrings.CATEGORY.toString());
+        add(categoryPanel, FinalStrings.CATEGORY.name());
 
         scorePanel = new SCORE(masterFrame);
-        add(scorePanel, FinalStrings.SCORE.toString());
+        add(scorePanel, FinalStrings.SCORE.name());
 
         winPanel = new WIN();
-        add(winPanel,"WIN");
-//
-//        losePanel = new LOSE();
-//        add(loginPanel, "LOSE");
-
-//        drawPanel = new DRAW();
-//        add(drawPanel, "DRAW");
-
-
+        add(winPanel,FinalStrings.WIN.name());
     }
 
     public LOGIN getLoginPanel() {

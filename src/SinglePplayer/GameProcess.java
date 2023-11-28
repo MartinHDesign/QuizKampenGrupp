@@ -4,6 +4,7 @@ import Server.DataBase.HistoryDAO;
 import Server.DataBase.MusicDAO;
 import Server.DataBase.SportDAO;
 import Server.ServerResponse;
+import SinglePplayer.Panel.FinalStrings;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class GameProcess {
                 currentCategoryQuestions.add(getRandomQuestionFromCategory(categoryNumber));
                 //skickar frågor till spelare
                 playerToChoseCategory.out.writeObject(currentCategoryQuestions.get(questions));
-                playerToChoseCategory.out.writeObject(new ServerResponse("QUESTIONS"));
+                playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.QUESTIONS.name()));
                 //läser svaret från spelaren
                 objectFromClient = playerToChoseCategory.in.readObject();
                 //om svaret är rätt får rätt spelare poäng
@@ -93,12 +94,12 @@ public class GameProcess {
                 playerToChoseCategory.out.writeObject(new ServerResponse(player2score+100));
             }
             //visar score sidan
-            playerToChoseCategory.out.writeObject(new ServerResponse("SCORE"));
+            playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
 
             for (int questions = 0; questions < numberOfQuestions; questions++) {
                 //Skickar frågor till andra spelaren
                 playerToAnswerQuestions.out.writeObject(currentCategoryQuestions.get(questions));
-                playerToAnswerQuestions.out.writeObject(new ServerResponse("QUESTIONS"));
+                playerToAnswerQuestions.out.writeObject(new ServerResponse(FinalStrings.QUESTIONS.name()));
                 //tar in svaret
                 objectFromClient = playerToAnswerQuestions.in.readObject();
                 //ger rätt spelare poäng
@@ -120,7 +121,7 @@ public class GameProcess {
                 playerToChoseCategory.out.writeObject(new ServerResponse(player1score+200));
             }
             // visar spelaren score sidan
-            playerToChoseCategory.out.writeObject(new ServerResponse("SCORE"));
+            playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
 
             //skickar poängen till spelaren
             if (playerToChoseCategory == player1){
@@ -141,16 +142,16 @@ public class GameProcess {
             //tömmer listan med frågor
             currentCategoryQuestions.clear();
             //visar båda spelare score sidan
-            playerToAnswerQuestions.out.writeObject(new ServerResponse("SCORE"));
-            playerToChoseCategory.out.writeObject(new ServerResponse("SCORE"));
+            playerToAnswerQuestions.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
+            playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
             // 2 sekunders fördröjning
             Thread.sleep(2000);
             // skickar spelare som ska välja kategori till category sidan
-            playerToAnswerQuestions.out.writeObject(new ServerResponse("CATEGORY"));
+            playerToAnswerQuestions.out.writeObject(new ServerResponse(FinalStrings.CATEGORY.name()));
         }
         //om alla rundor är slut win sidan för båda
-        player1.out.writeObject(new ServerResponse("WIN"));
-        player2.out.writeObject(new ServerResponse("WIN"));
+        player1.out.writeObject(new ServerResponse(FinalStrings.WIN.name()));
+        player2.out.writeObject(new ServerResponse(FinalStrings.WIN.name()));
     }
 
 

@@ -1,6 +1,7 @@
 package SinglePplayer;
 
 import Server.ServerResponse;
+import SinglePplayer.Panel.FinalStrings;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -17,14 +18,13 @@ public class NewGameHandler extends Thread {
     }
 
     public void run() {
-        System.out.println("från newGameHandler");
         ServerProtocol protocol = new ServerProtocol(player1, player2);
         GameProcess gameProcess = new GameProcess(player1,player2,protocol);
 
 
         try {
-            player1.out.writeObject(new ServerResponse("CATEGORY"));
-            player2.out.writeObject(new ServerResponse("WAIT"));
+            player1.out.writeObject(new ServerResponse(FinalStrings.CATEGORY.name()));
+            player2.out.writeObject(new ServerResponse(FinalStrings.WAIT.name()));
 
             gameProcess.play();
 

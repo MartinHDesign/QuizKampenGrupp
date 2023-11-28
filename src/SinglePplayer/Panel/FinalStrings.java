@@ -2,10 +2,12 @@ package SinglePplayer.Panel;
 
 public enum FinalStrings {
 
-    WAIT,
-    SCORE,
+    CATEGORY,
+    HIGHSCORE,
     LOGIN,
     MENU,
     QUESTIONS,
-    CATEGORY;
+    SCORE,
+    WAIT,
+    WIN;
 }
