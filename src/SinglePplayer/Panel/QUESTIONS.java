@@ -2,12 +2,16 @@ package SinglePplayer.Panel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class QUESTIONS extends JPanel {
     JLabel questionFromServer = new JLabel("Här bör frågan dyka upp");
     JPanel buttonPanel = new JPanel();
     JPanel questionsAndButtons = new JPanel();
     private boolean correctAnswer;
+    private boolean timerOn;
     protected QuestionButton answer1 = new QuestionButton();
     protected QuestionButton answer2 = new QuestionButton();
     protected QuestionButton answer3 = new QuestionButton();
@@ -22,7 +26,8 @@ public class QUESTIONS extends JPanel {
     private JPanel popupPanel;
 
     public QUESTIONS(MasterFrame masterFrame) {
-
+        settings = new Properties();
+        loadFromProperties();
         this.masterFrame = masterFrame;
         setLayout(new BorderLayout());
 
@@ -133,6 +138,7 @@ public class QUESTIONS extends JPanel {
     }
 
     public void setColorAndShowPopup(QuestionButton button) {
+        stopTimer();
         setColorBasedOnCorrectAnswer(button, button.getisCorrect());
         togglePopupVisibility(true);
     }
