@@ -88,7 +88,7 @@ public class SportDAO extends CategoryDAO<SportQuestion> {
         int questionToTake = random.nextInt(sportQuestions.size());
 
         SportQuestion toReturn = sportQuestions.get(questionToTake);
-        sportQuestions.remove(0);
+        sportQuestions.remove(questionToTake);
         return toReturn;
     }
 

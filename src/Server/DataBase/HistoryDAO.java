@@ -70,7 +70,7 @@ public class HistoryDAO extends CategoryDAO <historyQuestion>{
         int questionToTake = random.nextInt(historyQuestions.size());
 
         historyQuestion toReturn = historyQuestions.get(questionToTake);
-        historyQuestions.remove(0);
+        historyQuestions.remove(questionToTake);
         return toReturn;
     }
 }

@@ -60,7 +60,7 @@ public class MusicDAO extends CategoryDAO <MusicQuestion>{
         int questionToTake = random.nextInt(MusicQuestions.size());
 
         MusicQuestion toReturn = MusicQuestions.get(questionToTake);
-        MusicQuestions.remove(0);
+        MusicQuestions.remove(questionToTake);
 
         return toReturn;
     }
