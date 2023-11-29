@@ -11,7 +11,7 @@ public class SCORE extends JPanel {
     private String player2Username = "player2";
     private int scorePlayer1 = 0;
     private int scorePlayer2 = 0;
-    private String roundString = "Poäng för omgång ";
+    private String roundString = "Poäng för runda ";
     private int player1Rounds = 1;
     private int player2Rounds = 1;
 
