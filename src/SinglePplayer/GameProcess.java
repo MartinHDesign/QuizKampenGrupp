@@ -19,12 +19,18 @@ public class GameProcess {
 
     private Player player1;
     private Player player2;
-    int player1score;
-    int player2score;
-    int totalScorePlayer1;
-    int totalScorePlayer2;
+    private int player1score;
+    private int player2score;
+    private int totalScorePlayer1;
+    private int totalScorePlayer2;
 
-    Player currentPlayer;
+    private Player playerToChoseCategory;
+    private Player playerToAnswerQuestions;
+    private int categoryNumber;
+    private Object objectFromClient;
+    private List<ServerResponse> currentCategoryQuestions = new ArrayList<>();
+
+
     HistoryDAO history = new HistoryDAO();
     MusicDAO music = new MusicDAO();
     SportDAO sport = new SportDAO();
@@ -36,12 +42,12 @@ public class GameProcess {
         this.player1 = player1;
         this.player2 = player2;
         this.protocol = protocol;
-        this.currentPlayer = player1;
+        this.playerToChoseCategory = player1;
+        this.playerToAnswerQuestions = player2;
 
     }
 
     public void play() throws IOException, ClassNotFoundException, InterruptedException {
-        Object objectFromClient;
 
         loadFromProperties();
         // skickar user name till motståndaren
@@ -51,96 +57,36 @@ public class GameProcess {
 
         // loopar antal rundor
         for (int rundor = 0; rundor < numberOfRounds; rundor++) {
-            //väljer vem som börjar välja kategori
-            Player playerToChoseCategory = player1;
-            Player playerToAnswerQuestions = player2;
-
             // växlar användare varannan runda
-            if (rundor % 2 != 0){
-                playerToChoseCategory = player2;
-                playerToAnswerQuestions = player1;
-            }
-
+            swapPlayerToChooseCategory(rundor);
             // läser in vilken kategori som valts
-            objectFromClient = playerToChoseCategory.in.readObject();
-            int categoryNumber = categoryNumber(objectFromClient);
-
+            readCategoryFromPlayer();
             // lista där frågorna sparas så båda spelare får samma frågor
-            List<ServerResponse> currentCategoryQuestions = new ArrayList<>();
-
             for (int questions = 0; questions < numberOfQuestions; questions++) {
                 //lägger till en fråga i lista
                 currentCategoryQuestions.add(getRandomQuestionFromCategory(categoryNumber));
-                //skickar frågor till spelare
-                playerToChoseCategory.out.writeObject(currentCategoryQuestions.get(questions));
-                playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.QUESTIONS.name()));
-                //läser svaret från spelaren
-                objectFromClient = playerToChoseCategory.in.readObject();
+                //skickar frågor tar emot svar
+                sendQuestionsToPlayerWhoChooseCategory(questions);
                 //om svaret är rätt får rätt spelare poäng
-                if (objectFromClient.equals(true)){
-                    if (playerToChoseCategory == player1){
-                        player1score++;
-                        totalScorePlayer1++;
-                    } else {
-                        player2score++;
-                        totalScorePlayer2++;
-                    }
-                }
+                updateCategoryScore();
+                System.out.println("player 1 score " + player1score);
             }
-            //skickar poängen till spelaren
-            if (playerToChoseCategory == player1){
-                playerToChoseCategory.out.writeObject(new ServerResponse(player1score+100));
-            } else {
-                playerToChoseCategory.out.writeObject(new ServerResponse(player2score+100));
-            }
-            //visar score sidan
-            playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
-
+            sendCategoryScoreToGui();
             for (int questions = 0; questions < numberOfQuestions; questions++) {
-                //Skickar frågor till andra spelaren
-                playerToAnswerQuestions.out.writeObject(currentCategoryQuestions.get(questions));
-                playerToAnswerQuestions.out.writeObject(new ServerResponse(FinalStrings.QUESTIONS.name()));
-                //tar in svaret
-                objectFromClient = playerToAnswerQuestions.in.readObject();
+                //skickar frågor till spelare 2
+                SendQuestionsToPlayerWhoAnswers(questions);
                 //ger rätt spelare poäng
-                if (objectFromClient.equals(true)){
-                    if (playerToAnswerQuestions == player1){
-                        player1score++;
-                        totalScorePlayer1++;
-                    } else {
-                        player2score++;
-                        totalScorePlayer2++;
-                    }
-                }
-            }
+                updateAnswerScore();
 
+            }
             //skickar spelarens poäng till motståndaren
-            if (playerToChoseCategory == player1){
-                playerToChoseCategory.out.writeObject(new ServerResponse(player2score+200));
-            } else {
-                playerToChoseCategory.out.writeObject(new ServerResponse(player1score+200));
-            }
-            // visar spelaren score sidan
-            playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
-
+            sendOpponentsScoreToCategoryPlayer();
             //skickar poängen till spelaren
-            if (playerToChoseCategory == player1){
-                playerToAnswerQuestions.out.writeObject(new ServerResponse(player2score+100));
-            } else{
-                playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+100));
-            }
-
+            sendAnswerScoreToGui();
             //skickar poängen till motståndaren
-            if (playerToChoseCategory == player1){
-                playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+200));
-            } else{
-                playerToAnswerQuestions.out.writeObject(new ServerResponse(player2score+200));
-            }
+            sendOpponentsScoreToAnswerPlayer();
             //nollställer poängen
-            player1score = 0;
-            player2score = 0;
-            //tömmer listan med frågor
-            currentCategoryQuestions.clear();
+            resetScoreAndQuestions();
             //visar båda spelare score sidan
             playerToAnswerQuestions.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
             playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
@@ -153,8 +99,95 @@ public class GameProcess {
         player1.out.writeObject(new ServerResponse(FinalStrings.WIN.name()));
         player2.out.writeObject(new ServerResponse(FinalStrings.WIN.name()));
     }
+    public void updateCategoryScore(){
+        if (objectFromClient.equals(true)){
+            if (playerToChoseCategory == player1){
+                player1score++;
+                totalScorePlayer1++;
+            } else {
+                player2score++;
+                totalScorePlayer2++;
+            }
+        }
+    }
+    public void updateAnswerScore(){
+        if (objectFromClient.equals(true)){
+            if (playerToAnswerQuestions == player1){
+                player1score++;
+                totalScorePlayer1++;
+            } else {
+                player2score++;
+                totalScorePlayer2++;
+            }
+        }
+    }
+    public void resetScoreAndQuestions(){
+        player1score = 0;
+        player2score = 0;
+        //tömmer listan med frågor
+        currentCategoryQuestions.clear();
+    }
+    public void sendOpponentsScoreToAnswerPlayer() throws IOException {
+        if (playerToChoseCategory == player1){
+            playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+200));
+        } else{
+            playerToAnswerQuestions.out.writeObject(new ServerResponse(player2score+200));
+        }
+    }
+    public void sendOpponentsScoreToCategoryPlayer() throws IOException {
+        if (playerToChoseCategory == player1){
+            playerToChoseCategory.out.writeObject(new ServerResponse(player2score+200));
+        } else {
+            playerToChoseCategory.out.writeObject(new ServerResponse(player1score+200));
+        }
+        // visar spelaren score sidan
+        playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
+    }
+    public void sendAnswerScoreToGui() throws IOException {
+        if (playerToChoseCategory == player1){
+            playerToAnswerQuestions.out.writeObject(new ServerResponse(player2score+100));
+        } else{
+            playerToAnswerQuestions.out.writeObject(new ServerResponse(player1score+100));
+        }
+    }
+    public void sendCategoryScoreToGui() throws IOException {
+        //skickar poängen till spelaren
+        if (playerToChoseCategory == player1){
+            playerToChoseCategory.out.writeObject(new ServerResponse(player1score+100));
+        } else {
+            playerToChoseCategory.out.writeObject(new ServerResponse(player2score+100));
+        }
+        //visar score sidan
+        playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.SCORE.name()));
+    }
+    public void SendQuestionsToPlayerWhoAnswers(int questions) throws IOException, ClassNotFoundException {
+        //Skickar frågor till andra spelaren
+        playerToAnswerQuestions.out.writeObject(currentCategoryQuestions.get(questions));
+        playerToAnswerQuestions.out.writeObject(new ServerResponse(FinalStrings.QUESTIONS.name()));
+        //tar in svaret
+        objectFromClient = playerToAnswerQuestions.in.readObject();
+    }
+    public void sendQuestionsToPlayerWhoChooseCategory(int questions) throws IOException, ClassNotFoundException {
+        //skickar frågor till spelare
+        playerToChoseCategory.out.writeObject(currentCategoryQuestions.get(questions));
+        playerToChoseCategory.out.writeObject(new ServerResponse(FinalStrings.QUESTIONS.name()));
+        //läser svaret från spelaren
+        objectFromClient = playerToChoseCategory.in.readObject();
+    }
+    public void readCategoryFromPlayer() throws IOException, ClassNotFoundException {
+        objectFromClient = playerToChoseCategory.in.readObject();
+        categoryNumber = categoryNumber(objectFromClient);
+    }
 
-
+    public void swapPlayerToChooseCategory(int rundor){
+        if (rundor % 2 != 0){
+            playerToChoseCategory = player2;
+            playerToAnswerQuestions = player1;
+        } else {
+            playerToChoseCategory = player1;
+            playerToAnswerQuestions = player2;
+        }
+    }
 
     public int categoryNumber(Object objectFromClient){
         if (objectFromClient.toString().equals("history")){
@@ -196,5 +229,13 @@ public class GameProcess {
 
     public void setNumberOfQuestions(int numberOfQuestions) {
         this.numberOfQuestions = numberOfQuestions;
+    }
+
+    public void setPlayerToChoseCategory(Player playerToChoseCategory) {
+        this.playerToChoseCategory = playerToChoseCategory;
+    }
+
+    public void setPlayerToAnswerQuestions(Player playerToAnswerQuestions) {
+        this.playerToAnswerQuestions = playerToAnswerQuestions;
     }
 }
