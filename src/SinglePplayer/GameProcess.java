@@ -69,7 +69,6 @@ public class GameProcess {
                 sendQuestionsToPlayerWhoChooseCategory(questions);
                 //om svaret är rätt får rätt spelare poäng
                 updateCategoryScore();
-                System.out.println("player 1 score " + player1score);
             }
             sendCategoryScoreToGui();
             for (int questions = 0; questions < numberOfQuestions; questions++) {
