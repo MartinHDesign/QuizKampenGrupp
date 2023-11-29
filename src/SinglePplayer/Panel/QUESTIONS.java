@@ -12,9 +12,9 @@ public class QUESTIONS extends JPanel {
     protected QuestionButton answer2 = new QuestionButton();
     protected QuestionButton answer3 = new QuestionButton();
     protected QuestionButton answer4 = new QuestionButton();
-
-    //    JProgressBar timeToAnswer = new JProgressBar();
-    JLabel timeToAnswer = new JLabel("Här kommer en progressbar på 10 sec");
+    Properties settings;
+    private int timerLength;
+    JProgressBar progressBar = new JProgressBar(0,100);
     MasterFrame masterFrame;
 
 
@@ -74,8 +74,10 @@ public class QUESTIONS extends JPanel {
         layeredPane.add(questionsAndButtons, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(popupPanel, JLayeredPane.PALETTE_LAYER);
 
+        getProgressBar();
+
         add(layeredPane, BorderLayout.CENTER);
-        add(timeToAnswer, BorderLayout.SOUTH);
+        add(progressBar, BorderLayout.SOUTH);
     }
 
     private void initPopupPanel() {
@@ -133,6 +135,50 @@ public class QUESTIONS extends JPanel {
     public void setColorAndShowPopup(QuestionButton button) {
         setColorBasedOnCorrectAnswer(button, button.getisCorrect());
         togglePopupVisibility(true);
+    }
+
+    public void getProgressBar(){
+
+        progressBar.setStringPainted(true);
+        progressBar.setValue(0);
+
+
+    }
+    public void iterateProgressbar(){
+        progressBar.setValue(0);
+        int i = 0;
+        while (i <= timerLength) {
+            if (timerOn) {
+                break;
+            }
+            progressBar.setValue(i);
+            i = i + 1;
+
+            try {
+                Thread.sleep(timerLength);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        timerOn = false;
+        correctAnswer = false;
+        popupPanel.setVisible(true);
+    }
+
+    public void stopTimer() {
+        timerOn = true;
+
+    }
+
+    public void loadFromProperties() {
+        try {
+            this.settings.load(new FileInputStream("src/SinglePplayer/setting.properties"));
+        } catch (IOException var5) {
+            throw new RuntimeException(var5);
+        }
+        String tempTimerLength = this.settings.getProperty("timeToAnswerQuestion");
+        timerLength = Integer.parseInt(tempTimerLength);
+        System.out.println(timerLength);
     }
 }
 

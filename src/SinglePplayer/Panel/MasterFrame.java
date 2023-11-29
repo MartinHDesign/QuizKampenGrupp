@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 public class MasterFrame extends JFrame {
     private final CardLayout layout = new CardLayout();
     private final CardLayoutContainer allPanels = new CardLayoutContainer(layout, this);
-    String pageNumber = "LOGIN";
+    String pageNumber = FinalStrings.LOGIN.name();
 
     private Socket socketToServer;
     private ObjectOutputStream out;
@@ -119,6 +119,9 @@ public class MasterFrame extends JFrame {
                     if (serverResponse.getShowGUIPanel() != null){
                         if (serverResponse.getShowGUIPanel().equals("WIN")){
                             winGUIpage(serverResponse);
+                        } else if (serverResponse.getShowGUIPanel().equals("QUESTIONS")) {
+                            setGUIPage(serverResponse);
+                            allPanels.questionPanel.iterateProgressbar();
                         } else
                             setGUIPage(serverResponse);
                     }
