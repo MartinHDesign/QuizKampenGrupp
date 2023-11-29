@@ -20,6 +20,10 @@ public class  Player implements Serializable {
         this.out = out;
         this.in = in;
     }
+    public Player(String userName, int highScore, String fake){
+        this.name = userName;
+        this.highScore = highScore;
+    }
 
     public String getName() {
         return name;
