@@ -155,7 +155,8 @@ public class QUESTIONS extends JPanel {
         int i = 0;
         while (i <= timerLength) {
             if (timerOn) {
-                break;
+                timerOn = false;
+                return;
             }
             progressBar.setValue(i);
             i = i + 1;
